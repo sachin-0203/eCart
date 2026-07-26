@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { ChevronDown, Menu, Search, X } from "lucide-react";
-import { navLinks } from "../../data/navBarData";
+import { navLinks } from "../../data/navbarData";
 
 export default function Navbar() {
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
