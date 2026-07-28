@@ -1,46 +1,8 @@
 import { Link } from "react-router-dom";
-
-const categories = [
-  { name: "Shirts", emoji: "👔", desc: "Tailored staples" },
-  { name: "T-Shirts", emoji: "👕", desc: "Everyday comfort" },
-  { name: "Jeans", emoji: "👖", desc: "Clean denim picks" },
-  { name: "Footwear", emoji: "👟", desc: "Modern sneakers" },
-  { name: "Accessories", emoji: "🧣", desc: "Elevated details" },
-  { name: "Grooming", emoji: "🪒", desc: "Fresh essentials" },
-];
-
-const brandCollections = [
-  {
-    title: "Shirts",
-    subtitle: "Sharp tailoring for work and weekends",
-    brands: ["Arrow", "Peter England", "Van Heusen", "Park Avenue"],
-  },
-  {
-    title: "T-Shirts",
-    subtitle: "Soft fits for relaxed everyday styling",
-    brands: ["Levis", "H&M", "Roadster", "US Polo Assn."],
-  },
-  {
-    title: "Jeans",
-    subtitle: "Premium denim with comfort built in",
-    brands: ["Wrangler", "Lee", "Pepe Jeans", "Levis"],
-  },
-  {
-    title: "Footwear",
-    subtitle: "Sporty, sleek and seasonal essentials",
-    brands: ["Nike", "Adidas", "Puma", "Crocs"],
-  },
-  {
-    title: "Accessories",
-    subtitle: "Caps, belts, watches and bags that complete the look",
-    brands: ["Fossil", "Ray-Ban", "Tommy Hilfiger", "Casio"],
-  },
-  {
-    title: "Grooming",
-    subtitle: "Care products for a polished routine",
-    brands: ["Beardo", "The Man Company", "Gillette", "Nivea"],
-  },
-];
+import { categories, collections } from "./data";
+import { brandCollections } from "./data";
+import CollectionCard from "../../components/ui/CollectionCard";
+import CategoryCard from "../../components/ui/CategoryCard";
 
 export default function MenHomepage() {
   return (
@@ -111,13 +73,14 @@ export default function MenHomepage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
+
+      <section id="categories" className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 my-10 ">
         <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#ff3f6c]">
               Categories
             </p>
-            <h2 className="text-2xl font-bold text-slate-900">
+            <h2 className="text-2xl font-bold text-slate-900 uppercase tracking-wider ">
               Shop by essential style category
             </h2>
           </div>
@@ -126,73 +89,144 @@ export default function MenHomepage() {
           </p>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-6  sm:grid-cols-3 lg:grid-cols-6">
           {categories.map((category) => (
-            <div
-              key={category.name}
-              className="rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-2xl">
-                  {category.emoji}
-                </div>
-                <span className="rounded-full bg-[#fff0f4] px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-[#ff3f6c]">
-                  Trending
-                </span>
-              </div>
-              <h3 className="mt-4 text-xl font-semibold text-slate-900">
-                {category.name}
-              </h3>
-              <p className="mt-2 text-sm text-slate-600">{category.desc}</p>
-            </div>
+            <CategoryCard
+              key={category.title}
+              image={category.image}
+              title={category.title}
+              subtitle={category.subtitle}
+              link={category.link}
+            />
           ))}
         </div>
       </section>
 
-      <section id="brands" className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
-        <div className="mb-6">
-          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#ff3f6c]">
-            Top brands
-          </p>
-          <h2 className="text-2xl font-bold text-slate-900">
-            Popular labels across each category
-          </h2>
+      <section id="collections" className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 my-10">
+        <div className="mb-6 flex items-end justify-between">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#ff3f6c]">
+              Collections
+            </p>
+            <h2 className="text-2xl font-bold text-slate-900 uppercase tracking-wider ">
+              Curated collections for every mood
+            </h2>
+          </div>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-2">
-          {brandCollections.map((item) => (
-            <div
-              key={item.title}
-              className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-sm"
-            >
-              <div className="flex flex-wrap items-start justify-between gap-3">
-                <div>
-                  <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-500">
-                    {item.title}
-                  </p>
-                  <h3 className="mt-1 text-xl font-semibold text-slate-900">
-                    {item.subtitle}
-                  </h3>
-                </div>
-                <span className="rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700">
-                  Top picks
-                </span>
-              </div>
-
-              <div className="mt-5 flex flex-wrap gap-2">
-                {item.brands.map((brand) => (
-                  <span
-                    key={brand}
-                    className="rounded-full border border-slate-200 px-3 py-2 text-sm font-medium text-slate-700"
-                  >
-                    {brand}
-                  </span>
-                ))}
-              </div>
-            </div>
+        <div className="grid gap-6  sm:grid-cols-3 lg:grid-cols-6">
+          {collections.map((c) => (
+            <CollectionCard
+              key={c.title}
+              image={c.image}
+              title={c.title}
+              subtitle={c.subtitle}
+              link={c.link}
+            />
           ))}
         </div>
       </section>
+
+      <section id="topwear" className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 my-10">
+        <div className="mb-6 flex items-end justify-between">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#ff3f6c]">
+              topwear
+            </p>
+            <h2 className="text-2xl font-bold text-slate-900 uppercase tracking-widest ">
+              Trendy in shirt / t-shirt 
+            </h2>
+          </div>
+        </div>
+
+        <div className="grid gap-6  sm:grid-cols-3 lg:grid-cols-6">
+          {collections.map((c) => (
+            <CollectionCard
+              key={c.title}
+              image={c.image}
+              title={c.title}
+              subtitle={c.subtitle}
+              link={c.link}
+            />
+          ))}
+        </div>
+      </section>
+
+      <section id="bottomwear" className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 my-10">
+        <div className="mb-6 flex items-end justify-between">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#ff3f6c]">
+              bottomwear
+            </p>
+            <h2 className="text-2xl font-bold text-slate-900 uppercase tracking-widest ">
+              Trendy in Jeans, Trouser and Pants 
+            </h2>
+          </div>
+        </div>
+
+        <div className="grid gap-6  sm:grid-cols-3 lg:grid-cols-6">
+          {collections.map((c) => (
+            <CollectionCard
+              key={c.title}
+              image={c.image}
+              title={c.title}
+              subtitle={c.subtitle}
+              link={c.link}
+            />
+          ))}
+        </div>
+      </section>
+
+      <section id="footwear" className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 my-10">
+        <div className="mb-6 flex items-end justify-between">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#ff3f6c]">
+              footwear
+            </p>
+            <h2 className="text-2xl font-bold text-slate-900 uppercase tracking-widest ">
+              Trendy in shoes , sandals, crocs 
+            </h2>
+          </div>
+        </div>
+
+        <div className="grid gap-6  sm:grid-cols-3 lg:grid-cols-6">
+          {collections.map((c) => (
+            <CollectionCard
+              key={c.title}
+              image={c.image}
+              title={c.title}
+              subtitle={c.subtitle}
+              link={c.link}
+            />
+          ))}
+        </div>
+      </section>
+
+      <section id="Accessories" className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 my-10">
+        <div className="mb-6 flex items-end justify-between">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#ff3f6c]">
+              Accessories
+            </p>
+            <h2 className="text-2xl font-bold text-slate-900 uppercase tracking-widest ">
+              Trendy Accessories
+            </h2>
+          </div>
+        </div>
+
+        <div className="grid gap-6  sm:grid-cols-3 lg:grid-cols-6">
+          {collections.map((c) => (
+            <CollectionCard
+              key={c.title}
+              image={c.image}
+              title={c.title}
+              subtitle={c.subtitle}
+              link={c.link}
+            />
+          ))}
+        </div>
+      </section>
+
     </main>
   );
 }
