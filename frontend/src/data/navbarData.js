@@ -11,7 +11,7 @@ export const navLinks = [
   },
   {
     name: "Women",
-    path: "/products",
+    path: "/women",
     sections: [
       { title: "Ethnic", items: ["Kurtas", "Sarees", "Dupattas"] },
       { title: "Western", items: ["Dresses", "Tops", "Jackets"] },
@@ -21,7 +21,7 @@ export const navLinks = [
   },
   {
     name: "Kids",
-    path: "/products",
+    path: "/kids",
     sections: [
       { title: "Boys", items: ["Sets", "Shirts", "Denims"] },
       { title: "Girls", items: ["Dresses", "Tops", "Leggings"] },

@@ -5,6 +5,8 @@ import Products from '../pages/Products'
 import About from '../pages/About'
 import Contact from '../pages/Contact'
 import MenHomepage from '../features/men/MenHomepage'
+import WomenHomepage from '../features/women/WomenHomepage'
+import KidsHomepage from '../features/kids/KidsHomepage'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -14,6 +16,8 @@ const router = createBrowserRouter(
       <Route path="/about" element={<About />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/men" element={<MenHomepage />} />
+      <Route path="/women" element={<WomenHomepage />} />
+      <Route path="/kids" element={<KidsHomepage />} />
     </Route>
   )
 )
