@@ -257,7 +257,7 @@ export default function KidsHomepage() {
               footwear
             </p>
             <h2 className="text-2xl font-bold text-slate-900 uppercase tracking-widest ">
-              Trendy in shoes , sandals, boots
+              Trendy in shoes , sandals and more
             </h2>
           </div>
         </div>
