@@ -31,7 +31,7 @@ export const navLinks = [
   },
   {
     name: "Home",
-    path: "/products",
+    path: "/home",
     sections: [
       { title: "Decor", items: ["Pillows", "Curtains", "Lighting"] },
       { title: "Kitchen", items: ["Cookware", "Dinnerware", "Storage"] },
@@ -41,7 +41,7 @@ export const navLinks = [
   },
   {
     name: "Beauty",
-    path: "/products",
+    path: "/beauty",
     sections: [
       { title: "Skincare", items: ["Creams", "Serums", "Masks"] },
       { title: "Makeup", items: ["Lipsticks", "Kits", "Brushes"] },
@@ -51,7 +51,7 @@ export const navLinks = [
   },
   {
     name: "Electronics",
-    path: "/products",
+    path: "/electronics",
     sections: [
       { title: "Mobiles", items: ["Smartphones", "Accessories", "Chargers"] },
       { title: "Audio", items: ["Headphones", "Earbuds", "Speakers"] },
