@@ -7,7 +7,7 @@ import Contact from '../pages/Contact'
 import MenHomepage from '../features/men/MenHomepage'
 import WomenHomepage from '../features/women/WomenHomepage'
 import KidsHomepage from '../features/kids/KidsHomepage'
-import HomeHomepage from '../features/home/HomeHomepage'
+import HomeLiving from '../features/home/HomeLiving'
 import BeautyHomepage from '../features/beauty/BeautyHomepage'
 import ElectronicHomepage from '../features/electronics/ElectronicHomepage'
 
@@ -21,7 +21,7 @@ const router = createBrowserRouter(
       <Route path="/men" element={<MenHomepage />} />
       <Route path="/women" element={<WomenHomepage />} />
       <Route path="/kids" element={<KidsHomepage />} />
-      <Route path="/home" element={<HomeHomepage />} />
+      <Route path="/home-living" element={<HomeLiving />} />
       <Route path="/beauty" element={<BeautyHomepage />} />
       <Route path="/electronics" element={<ElectronicHomepage />} />
     </Route>

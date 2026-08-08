@@ -31,7 +31,7 @@ export const navLinks = [
   },
   {
     name: "Home",
-    path: "/home",
+    path: "/home-living",
     sections: [
       { title: "Decor", items: ["Pillows", "Curtains", "Lighting"] },
       { title: "Kitchen", items: ["Cookware", "Dinnerware", "Storage"] },

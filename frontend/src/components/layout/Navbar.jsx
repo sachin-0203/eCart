@@ -52,7 +52,7 @@ export default function Navbar() {
                       to={link.path}
                       onClick={() => setHoveredLink(null)}
                       className={({ isActive }) =>
-                        `group relative flex items-center gap-1 px-1 py-3  font-semibold uppercase tracking-[0.18em] text-gray-700 transition-all duration-300 hover:text-[#ff3f6c] my-3 ${
+                        `group relative flex items-center gap-1 px-1 py-3  font-semibold uppercase text-sm tracking-[0.18em] text-gray-700 transition-all duration-300 hover:text-[#ff3f6c] my-3 ${
                           isActive ? "text-[#ff3f6c]" : ""
                         }`
                       }

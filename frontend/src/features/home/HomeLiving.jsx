@@ -3,7 +3,7 @@ import CategoryCard from "../../components/ui/CategoryCard";
 import ProductCard from "../../components/ui/ProductCard";
 import { homeHeroCards, homeProducts } from "./data";
 
-const HomeHomepage = () => {
+const HomeLiving = () => {
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900">
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
@@ -46,7 +46,7 @@ const HomeHomepage = () => {
           </div>
         </div>
 
-        <div className="mb-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mb-8 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
           {homeProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
@@ -56,4 +56,4 @@ const HomeHomepage = () => {
   );
 };
 
-export default HomeHomepage;
+export default HomeLiving;

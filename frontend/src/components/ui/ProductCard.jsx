@@ -1,78 +1,65 @@
 import React from "react";
-import { Star } from "lucide-react";
+import { Heart, Star } from "lucide-react";
 
 export default function ProductCard({ product }) {
-
   return (
-    <div className="group overflow-hidden rounded-3xl border border-border-color bg-white shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
-
-      {/* IMAGE CONTAINER */}
+    <div className="group relative overflow-hidden rounded-sm border border-border-color w-60 bg-white hover:shadow-xl">
       <div className="relative overflow-hidden">
-
-        {/* DISCOUNT BADGE */}
-        <div className="absolute left-4 top-4 z-10 rounded-full bg-primary px-3 py-1 text-sm font-semibold text-white shadow-md">
-          {product.discountPercentage}% OFF
-        </div>
-
-        {/* PRODUCT IMAGE */}
         <img
           src={product.image}
           alt={product.title}
-          className="h-72 w-full object-cover transition duration-500 group-hover:scale-110"
+          className="h-50 w-70 object-cover transition duration-500 group-hover:scale-105"
         />
 
-        {/* QUICK VIEW OVERLAY */}
-        <div className="absolute inset-0 flex items-center justify-center bg-black/10 opacity-0 transition duration-300 group-hover:opacity-100">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-0 transition duration-300 group-hover:opacity-100" />
 
-          <button className="rounded-xl bg-white px-5 py-2 font-semibold text-text-primary shadow-lg transition hover:scale-105">
-            Quick View
-          </button>
+        <div className="absolute right-2 top-2 z-10 rounded-full bg-primary/80 px-2 text-[10px] font-semibold text-white  shadow-md">
+          {product.discountPercentage}% OFF
+        </div>
+
+        <div className=" absolute left-3 bottom-2 flex items-center gap-1 bg-white/70 px-2 text-black font-semibold text-xs ">
+          <span className="text-sm text-black ">{product.rating}</span>
+          <div className="text-green-600">
+
+            <Star size={12} className="fill-current" />
+          </div>
+          |
+          <span className="text-black" >{product.reviews}</span>
         </div>
       </div>
 
-      {/* CONTENT */}
-      <div className="p-5">
-
-        {/* CATEGORY */}
-        <p className="text-sm font-medium uppercase tracking-wide text-text-secondary">
-          {product.category}
-        </p>
-
-        {/* TITLE */}
-        <h3 className="mt-2 line-clamp-1 text-xl font-semibold text-text-primary">
-          {product.title}
-        </h3>
-
-        {/* RATING */}
-        <div className="mt-3 flex items-center gap-2">
-
-          <Star
-            size={18}
-            className="fill-yellow-400 text-yellow-400"
-          />
-
-          <span className="text-sm text-text-secondary">
-            {product.rating}
-          </span>
+      <div className="relative">
+        <div className="absolute top-20  inset-0 flex items-end justify-center p-2 opacity-0  transition duration-300 group-hover:opacity-100">
+          <div className="w-full border border-white/20 bg-white/95 shadow-2xl backdrop-blur-sm">
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              <button className="flex items-center justify-center gap-2 border border-border-color bg-white px-3 py-2 text-[10px] font-semibold text-text-primary  transition hover:bg-slate-100 rounded-sm cursor-pointer">
+                <Heart size={12} />
+                Wishlist
+              </button>
+              <button className="rounded-sm bg-primary px-3 py-2 text-[10px] font-semibold text-white transition hover:bg-primary-hover cursor-pointer ">
+                Add to Cart
+              </button>
+            </div>
+          </div>
         </div>
 
-        {/* PRICE */}
-        <div className="mt-4 flex items-center gap-3">
-
-          <span className="text-2xl font-bold text-primary">
-            ₹{product.price}
-          </span>
-
-          <span className="text-sm text-text-secondary line-through">
-            ₹{product.oldPrice}
-          </span>
+        <div className="px-4 pb-2 pt-2">
+          <p className="text-[11px] uppercase tracking-[0.2em] text-text-secondary">
+            {product.category}
+          </p>
+          <h3 className="text-base font-semibold text-text-primary line-clamp-1">
+            {product.title}
+          </h3>
+          <p className="text-xs text-text-secondary line-clamp-2">
+            {product.description}
+          </p>
+          <div className="flex items-center justify-between gap-3 mt-2 ">
+              <p className="font-bold text-primary text-sm">Rs.{product.price}</p>
+              <p className="text-[11px] text-text-secondary line-through">
+                Rs. {product.oldPrice}
+              </p>
+          </div>
         </div>
-
-        {/* BUTTON */}
-        <button className="mt-5 w-full rounded-xl bg-primary px-5 py-3 font-semibold text-white transition-all duration-300 hover:bg-primary-hover hover:shadow-lg">
-
-          Add To Cart
-        </button>
       </div>
     </div>
   );
