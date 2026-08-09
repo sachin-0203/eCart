@@ -1,7 +1,7 @@
 export const navLinks = [
   {
     name: "Men",
-    path: "/men",
+    path: "/shop/men",
     sections: [
       { title: "Topwear", items: ["T-Shirts", "Shirts", "Jackets"] },
       { title: "Bottomwear", items: ["Jeans", "Shorts", "Formal Pants"] },
@@ -11,7 +11,7 @@ export const navLinks = [
   },
   {
     name: "Women",
-    path: "/women",
+    path: "/shop/women",
     sections: [
       { title: "Ethnic", items: ["Kurtas", "Sarees", "Dupattas"] },
       { title: "Western", items: ["Dresses", "Tops", "Jackets"] },
@@ -21,7 +21,7 @@ export const navLinks = [
   },
   {
     name: "Kids",
-    path: "/kids",
+    path: "/shop/kids",
     sections: [
       { title: "Boys", items: ["Sets", "Shirts", "Denims"] },
       { title: "Girls", items: ["Dresses", "Tops", "Leggings"] },
@@ -31,7 +31,7 @@ export const navLinks = [
   },
   {
     name: "Home",
-    path: "/home-living",
+    path: "/shop/home-living",
     sections: [
       { title: "Decor", items: ["Pillows", "Curtains", "Lighting"] },
       { title: "Kitchen", items: ["Cookware", "Dinnerware", "Storage"] },
@@ -41,7 +41,7 @@ export const navLinks = [
   },
   {
     name: "Beauty",
-    path: "/beauty",
+    path: "/shop/beauty",
     sections: [
       { title: "Skincare", items: ["Creams", "Serums", "Masks"] },
       { title: "Makeup", items: ["Lipsticks", "Kits", "Brushes"] },
@@ -51,7 +51,7 @@ export const navLinks = [
   },
   {
     name: "Electronics",
-    path: "/electronics",
+    path: "/shop/electronics",
     sections: [
       { title: "Mobiles", items: ["Smartphones", "Accessories", "Chargers"] },
       { title: "Audio", items: ["Headphones", "Earbuds", "Speakers"] },
