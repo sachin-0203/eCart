@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
-import { categories, collections } from "./data";
-import { brandCollections } from "./data";
+import { categories, collections, brandCollections } from "../../data/MensData";
 import CollectionCard from "../../components/ui/CollectionCard";
 import CategoryCard from "../../components/ui/CategoryCard";
 
@@ -73,8 +72,10 @@ export default function MenHomepage() {
         </div>
       </section>
 
-
-      <section id="categories" className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 my-10 ">
+      <section
+        id="categories"
+        className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 my-10 "
+      >
         <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#ff3f6c]">
@@ -89,20 +90,24 @@ export default function MenHomepage() {
           </p>
         </div>
 
-        <div className="grid gap-6  sm:grid-cols-3 lg:grid-cols-6">
+        <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide">
           {categories.map((category) => (
-            <CategoryCard
-              key={category.title}
-              image={category.image}
-              title={category.title}
-              subtitle={category.subtitle}
-              link={category.link}
-            />
+            <div key={category.title} className="flex-shrink-0 w-48">
+              <CategoryCard
+                image={category.image}
+                title={category.title}
+                subtitle={category.subtitle}
+                link={category.link}
+              />
+            </div>
           ))}
         </div>
       </section>
 
-      <section id="collections" className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 my-10">
+      <section
+        id="collections"
+        className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 my-10"
+      >
         <div className="mb-6 flex items-end justify-between">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#ff3f6c]">
@@ -127,14 +132,17 @@ export default function MenHomepage() {
         </div>
       </section>
 
-      <section id="topwear" className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 my-10">
+      <section
+        id="topwear"
+        className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 my-10"
+      >
         <div className="mb-6 flex items-end justify-between">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#ff3f6c]">
               topwear
             </p>
             <h2 className="text-2xl font-bold text-slate-900 uppercase tracking-widest ">
-              Trendy in shirt / t-shirt 
+              Trendy in shirt / t-shirt
             </h2>
           </div>
         </div>
@@ -152,14 +160,17 @@ export default function MenHomepage() {
         </div>
       </section>
 
-      <section id="bottomwear" className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 my-10">
+      <section
+        id="bottomwear"
+        className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 my-10"
+      >
         <div className="mb-6 flex items-end justify-between">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#ff3f6c]">
               bottomwear
             </p>
             <h2 className="text-2xl font-bold text-slate-900 uppercase tracking-widest ">
-              Trendy in Jeans, Trouser and Pants 
+              Trendy in Jeans, Trouser and Pants
             </h2>
           </div>
         </div>
@@ -177,14 +188,17 @@ export default function MenHomepage() {
         </div>
       </section>
 
-      <section id="footwear" className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 my-10">
+      <section
+        id="footwear"
+        className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 my-10"
+      >
         <div className="mb-6 flex items-end justify-between">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#ff3f6c]">
               footwear
             </p>
             <h2 className="text-2xl font-bold text-slate-900 uppercase tracking-widest ">
-              Trendy in shoes , sandals, crocs 
+              Trendy in shoes , sandals, crocs
             </h2>
           </div>
         </div>
@@ -202,7 +216,10 @@ export default function MenHomepage() {
         </div>
       </section>
 
-      <section id="Accessories" className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 my-10">
+      <section
+        id="Accessories"
+        className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 my-10"
+      >
         <div className="mb-6 flex items-end justify-between">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#ff3f6c]">
@@ -226,7 +243,6 @@ export default function MenHomepage() {
           ))}
         </div>
       </section>
-
     </main>
   );
 }

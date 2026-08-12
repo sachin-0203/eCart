@@ -1,6 +1,6 @@
 import React from "react";
 import { featuredProducts } from "../../data/productsData";
-import ProductCard from "../ui/ProductCard";
+import MainProductCard from "../ui/MainProductCard";
 
 const FeaturedProducts = () => {
   return (
@@ -16,7 +16,7 @@ const FeaturedProducts = () => {
 
       <div className="mx-auto grid max-w-7xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {featuredProducts.map((product) => (
-          <ProductCard key={product.id} product={product} />
+          <MainProductCard key={product.id} product={product} />
         ))}
       </div>
     </section>

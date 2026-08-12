@@ -1,7 +1,7 @@
 import React from "react";
 import CategoryCard from "../../components/ui/CategoryCard";
-import ProductCard from "../../components/ui/ProductCard";
-import { homeHeroCards, homeProducts } from "./data";
+import SmallProductCard from "../../components/ui/SmallProductCard";
+import { homeHeroCards, homeProducts } from "../../data/homeLivingData";
 
 const HomeLiving = () => {
   return (
@@ -46,9 +46,9 @@ const HomeLiving = () => {
           </div>
         </div>
 
-        <div className="mb-8 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mb-8 grid gap-2  sm:grid-cols-3 lg:grid-cols-5">
           {homeProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <SmallProductCard key={product.id} product={product} />
           ))}
         </div>
       </section>

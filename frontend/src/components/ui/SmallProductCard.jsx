@@ -1,9 +1,23 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Heart, Star } from "lucide-react";
 
-export default function ProductCard({ product }) {
+export default function SmallProductCard({ product }) {
+  const navigate = useNavigate();
+  
+  const handleProductClick = () => {
+    navigate(
+      `/shop/products-details?category=${encodeURIComponent(
+        product.category,
+      )}&slug=${encodeURIComponent(product.slug)}`,
+    );
+  };
+
   return (
-    <div className="group relative overflow-hidden rounded-sm border border-border-color w-60 bg-white hover:shadow-xl">
+    <div
+      onClick={handleProductClick}
+      className="group relative overflow-hidden rounded-sm border border-border-color w-50  bg-white hover:shadow-xl cursor-pointer "
+    >
       <div className="relative overflow-hidden">
         <img
           src={product.image}
@@ -20,11 +34,9 @@ export default function ProductCard({ product }) {
         <div className=" absolute left-3 bottom-2 flex items-center gap-1 bg-white/70 px-2 text-black font-semibold text-xs ">
           <span className="text-sm text-black ">{product.rating}</span>
           <div className="text-green-600">
-
             <Star size={12} className="fill-current" />
           </div>
-          |
-          <span className="text-black" >{product.reviews}</span>
+          |<span className="text-black">{product.reviews}</span>
         </div>
       </div>
 
@@ -54,10 +66,10 @@ export default function ProductCard({ product }) {
             {product.description}
           </p>
           <div className="flex items-center justify-between gap-3 mt-2 ">
-              <p className="font-bold text-primary text-sm">Rs.{product.price}</p>
-              <p className="text-[11px] text-text-secondary line-through">
-                Rs. {product.oldPrice}
-              </p>
+            <p className="font-bold text-primary text-sm">Rs.{product.price}</p>
+            <p className="text-[11px] text-text-secondary line-through">
+              Rs. {product.oldPrice}
+            </p>
           </div>
         </div>
       </div>

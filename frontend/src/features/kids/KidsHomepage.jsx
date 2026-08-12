@@ -9,7 +9,7 @@ import {
   footwear,
   toys,
   schoolEssentials,
-} from "./data";
+} from "../../data/KidsData";
 import CollectionCard from "../../components/ui/CollectionCard";
 import CategoryCard from "../../components/ui/CategoryCard";
 import BrandCard from "../../components/ui/BrandCard";

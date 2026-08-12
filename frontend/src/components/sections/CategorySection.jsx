@@ -21,7 +21,7 @@ const CategorySection = () => {
         {categoriesData.map((category) => (
           <div
             key={category.id}
-            className="group cursor-pointer overflow-hidden rounded-3xl bg-white shadow-md transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
+            className="group cursor-pointer overflow-hidden rounded-3xl bg-white shadow-sm transition-all duration-500 hover:-translate-y-0.5 hover:shadow-lg"
           >
 
             <div className="overflow-hidden">

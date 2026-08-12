@@ -9,7 +9,7 @@ import {
   footwear,
   beauty,
   accessories,
-} from "./data";
+} from "../../data/WomensData";
 import CollectionCard from "../../components/ui/CollectionCard";
 import CategoryCard from "../../components/ui/CategoryCard";
 import BrandCard from "../../components/ui/BrandCard";

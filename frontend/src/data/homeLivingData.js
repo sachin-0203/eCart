@@ -1,9 +1,9 @@
-import bedSheetImage from "../../assets/images/products/home/cotton-bed-sheet-set.jpg";
-import knifeSetImage from "../../assets/images/products/home/kitchen-knife-set.jpg";
-import cookwareImage from "../../assets/images/products/home/stainless-steel-cookware.jpg";
-import pillowCoversImage from "../../assets/images/products/home/decorative-pillow-covers.jpg";
-import homeImg from "../../assets/images/categories/homeImg.jpg";
-import decorationImg from "../../assets/images/categories/decorationImg.jpg";
+import bedSheetImage from "../assets/images/products/home/cotton-bed-sheet-set.jpg"
+import knifeSetImage from "../assets/images/products/home/kitchen-knife-set.jpg";
+import cookwareImage from "../assets/images/products/home/stainless-steel-cookware.jpg";
+import pillowCoversImage from "../assets/images/products/home/decorative-pillow-covers.jpg";
+import homeImg from "../assets/images/categories/homeImg.jpg";
+import decorationImg from "../assets/images/categories/decorationImg.jpg";
 
 export const homeHeroCards = [
   { id: 1, title: "Monsoon", image: homeImg },
@@ -34,9 +34,14 @@ export const homeProducts = [
     rating: 4.8,
     reviews: 128,
     featured: true,
+
     image: bedSheetImage,
-    description: "Soft breathable cotton bed sheet set in vibrant colours.",
+    images: [bedSheetImage],
+
+    description:
+      "Soft breathable cotton bed sheet set in vibrant colours.",
   },
+
   {
     id: 2,
     slug: "blackout-curtain-pair",
@@ -48,9 +53,14 @@ export const homeProducts = [
     rating: 4.7,
     reviews: 96,
     featured: true,
+
     image: decorationImg,
-    description: "Premium blackout curtains for better sleep and privacy.",
+    images: [decorationImg],
+
+    description:
+      "Premium blackout curtains for better sleep and privacy.",
   },
+
   {
     id: 3,
     slug: "stainless-steel-cookware-set",
@@ -62,9 +72,14 @@ export const homeProducts = [
     rating: 4.6,
     reviews: 214,
     featured: true,
+
     image: cookwareImage,
-    description: "Durable 5-piece cookware set for daily kitchen use.",
+    images: [cookwareImage],
+
+    description:
+      "Durable 5-piece cookware set for daily kitchen use.",
   },
+
   {
     id: 4,
     slug: "kitchen-knife-cutting-board-set",
@@ -76,9 +91,14 @@ export const homeProducts = [
     rating: 4.5,
     reviews: 87,
     featured: true,
+
     image: knifeSetImage,
-    description: "Essential knife set with wooden cutting board for prep work.",
+    images: [knifeSetImage],
+
+    description:
+      "Essential knife set with wooden cutting board for prep work.",
   },
+
   {
     id: 5,
     slug: "decorative-pillow-covers",
@@ -90,9 +110,14 @@ export const homeProducts = [
     rating: 4.4,
     reviews: 73,
     featured: false,
+
     image: pillowCoversImage,
-    description: "Set of stylish pillow covers to refresh your living room.",
+    images: [pillowCoversImage],
+
+    description:
+      "Set of stylish pillow covers to refresh your living room.",
   },
+
   {
     id: 6,
     slug: "canopy-mosquito-net",
@@ -104,9 +129,14 @@ export const homeProducts = [
     rating: 4.3,
     reviews: 156,
     featured: false,
+
     image: homeImg,
-    description: "Lightweight canopy mosquito net for comfortable nights.",
+    images: [homeImg],
+
+    description:
+      "Lightweight canopy mosquito net for comfortable nights.",
   },
+
   {
     id: 7,
     slug: "led-table-lamp",
@@ -118,9 +148,14 @@ export const homeProducts = [
     rating: 4.4,
     reviews: 112,
     featured: false,
+
     image: homeImg,
-    description: "Energy-efficient LED lamp for bedside and study tables.",
+    images: [homeImg],
+
+    description:
+      "Energy-efficient LED lamp for bedside and study tables.",
   },
+
   {
     id: 8,
     slug: "spin-mop-bucket-set",
@@ -132,9 +167,14 @@ export const homeProducts = [
     rating: 4.2,
     reviews: 189,
     featured: false,
+
     image: homeImg,
-    description: "Easy-clean spin mop for quick floor cleaning.",
+    images: [homeImg],
+
+    description:
+      "Easy-clean spin mop for quick floor cleaning.",
   },
+
   {
     id: 9,
     slug: "stackable-storage-box",
@@ -146,9 +186,14 @@ export const homeProducts = [
     rating: 4.1,
     reviews: 64,
     featured: false,
+
     image: homeImg,
-    description: "Durable stackable boxes for seasonal storage and organisation.",
+    images: [homeImg],
+
+    description:
+      "Durable stackable boxes for seasonal storage and organisation.",
   },
+
   {
     id: 10,
     slug: "stainless-steel-spice-jar-set",
@@ -160,7 +205,11 @@ export const homeProducts = [
     rating: 4.3,
     reviews: 91,
     featured: false,
+
     image: homeImg,
-    description: "Clear spice jars with labels for an organised kitchen.",
+    images: [homeImg],
+
+    description:
+      "Clear spice jars with labels for an organised kitchen.",
   },
 ];
