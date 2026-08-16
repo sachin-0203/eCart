@@ -4,7 +4,8 @@ import { Heart, Star } from "lucide-react";
 
 export default function SmallProductCard({ product }) {
   const navigate = useNavigate();
-  
+  const reviewCount = product.reviewsCount ?? product.reviews?.length ?? 0;
+
   const handleProductClick = () => {
     navigate(
       `/shop/products-details?category=${encodeURIComponent(
@@ -36,7 +37,7 @@ export default function SmallProductCard({ product }) {
           <div className="text-green-600">
             <Star size={12} className="fill-current" />
           </div>
-          |<span className="text-black">{product.reviews}</span>
+          |<span className="text-black">{reviewCount}</span>
         </div>
       </div>
 

@@ -52,7 +52,7 @@ export default function Navbar() {
                       to={link.path}
                       onClick={() => setHoveredLink(null)}
                       className={({ isActive }) =>
-                        `group relative flex items-center gap-1 px-1 py-3  font-semibold uppercase text-sm tracking-[0.18em] text-gray-700 transition-all duration-300 hover:text-[#ff3f6c] my-3 ${
+                        `group relative flex items-center gap-1 px-1 py-3  font-semibold uppercase text-xs tracking-[0.18em] text-gray-700 transition-all duration-300 hover:text-[#ff3f6c] my-3 ${
                           isActive ? "text-[#ff3f6c]" : ""
                         }`
                       }
@@ -81,7 +81,7 @@ export default function Navbar() {
                             : "invisible translate-y-2 opacity-0"
                         }`}
                       >
-                        <div className="grid grid-cols-[1.2fr_0.8fr] gap-5">
+                        <div>
                           <div className="space-y-3">
                             {link.sections.map((section) => (
                               <div key={section.title}>
@@ -100,18 +100,6 @@ export default function Navbar() {
                                 </div>
                               </div>
                             ))}
-                          </div>
-
-                          <div className="rounded-2xl bg-gradient-to-br from-[#0b2e59] to-[#1d4f90] p-4 text-white">
-                            <p className="text-xs uppercase tracking-[0.2em] text-sky-200">
-                              Featured
-                            </p>
-                            <p className="mt-2 text-lg font-semibold">
-                              {link.banner}
-                            </p>
-                            <button className="mt-4 rounded-full bg-white px-4 py-2 text-sm font-semibold text-[#0b2e59] transition hover:scale-105">
-                              Explore now
-                            </button>
                           </div>
                         </div>
                       </div>
