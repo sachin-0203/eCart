@@ -44,7 +44,7 @@ export default function SmallProductCard({ product }) {
       <div className="relative">
         <div className="absolute top-20  inset-0 flex items-end justify-center p-2 opacity-0  transition duration-300 group-hover:opacity-100">
           <div className="w-full border border-white/20 bg-white/95 shadow-2xl backdrop-blur-sm">
-            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            <div className="my-4 grid gap-3 sm:grid-cols-2 ">
               <button className="flex items-center justify-center gap-2 border border-border-color bg-white px-3 py-2 text-[10px] font-semibold text-text-primary  transition hover:bg-slate-100 rounded-sm cursor-pointer">
                 <Heart size={12} />
                 Wishlist

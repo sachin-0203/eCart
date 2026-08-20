@@ -28,439 +28,624 @@ import wristWatchImage from "../assets/images/products/accessories/wrist-watch.j
 import sunglassesImage from "../assets/images/products/accessories/sunglasses.jpg";
 import backpackImage from "../assets/images/products/accessories/backpack.jpg";
 
-// Fashion Products
 export const fashionProducts = [
   {
     id: 101,
     slug: "classic-cotton-tshirt",
     title: "Classic Cotton T-Shirt",
+    department: "men",
     category: "Fashion",
-
+    subCategory: "T-Shirts",
+    brand: "Roadster",
     price: 499,
     oldPrice: 799,
     discountPercentage: 38,
-
     rating: 4.5,
-
+    reviews: 218,
     featured: true,
-
     image: tshirtImage,
+    images: [tshirtImage],
+    description:
+      "Soft cotton t-shirt designed for everyday comfort with a relaxed fit and breathable fabric.",
+    details: {
+      fit: "Regular Fit",
+      fabric: "Cotton",
+      occasion: "Casual",
+    },
+    relatedProducts: ["premium-denim-jeans", "winter-wool-jacket"],
   },
-
   {
     id: 102,
     slug: "premium-denim-jeans",
     title: "Premium Denim Jeans",
+    department: "men",
     category: "Fashion",
-
+    subCategory: "Jeans",
+    brand: "Levi's",
     price: 1999,
     oldPrice: 2999,
     discountPercentage: 33,
-
     rating: 4.7,
-
+    reviews: 324,
     featured: false,
-
     image: denimJeansImage,
+    images: [denimJeansImage],
+    description:
+      "Classic slim-fit denim jeans with stretch comfort for all-day wear.",
+    details: {
+      fit: "Slim Fit",
+      fabric: "Stretch Denim",
+      occasion: "Casual",
+    },
+    relatedProducts: ["classic-cotton-tshirt", "leather-belt"],
   },
-
   {
     id: 103,
     slug: "casual-summer-dress",
     title: "Casual Summer Dress",
+    department: "women",
     category: "Fashion",
-
+    subCategory: "Dresses",
+    brand: "H&M",
     price: 1499,
     oldPrice: 2499,
     discountPercentage: 40,
-
     rating: 4.6,
-
+    reviews: 186,
     featured: false,
-
     image: summerDressImage,
+    images: [summerDressImage],
+    description:
+      "Lightweight summer dress with a flattering silhouette for warm-weather outings.",
+    details: {
+      fit: "A-Line",
+      fabric: "Cotton Blend",
+      occasion: "Casual",
+    },
+    relatedProducts: ["comfortable-sandals", "sunglasses"],
   },
-
   {
     id: 104,
     slug: "winter-wool-jacket",
     title: "Winter Wool Jacket",
+    department: "men",
     category: "Fashion",
-
+    subCategory: "Shirts",
+    brand: "Arrow",
     price: 3499,
     oldPrice: 4999,
     discountPercentage: 30,
-
     rating: 4.8,
-
+    reviews: 142,
     featured: false,
-
     image: woolJacketImage,
+    images: [woolJacketImage],
+    description:
+      "Warm wool-blend jacket with a structured finish for cooler days.",
+    details: {
+      fit: "Regular Fit",
+      fabric: "Wool Blend",
+      occasion: "Smart Casual",
+    },
+    relatedProducts: ["classic-cotton-tshirt", "premium-denim-jeans"],
   },
 ];
 
-
-// Footwear Products
 export const footwearProducts = [
   {
     id: 201,
     slug: "premium-running-shoes",
     title: "Premium Running Shoes",
+    department: "men",
     category: "Footwear",
-
+    subCategory: "Footwear",
+    brand: "Nike",
     price: 4999,
     oldPrice: 7999,
     discountPercentage: 38,
-
     rating: 4.8,
-
+    reviews: 512,
     featured: true,
-
     image: runningShoesImage,
+    images: [runningShoesImage],
+    description:
+      "Lightweight running shoes with responsive cushioning for daily training.",
+    details: {
+      material: "Mesh Upper",
+      sole: "Rubber",
+      occasion: "Sports",
+    },
+    relatedProducts: ["casual-sneakers", "backpack"],
   },
-
   {
     id: 202,
     slug: "casual-sneakers",
     title: "Casual Sneakers",
+    department: "men",
     category: "Footwear",
-
+    subCategory: "Footwear",
+    brand: "Puma",
     price: 2999,
     oldPrice: 4999,
     discountPercentage: 40,
-
     rating: 4.5,
-
+    reviews: 267,
     featured: false,
-
     image: casualSneakersImage,
+    images: [casualSneakersImage],
+    description:
+      "Everyday sneakers with cushioned support and a versatile street-ready look.",
+    details: {
+      material: "Synthetic Leather",
+      sole: "EVA",
+      occasion: "Casual",
+    },
+    relatedProducts: ["premium-running-shoes", "classic-cotton-tshirt"],
   },
-
   {
     id: 203,
     slug: "formal-dress-shoes",
     title: "Formal Dress Shoes",
+    department: "men",
     category: "Footwear",
-
+    subCategory: "Footwear",
+    brand: "Clarks",
     price: 5999,
     oldPrice: 8999,
     discountPercentage: 33,
-
     rating: 4.7,
-
+    reviews: 98,
     featured: false,
-
     image: formalShoesImage,
+    images: [formalShoesImage],
+    description:
+      "Polished leather dress shoes designed for office wear and formal occasions.",
+    details: {
+      material: "Genuine Leather",
+      sole: "Rubber",
+      occasion: "Formal",
+    },
+    relatedProducts: ["leather-belt", "wrist-watch"],
   },
-
   {
     id: 204,
     slug: "comfortable-sandals",
     title: "Comfortable Sandals",
+    department: "women",
     category: "Footwear",
-
+    subCategory: "Footwear",
+    brand: "Bata",
     price: 799,
     oldPrice: 1299,
     discountPercentage: 38,
-
     rating: 4.4,
-
+    reviews: 154,
     featured: false,
-
     image: sandalsImage,
+    images: [sandalsImage],
+    description:
+      "Comfort-first sandals with a lightweight sole for daily summer wear.",
+    details: {
+      material: "Synthetic",
+      sole: "PU",
+      occasion: "Casual",
+    },
+    relatedProducts: ["casual-summer-dress", "sunglasses"],
   },
 ];
 
-
-// Beauty Products
 export const beautyProducts = [
   {
     id: 301,
     slug: "moisturizing-face-cream",
     title: "Moisturizing Face Cream",
+    department: "beauty",
     category: "Beauty",
-
+    subCategory: "Beauty",
+    brand: "Nivea",
     price: 899,
     oldPrice: 1499,
     discountPercentage: 40,
-
     rating: 4.6,
-
+    reviews: 431,
     featured: true,
-
     image: faceCreamImage,
+    images: [faceCreamImage],
+    description:
+      "Daily-use face cream that hydrates skin and helps restore natural moisture balance.",
+    details: {
+      skinType: "All Skin Types",
+      volume: "100 ml",
+      concern: "Dryness",
+    },
+    relatedProducts: ["anti-aging-serum", "lipstick-collection"],
   },
-
   {
     id: 302,
     slug: "lipstick-collection",
     title: "Lipstick Collection",
+    department: "beauty",
     category: "Beauty",
-
+    subCategory: "Beauty",
+    brand: "Maybelline",
     price: 599,
     oldPrice: 999,
     discountPercentage: 40,
-
     rating: 4.5,
-
+    reviews: 289,
     featured: false,
-
     image: lipstickImage,
+    images: [lipstickImage],
+    description:
+      "Matte-finish lipstick set with long-lasting color for everyday and party looks.",
+    details: {
+      finish: "Matte",
+      packSize: "3 Shades",
+      concern: "Color",
+    },
+    relatedProducts: ["moisturizing-face-cream", "anti-aging-serum"],
   },
-
   {
     id: 303,
     slug: "anti-aging-serum",
     title: "Anti-Aging Serum",
+    department: "beauty",
     category: "Beauty",
-
+    subCategory: "Beauty",
+    brand: "Olay",
     price: 1299,
     oldPrice: 1999,
     discountPercentage: 35,
-
     rating: 4.8,
-
+    reviews: 376,
     featured: false,
-
     image: antiAgingSerumImage,
+    images: [antiAgingSerumImage],
+    description:
+      "Lightweight serum formulated to improve skin texture and reduce visible fine lines.",
+    details: {
+      skinType: "Mature Skin",
+      volume: "30 ml",
+      concern: "Anti-Aging",
+    },
+    relatedProducts: ["moisturizing-face-cream", "hair-shampoo-conditioner"],
   },
-
   {
     id: 304,
     slug: "hair-shampoo-conditioner",
     title: "Hair Shampoo & Conditioner",
+    department: "beauty",
     category: "Beauty",
-
+    subCategory: "Beauty",
+    brand: "Dove",
     price: 699,
     oldPrice: 1199,
     discountPercentage: 42,
-
     rating: 4.5,
-
+    reviews: 198,
     featured: false,
-
     image: hairCareImage,
+    images: [hairCareImage],
+    description:
+      "Nourishing shampoo and conditioner duo for smooth, manageable hair.",
+    details: {
+      hairType: "All Hair Types",
+      volume: "340 ml each",
+      concern: "Dry Hair",
+    },
+    relatedProducts: ["moisturizing-face-cream", "lipstick-collection"],
   },
 ];
 
-
-// Electronics Products
 export const electronicsProducts = [
   {
     id: 401,
     slug: "wireless-headphones",
     title: "Wireless Headphones",
+    department: "electronics",
     category: "Electronics",
-
+    subCategory: "Audio",
+    brand: "Sony",
     price: 2999,
     oldPrice: 4999,
     discountPercentage: 40,
-
     rating: 4.7,
-
+    reviews: 842,
     featured: true,
-
     image: wirelessHeadphonesImage,
+    images: [wirelessHeadphonesImage],
+    description:
+      "Over-ear wireless headphones with deep bass and all-day battery life.",
+    details: {
+      connectivity: "Bluetooth 5.0",
+      batteryLife: "30 Hours",
+      type: "Over-Ear",
+    },
+    relatedProducts: ["smartwatch", "usb-c-cable-pack"],
   },
-
   {
     id: 402,
     slug: "smartphone-charger",
     title: "Smartphone Charger",
+    department: "electronics",
     category: "Electronics",
-
+    subCategory: "Mobile Accessories",
+    brand: "Samsung",
     price: 799,
     oldPrice: 1499,
     discountPercentage: 47,
-
     rating: 4.4,
-
+    reviews: 621,
     featured: false,
-
     image: smartphoneChargerImage,
+    images: [smartphoneChargerImage],
+    description:
+      "Fast-charging adapter compatible with most modern smartphones and tablets.",
+    details: {
+      output: "25W",
+      portType: "USB-C",
+      compatibility: "Universal",
+    },
+    relatedProducts: ["usb-c-cable-pack", "wireless-headphones"],
   },
-
   {
     id: 403,
     slug: "usb-c-cable-pack",
     title: "USB-C Cable Pack",
+    department: "electronics",
     category: "Electronics",
-
+    subCategory: "Mobile Accessories",
+    brand: "Boat",
     price: 599,
     oldPrice: 999,
     discountPercentage: 40,
-
     rating: 4.5,
-
+    reviews: 533,
     featured: false,
-
     image: usbCableImage,
+    images: [usbCableImage],
+    description:
+      "Durable USB-C cable pack for charging and data transfer across devices.",
+    details: {
+      length: "1 m",
+      packSize: "2 Cables",
+      compatibility: "USB-C Devices",
+    },
+    relatedProducts: ["smartphone-charger", "smartwatch"],
   },
-
   {
     id: 404,
     slug: "smartwatch",
     title: "Smartwatch",
+    department: "electronics",
     category: "Electronics",
-
+    subCategory: "Wearables",
+    brand: "Noise",
     price: 5999,
     oldPrice: 8999,
     discountPercentage: 33,
-
     rating: 4.8,
-
+    reviews: 712,
     featured: false,
-
     image: smartwatchImage,
+    images: [smartwatchImage],
+    description:
+      "Feature-rich smartwatch with fitness tracking, notifications, and long battery life.",
+    details: {
+      display: "AMOLED",
+      batteryLife: "7 Days",
+      waterResistance: "IP68",
+    },
+    relatedProducts: ["wireless-headphones", "usb-c-cable-pack"],
   },
 ];
 
-
-// Home & Living Products
 export const homeProducts = [
   {
     id: 501,
     slug: "cotton-bed-sheet-set",
     title: "Cotton Bed Sheet Set",
+    department: "home",
     category: "Home & Living",
-
+    subCategory: "Bedsheets",
+    brand: "Spaces",
     price: 1499,
     oldPrice: 2499,
     discountPercentage: 40,
-
     rating: 4.6,
-
+    reviews: 128,
     featured: true,
-
     image: bedSheetImage,
+    images: [bedSheetImage],
+    description:
+      "Soft cotton bed sheet set with breathable fabric for everyday comfort.",
+    details: {
+      material: "100% Cotton",
+      size: "Double",
+      pack: "1 Bedsheet + 2 Pillow Covers",
+    },
+    relatedProducts: ["decorative-pillow-covers", "stainless-steel-cookware"],
   },
-
   {
     id: 502,
     slug: "kitchen-knife-set",
     title: "Kitchen Knife Set",
+    department: "home",
     category: "Home & Living",
-
+    subCategory: "Cookware",
+    brand: "Wonderchef",
     price: 2999,
     oldPrice: 4499,
     discountPercentage: 33,
-
     rating: 4.7,
-
+    reviews: 87,
     featured: false,
-
     image: knifeSetImage,
+    images: [knifeSetImage],
+    description:
+      "Essential kitchen knife set with sharp stainless steel blades for daily cooking.",
+    details: {
+      material: "Stainless Steel",
+      pieces: "6",
+      usage: "Kitchen",
+    },
+    relatedProducts: ["stainless-steel-cookware", "decorative-pillow-covers"],
   },
-
   {
     id: 503,
     slug: "stainless-steel-cookware",
     title: "Stainless Steel Cookware",
+    department: "home",
     category: "Home & Living",
-
+    subCategory: "Cookware",
+    brand: "Prestige",
     price: 3999,
     oldPrice: 5999,
     discountPercentage: 33,
-
     rating: 4.8,
-
+    reviews: 214,
     featured: false,
-
     image: cookwareImage,
+    images: [cookwareImage],
+    description:
+      "Durable stainless steel cookware set suitable for everyday Indian cooking.",
+    details: {
+      material: "Stainless Steel",
+      pieces: "5",
+      inductionCompatible: "Yes",
+    },
+    relatedProducts: ["kitchen-knife-set", "cotton-bed-sheet-set"],
   },
-
   {
     id: 504,
     slug: "decorative-pillow-covers",
     title: "Decorative Pillow Covers",
+    department: "home",
     category: "Home & Living",
-
+    subCategory: "Storage",
+    brand: "Home Centre",
     price: 799,
     oldPrice: 1299,
     discountPercentage: 38,
-
     rating: 4.5,
-
+    reviews: 73,
     featured: false,
-
     image: pillowCoversImage,
+    images: [pillowCoversImage],
+    description:
+      "Printed pillow covers that add color and texture to your living spaces.",
+    details: {
+      material: "Cotton Blend",
+      size: "16 x 16 Inches",
+      pack: "5 Covers",
+    },
+    relatedProducts: ["cotton-bed-sheet-set", "stainless-steel-cookware"],
   },
 ];
 
-
-// Accessories Products
 export const accessoriesProducts = [
   {
     id: 601,
     slug: "leather-belt",
     title: "Leather Belt",
+    department: "men",
     category: "Accessories",
-
+    subCategory: "Accessories",
+    brand: "Tommy Hilfiger",
     price: 599,
     oldPrice: 999,
     discountPercentage: 40,
-
     rating: 4.5,
-
+    reviews: 164,
     featured: true,
-
     image: leatherBeltImage,
+    images: [leatherBeltImage],
+    description:
+      "Classic leather belt with a polished buckle for formal and casual outfits.",
+    details: {
+      material: "Genuine Leather",
+      width: "3.5 cm",
+      occasion: "Casual",
+    },
+    relatedProducts: ["wrist-watch", "sunglasses"],
   },
-
   {
     id: 602,
     slug: "wrist-watch",
     title: "Wrist Watch",
+    department: "men",
     category: "Accessories",
-
+    subCategory: "Accessories",
+    brand: "Fossil",
     price: 1999,
     oldPrice: 3499,
     discountPercentage: 43,
-
     rating: 4.7,
-
+    reviews: 241,
     featured: false,
-
     image: wristWatchImage,
+    images: [wristWatchImage],
+    description:
+      "Analog wrist watch with a minimalist dial and durable strap for daily wear.",
+    details: {
+      movement: "Quartz",
+      strap: "Leather",
+      waterResistance: "3 ATM",
+    },
+    relatedProducts: ["leather-belt", "sunglasses"],
   },
-
   {
     id: 603,
     slug: "sunglasses",
     title: "Sunglasses",
+    department: "men",
     category: "Accessories",
-
+    subCategory: "Accessories",
+    brand: "Ray-Ban",
     price: 1499,
     oldPrice: 2999,
     discountPercentage: 50,
-
     rating: 4.6,
-
+    reviews: 318,
     featured: false,
-
     image: sunglassesImage,
+    images: [sunglassesImage],
+    description:
+      "UV-protected sunglasses with a timeless frame shape for outdoor wear.",
+    details: {
+      lensType: "UV400",
+      frameMaterial: "Acetate",
+      occasion: "Casual",
+    },
+    relatedProducts: ["backpack", "wrist-watch"],
   },
-
   {
     id: 604,
     slug: "backpack",
     title: "Backpack",
+    department: "men",
     category: "Accessories",
-
+    subCategory: "Accessories",
+    brand: "Wildcraft",
     price: 2499,
     oldPrice: 3999,
     discountPercentage: 38,
-
     rating: 4.8,
-
+    reviews: 402,
     featured: false,
-
     image: backpackImage,
+    images: [backpackImage],
+    description:
+      "Spacious everyday backpack with padded straps and multiple compartments.",
+    details: {
+      capacity: "30 L",
+      material: "Polyester",
+      usage: "Travel & Daily Commute",
+    },
+    relatedProducts: ["sunglasses", "premium-running-shoes"],
   },
 ];
 
-
-// Combine all products
 export const allProducts = [
   ...fashionProducts,
   ...footwearProducts,
@@ -470,8 +655,6 @@ export const allProducts = [
   ...accessoriesProducts,
 ];
 
-
-// Featured Products
 export const featuredProducts = allProducts.filter(
-  (product) => product.featured
+  (product) => product.featured,
 );

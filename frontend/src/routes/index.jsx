@@ -1,19 +1,18 @@
-import {
-  createBrowserRouter,
-  createRoutesFromElements,
-  Route,
-} from "react-router-dom";
+import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
+
 import App from "../App";
 import Home from "../pages/Home";
-import Products from "../pages/Products";
 import About from "../pages/About";
 import Contact from "../pages/Contact";
-import MenHomepage from "../features/men/MenHomepage";
-import WomenHomepage from "../features/women/WomenHomepage";
-import KidsHomepage from "../features/kids/KidsHomepage";
 import HomeLiving from "../features/home/HomeLiving";
+import MenHomepage from "../features/men/MenHomepage";
+import KidsHomepage from "../features/kids/KidsHomepage";
+import WomenHomepage from "../features/women/WomenHomepage";
 import BeautyHomepage from "../features/beauty/BeautyHomepage";
 import ElectronicHomepage from "../features/electronics/ElectronicHomepage";
+
+
+import Products from "../pages/product/ProductsPage";
 import ProductDetailsPage from "../pages/product/ProductDetailsPage";
 
 const router = createBrowserRouter(

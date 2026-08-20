@@ -30,9 +30,10 @@ export const homeProducts = [
     slug: "cotton-bedsheet-set",
     title: "Cotton Bed Sheet Set",
 
+    department: "home",
     brand: "Spaces",
     category: "Bedsheets",
-    subCategory: "Double Bedsheets",
+    subCategory: "Bedsheets",
 
     price: 1499,
     oldPrice: 2499,
@@ -113,9 +114,10 @@ export const homeProducts = [
     slug: "blackout-curtain-pair",
     title: "Blackout Curtain Pair",
 
+    department: "home",
     brand: "Home Centre",
     category: "Curtains",
-    subCategory: "Blackout Curtains",
+    subCategory: "Curtains",
 
     price: 1799,
     oldPrice: 2799,
@@ -197,9 +199,10 @@ export const homeProducts = [
     slug: "stainless-steel-cookware-set",
     title: "Stainless Steel Cookware Set",
 
+    department: "home",
     brand: "Wonderchef",
     category: "Cookware",
-    subCategory: "Cookware Sets",
+    subCategory: "Cookware",
 
     price: 3499,
     oldPrice: 4999,
@@ -281,9 +284,10 @@ export const homeProducts = [
     slug: "kitchen-knife-cutting-board-set",
     title: "Kitchen Knife & Cutting Board Set",
 
+    department: "home",
     brand: "Wonderchef",
-    category: "Kitchen",
-    subCategory: "Kitchen Tools",
+    category: "Cookware",
+    subCategory: "Cookware",
 
     price: 899,
     oldPrice: 1299,
@@ -354,9 +358,10 @@ export const homeProducts = [
     slug: "decorative-pillow-covers",
     title: "Decorative Pillow Covers",
 
+    department: "home",
     brand: "Home Centre",
     category: "Home Decor",
-    subCategory: "Cushion Covers",
+    subCategory: "Storage",
 
     price: 799,
     oldPrice: 1299,
@@ -427,9 +432,10 @@ export const homeProducts = [
     slug: "canopy-mosquito-net",
     title: "Canopy Mosquito Net",
 
+    department: "home",
     brand: "Cloth Fusion",
-    category: "Mosquito Nets",
-    subCategory: "Canopy Nets",
+    category: "Bedsheets",
+    subCategory: "Bedsheets",
 
     price: 349,
     oldPrice: 599,
@@ -500,9 +506,10 @@ export const homeProducts = [
     slug: "led-table-lamp",
     title: "LED Table Lamp",
 
+    department: "home",
     brand: "Philips",
     category: "Lighting",
-    subCategory: "Table Lamps",
+    subCategory: "Lighting",
 
     price: 499,
     oldPrice: 799,
@@ -574,9 +581,10 @@ export const homeProducts = [
     slug: "spin-mop-bucket-set",
     title: "Spin Mop & Bucket Set",
 
+    department: "home",
     brand: "Spotzero",
     category: "Cleaning",
-    subCategory: "Mops",
+    subCategory: "Storage",
 
     price: 899,
     oldPrice: 1299,
@@ -647,9 +655,10 @@ export const homeProducts = [
     slug: "stackable-storage-box",
     title: "Stackable Storage Box",
 
+    department: "home",
     brand: "Milton",
     category: "Storage",
-    subCategory: "Storage Containers",
+    subCategory: "Storage",
 
     price: 499,
     oldPrice: 799,
@@ -721,9 +730,10 @@ export const homeProducts = [
     slug: "stainless-steel-spice-jar-set",
     title: "Stainless Steel Spice Jar Set",
 
+    department: "home",
     brand: "Milton",
-    category: "Dining",
-    subCategory: "Spice Containers",
+    category: "Cookware",
+    subCategory: "Cookware",
 
     price: 399,
     oldPrice: 599,
