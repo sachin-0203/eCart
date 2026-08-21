@@ -1,10 +1,16 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Heart, Star } from "lucide-react";
+import { Eye, Star } from "lucide-react";
+import { useCart } from "../../context/CartContext";
 
 export default function SmallProductCard({ product }) {
   const navigate = useNavigate();
   const reviewCount = product.reviewsCount ?? product.reviews?.length ?? 0;
+  const { addToCart } = useCart();
+
+  const handleAddToCart = () => {
+    addToCart(product);
+  };
 
   const handleProductClick = () => {
     navigate(
@@ -15,10 +21,7 @@ export default function SmallProductCard({ product }) {
   };
 
   return (
-    <div
-      onClick={handleProductClick}
-      className="group relative overflow-hidden rounded-sm border border-border-color w-50  bg-white hover:shadow-xl cursor-pointer "
-    >
+    <div className="group relative overflow-hidden rounded-sm border border-border-color w-50  bg-white hover:shadow-xl cursor-pointer ">
       <div className="relative overflow-hidden">
         <img
           src={product.image}
@@ -45,11 +48,17 @@ export default function SmallProductCard({ product }) {
         <div className="absolute top-20  inset-0 flex items-end justify-center p-2 opacity-0  transition duration-300 group-hover:opacity-100">
           <div className="w-full border border-white/20 bg-white/95 shadow-2xl backdrop-blur-sm">
             <div className="my-4 grid gap-3 sm:grid-cols-2 ">
-              <button className="flex items-center justify-center gap-2 border border-border-color bg-white px-3 py-2 text-[10px] font-semibold text-text-primary  transition hover:bg-slate-100 rounded-sm cursor-pointer">
-                <Heart size={12} />
-                Wishlist
+              <button
+                onClick={handleProductClick}
+                className="flex items-center justify-center gap-2 border border-border-color bg-white px-3 py-2 text-[10px] font-semibold text-text-primary  transition hover:bg-slate-100 rounded-sm cursor-pointer"
+              >
+                <Eye size={12} />
+                View
               </button>
-              <button className="rounded-sm bg-primary px-3 py-2 text-[10px] font-semibold text-white transition hover:bg-primary-hover cursor-pointer ">
+              <button
+                onClick={handleAddToCart}
+               className="rounded-sm bg-primary px-3 py-2 text-[10px] font-semibold text-white transition hover:bg-primary-hover cursor-pointer "
+              >
                 Add to Cart
               </button>
             </div>

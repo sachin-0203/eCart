@@ -1,4 +1,8 @@
-import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+} from "react-router-dom";
 
 import App from "../App";
 import Home from "../pages/Home";
@@ -11,9 +15,9 @@ import WomenHomepage from "../features/women/WomenHomepage";
 import BeautyHomepage from "../features/beauty/BeautyHomepage";
 import ElectronicHomepage from "../features/electronics/ElectronicHomepage";
 
-
 import Products from "../pages/product/ProductsPage";
 import ProductDetailsPage from "../pages/product/ProductDetailsPage";
+import CartPage from "../pages/cart/CartPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -31,6 +35,7 @@ const router = createBrowserRouter(
         <Route path="beauty" element={<BeautyHomepage />} />
         <Route path="electronics" element={<ElectronicHomepage />} />
       </Route>
+      <Route path="cart" element={<CartPage />} />
     </Route>,
   ),
 );

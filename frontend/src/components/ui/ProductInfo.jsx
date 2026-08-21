@@ -1,11 +1,18 @@
 import React from "react";
 import { ShoppingBag, ShoppingCart, Star } from "lucide-react";
+import { useCart } from "../../context/CartContext";
 
 const ProductInfo = ({ product }) => {
   const discountPercentage = product.oldPrice
     ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)
     : 0;
   const reviewCount = product.reviewsCount ?? product.reviews?.length ?? 0;
+
+  const { addToCart } = useCart();
+
+  const handleAddToCart = () => {
+    addToCart(product);
+  };
 
   return (
     <div className="flex flex-col justify-center">
@@ -70,13 +77,14 @@ const ProductInfo = ({ product }) => {
       {/* Buttons */}
       <div className="flex flex-col gap-4 sm:flex-row">
         <button
+          onClick={handleAddToCart}
           className="
-                flex flex-1 items-center justify-center gap-2
-                rounded-lg bg-primary px-6 py-4
-                font-semibold text-white
-                transition hover:bg-primary-hover
-                active:scale-95
-              "
+            flex flex-1 items-center justify-center gap-2
+            rounded-lg bg-primary px-6 py-4
+            font-semibold text-white
+            transition hover:bg-primary-hover
+            active:scale-95
+          "
         >
           <ShoppingCart size={20} />
           Add to Cart

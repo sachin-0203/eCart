@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { ChevronDown, Menu, Search, X } from "lucide-react";
+import { ChevronDown, Menu, Search, X, ShoppingCart } from "lucide-react";
 import { navLinks } from "../../data/navbarData";
+import { useCart } from "../../context/CartContext";
 
 export default function Navbar() {
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredLink, setHoveredLink] = useState(null);
+  const { cartCount } = useCart();
 
   useEffect(() => {
     const handleResize = () => {
@@ -66,7 +68,7 @@ export default function Navbar() {
                           />
                           <span
                             className={`absolute bottom-0 left-0 h-[2px] rounded-full bg-[#ff3f6c] transition-all duration-300 ${
-                              isActive  || isHovered ? "w-full" : "w-0"
+                              isActive || isHovered ? "w-full" : "w-0"
                             }`}
                           />
                         </span>
@@ -118,9 +120,15 @@ export default function Navbar() {
                   className="w-32 bg-transparent outline-none placeholder:text-gray-400"
                 />
               </div>
-              <button className="rounded-full bg-[#ff3f6c] px-4 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#e53b67]">
-                Shop Now
-              </button>
+              <Link to="/cart" className="relative">
+                <ShoppingCart size={22} />
+
+                {cartCount > 0 && (
+                  <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-bold text-white">
+                    {cartCount}
+                  </span>
+                )}
+              </Link>
             </div>
           </>
         ) : (
