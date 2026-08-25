@@ -10,9 +10,9 @@ import {
 } from "lucide-react";
 
 import { navLinks } from "../../data/navbarData";
-import { useCart } from "../../Context/CartContext";
+import { useCart } from "../../context/CartContext";
 import AuthModal from "../auth/AuthModel";
-import { useAuth } from "../../Context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Navbar() {
   const { user, logout } = useAuth();

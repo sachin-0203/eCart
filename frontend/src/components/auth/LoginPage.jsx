@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useAuth } from "../../Context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 // import GoogleLoginBtn from "../GoogleLoginButton/GoogleLoginButton";
 import { toast } from "sonner";
 import { Loader } from "lucide-react";

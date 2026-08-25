@@ -1,6 +1,6 @@
 import React from "react";
 import { ShoppingBag, ShoppingCart, Star } from "lucide-react";
-import { useCart } from "../../Context/CartContext";
+import { useCart } from "../../context/CartContext";
 
 const ProductInfo = ({ product }) => {
   const discountPercentage = product.oldPrice

@@ -45,22 +45,22 @@ export const brandCollections = [
     brands: [
       {
         name: "Arrow",
-        image: "/brands/arrow.webp",
+        image: "/brands/arrow.jpg",
         link: "/shop/products?category=Shirts&brand=Arrow&department=Men",
       },
       {
         name: "Peter England",
-        image: "/brands/peter-england.webp",
+        image: "/brands/peter-england.jpg",
         link: "/shop/products?category=Shirts&brand=Peter%20England&department=Men",
       },
       {
         name: "Van Heusen",
-        image: "/brands/van-heusen.webp",
+        image: "/brands/van-heusen.jpg",
         link: "/shop/products?category=Shirts&brand=Van%20Heusen&department=Men",
       },
       {
         name: "Park Avenue",
-        image: "/brands/park-avenue.webp",
+        image: "/brands/park-avenue.jpg",
         link: "/shop/products?category=Shirts&brand=Park%20Avenue&department=Men",
       },
     ],
