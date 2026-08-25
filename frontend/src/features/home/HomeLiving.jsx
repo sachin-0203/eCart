@@ -40,6 +40,7 @@ const HomeLiving = () => {
                   key={card.id}
                   title={card.title}
                   image={card.image}
+                  link={card.link}
                 />
               </div>
             ))}

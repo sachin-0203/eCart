@@ -39,24 +39,24 @@ export const navLinks = [
     ],
     banner: "Elevate your spaces with smart essentials",
   },
-  {
-    name: "Beauty",
-    path: "/shop/beauty",
-    sections: [
-      { title: "Skincare", items: ["Creams", "Serums", "Masks"] },
-      { title: "Makeup", items: ["Lipsticks", "Kits", "Brushes"] },
-      { title: "Haircare", items: ["Shampoo", "Conditioner", "Oils"] },
-    ],
-    banner: "Glow-up essentials curated for you",
-  },
-  {
-    name: "Electronics",
-    path: "/shop/electronics",
-    sections: [
-      { title: "Mobiles", items: ["Smartphones", "Accessories", "Chargers"] },
-      { title: "Audio", items: ["Headphones", "Earbuds", "Speakers"] },
-      { title: "Gadgets", items: ["Smartwatches", "Cables", "Power Banks"] },
-    ],
-    banner: "Latest tech at everyday-friendly prices",
-  },
+  // {
+  //   name: "Beauty",
+  //   path: "/shop/beauty",
+  //   sections: [
+  //     { title: "Skincare", items: ["Creams", "Serums", "Masks"] },
+  //     { title: "Makeup", items: ["Lipsticks", "Kits", "Brushes"] },
+  //     { title: "Haircare", items: ["Shampoo", "Conditioner", "Oils"] },
+  //   ],
+  //   banner: "Glow-up essentials curated for you",
+  // },
+  // {
+  //   name: "Electronics",
+  //   path: "/shop/electronics",
+  //   sections: [
+  //     { title: "Mobiles", items: ["Smartphones", "Accessories", "Chargers"] },
+  //     { title: "Audio", items: ["Headphones", "Earbuds", "Speakers"] },
+  //     { title: "Gadgets", items: ["Smartwatches", "Cables", "Power Banks"] },
+  //   ],
+  //   banner: "Latest tech at everyday-friendly prices",
+  // },
 ];

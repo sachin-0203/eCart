@@ -3,12 +3,42 @@
 // ============================
 
 export const categories = [
-  { title: "Topwear", image: "/model_kids.avif", subtitle: "T-Shirts & Shirts" },
-  { title: "Bottomwear", image: "/model_kids.avif", subtitle: "Jeans & Shorts" },
-  { title: "Footwear", image: "/model_kids.avif", subtitle: "Shoes & Sandals" },
-  { title: "Ethnic Wear", image: "/model_kids.avif", subtitle: "Festive Collection" },
-  { title: "Toys", image: "/model_kids.avif", subtitle: "Learning & Fun" },
-  { title: "School Essentials", image: "/model_kids.avif", subtitle: "Everything for School" },
+  {
+    title: "Topwear",
+    image: "/model_kids.avif",
+    subtitle: "T-Shirts & Shirts",
+    link: "/shop/products?department=kids&category=topwear",
+  },
+  {
+    title: "Bottomwear",
+    image: "/model_kids.avif",
+    subtitle: "Jeans & Shorts",
+    link: "/shop/products?department=kids&category=bottomwear",
+  },
+  {
+    title: "Footwear",
+    image: "/model_kids.avif",
+    subtitle: "Shoes & Sandals",
+    link: "/shop/products?department=kids&category=footwear",
+  },
+  {
+    title: "Ethnic Wear",
+    image: "/model_kids.avif",
+    subtitle: "Festive Collection",
+    link: "/shop/products?department=kids&category=ethnic-wear",
+  },
+  {
+    title: "Toys",
+    image: "/model_kids.avif",
+    subtitle: "Learning & Fun",
+    link: "/shop/products?department=kids&category=toys",
+  },
+  {
+    title: "School Essentials",
+    image: "/model_kids.avif",
+    subtitle: "Everything for School",
+    link: "/shop/products?department=kids&category=school-essentials",
+  },
 ];
 
 // ============================

@@ -1,4 +1,4 @@
-import bedSheetImage from "../assets/images/products/home/cotton-bed-sheet-set.jpg"
+import bedSheetImage from "../assets/images/products/home/cotton-bed-sheet-set.jpg";
 import knifeSetImage from "../assets/images/products/home/kitchen-knife-set.jpg";
 import cookwareImage from "../assets/images/products/home/stainless-steel-cookware.jpg";
 import pillowCoversImage from "../assets/images/products/home/decorative-pillow-covers.jpg";
@@ -6,20 +6,90 @@ import homeImg from "../assets/images/categories/homeImg.jpg";
 import decorationImg from "../assets/images/categories/decorationImg.jpg";
 
 export const homeHeroCards = [
-  { id: 1, title: "Monsoon", image: homeImg },
-  { id: 2, title: "Cookware", image: cookwareImage },
-  { id: 3, title: "Hardware", image: decorationImg },
-  { id: 4, title: "Bathroom", image: homeImg },
-  { id: 5, title: "Comforters", image: bedSheetImage },
-  { id: 6, title: "Containers", image: homeImg },
-  { id: 7, title: "Decor", image: pillowCoversImage },
-  { id: 8, title: "Lighting", image: homeImg },
-  { id: 9, title: "Lighting", image: homeImg },
-  { id: 10, title: "Lighting", image: homeImg },
-  { id: 11, title: "Lighting", image: homeImg },
-  { id: 12, title: "Lighting", image: homeImg },
-  { id: 13, title: "Lighting", image: homeImg },
-  { id: 14, title: "Lighting", image: homeImg },
+  {
+    id: 1,
+    title: "Monsoon",
+    image: homeImg,
+    link: "/shop/products?department=home&category=monsoon",
+  },
+  {
+    id: 2,
+    title: "Cookware",
+    image: cookwareImage,
+    link: "/shop/products?department=home&category=cookware",
+  },
+  {
+    id: 3,
+    title: "Hardware",
+    image: decorationImg,
+    link: "/shop/products?department=home&category=hardware",
+  },
+  {
+    id: 4,
+    title: "Bathroom",
+    image: homeImg,
+    link: "/shop/products?department=home&category=bathroom",
+  },
+  {
+    id: 5,
+    title: "Comforters",
+    image: bedSheetImage,
+    link: "/shop/products?department=home&category=comforters",
+  },
+  {
+    id: 6,
+    title: "Containers",
+    image: homeImg,
+    link: "/shop/products?department=home&category=containers",
+  },
+  {
+    id: 7,
+    title: "Decor",
+    image: pillowCoversImage,
+    link: "/shop/products?department=home&category=decor",
+  },
+  {
+    id: 8,
+    title: "Lighting",
+    image: homeImg,
+    link: "/shop/products?department=home&category=lighting",
+  },
+  {
+    id: 9,
+    title: "Lighting",
+    image: homeImg,
+    link: "/shop/products?department=home&category=lighting",
+  },
+  {
+    id: 10,
+    title: "Lighting",
+    image: homeImg,
+    link: "/shop/products?department=home&category=lighting",
+  },
+  {
+    id: 11,
+    title: "Lighting",
+    image: homeImg,
+    link: "/shop/products?department=home&category=lighting",
+  },
+  {
+    id: 12,
+    title: "Lighting",
+    image: homeImg,
+    link: "/shop/products?department=home&category=lighting",
+  },
+  {
+    id: 13,
+    title: "Lighting",
+    image: homeImg,
+    link: "/shop/products?department=home&category=lighting",
+  },
+  {
+    id: 14,
+    title: "Lighting",
+    image: homeImg,
+    link: "/shop/products?department=home&category=lighting",
+  },
 ];
 export const homeProducts = [
   // =====================================================
@@ -92,8 +162,7 @@ export const homeProducts = [
         user: "Priya",
         rating: 4,
         title: "Good bedsheet",
-        comment:
-          "Nice quality and comfortable fabric. Worth the price.",
+        comment: "Nice quality and comfortable fabric. Worth the price.",
         date: "2026-07-05",
         verified: true,
       },
@@ -167,8 +236,7 @@ export const homeProducts = [
         user: "Amit",
         rating: 5,
         title: "Great curtains",
-        comment:
-          "They block sunlight really well and look premium.",
+        comment: "They block sunlight really well and look premium.",
         date: "2026-07-18",
         verified: true,
       },
@@ -177,8 +245,7 @@ export const homeProducts = [
         user: "Neha",
         rating: 4,
         title: "Good quality",
-        comment:
-          "Good material and the curtains are easy to install.",
+        comment: "Good material and the curtains are easy to install.",
         date: "2026-07-09",
         verified: true,
       },
@@ -252,8 +319,7 @@ export const homeProducts = [
         user: "Sandeep",
         rating: 5,
         title: "Excellent cookware",
-        comment:
-          "Very good quality steel and the utensils feel sturdy.",
+        comment: "Very good quality steel and the utensils feel sturdy.",
         date: "2026-07-15",
         verified: true,
       },
@@ -262,8 +328,7 @@ export const homeProducts = [
         user: "Pooja",
         rating: 4,
         title: "Good set",
-        comment:
-          "Useful set for daily cooking. Quality is good.",
+        comment: "Useful set for daily cooking. Quality is good.",
         date: "2026-07-02",
         verified: true,
       },
@@ -336,8 +401,7 @@ export const homeProducts = [
         user: "Vikas",
         rating: 5,
         title: "Very useful set",
-        comment:
-          "The knives are sharp and the cutting board is sturdy.",
+        comment: "The knives are sharp and the cutting board is sturdy.",
         date: "2026-07-20",
         verified: true,
       },
@@ -410,8 +474,7 @@ export const homeProducts = [
         user: "Anjali",
         rating: 4,
         title: "Beautiful design",
-        comment:
-          "The prints look beautiful and give the room a fresh look.",
+        comment: "The prints look beautiful and give the room a fresh look.",
         date: "2026-07-08",
         verified: true,
       },
@@ -484,8 +547,7 @@ export const homeProducts = [
         user: "Rohit",
         rating: 4,
         title: "Good for the price",
-        comment:
-          "Easy to install and works well against mosquitoes.",
+        comment: "Easy to install and works well against mosquitoes.",
         date: "2026-07-11",
         verified: true,
       },
@@ -783,8 +845,7 @@ export const homeProducts = [
         user: "Shweta",
         rating: 5,
         title: "Very useful",
-        comment:
-          "The jars look neat and keep my kitchen organised.",
+        comment: "The jars look neat and keep my kitchen organised.",
         date: "2026-07-14",
         verified: true,
       },

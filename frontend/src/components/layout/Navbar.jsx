@@ -1,39 +1,76 @@
 import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { ChevronDown, Menu, Search, X, ShoppingCart } from "lucide-react";
+import {
+  ChevronDown,
+  Menu,
+  Search,
+  X,
+  ShoppingCart,
+  UserRoundPlus,
+} from "lucide-react";
+
 import { navLinks } from "../../data/navbarData";
-import { useCart } from "../../context/CartContext";
+import { useCart } from "../../Context/CartContext";
+import AuthModal from "../auth/AuthModel";
+import { useAuth } from "../../Context/AuthContext";
 
 export default function Navbar() {
+  const { user, logout } = useAuth();
+  const { cartCount } = useCart();
+
+  const [showModal, setShowModal] = useState(false);
+  const [authView, setAuthView] = useState("login");
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredLink, setHoveredLink] = useState(null);
-  const { cartCount } = useCart();
 
   useEffect(() => {
     const handleResize = () => {
-      setIsDesktop(window.innerWidth >= 1024);
-      if (window.innerWidth >= 1024) {
+      const desktop = window.innerWidth >= 1024;
+
+      setIsDesktop(desktop);
+
+      if (desktop) {
         setIsOpen(false);
       }
     };
 
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
+  const handleBegin = () => {
+    if (!user) {
+      setAuthView("login");
+      setShowModal(true);
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      setShowModal(false);
+    }
+  }, [user]);
+
   return (
-    <header className="sticky top-0 z-50 border-b border-gray-200 bg-white shadow-[0_2px_14px_rgba(0,0,0,0.06)]">
+    <header className="sticky top-0 z-50 border-b border-border-color bg-background shadow-[0_2px_14px_rgba(11,46,89,0.08)]">
       <div className="mx-auto flex max-w-full items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
         <Link to="/" className="flex items-center gap-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#0b2e59] text-lg font-bold text-white">
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-lg font-bold text-white">
             E
           </div>
+
           <div className="leading-tight">
-            <p className="text-2xl md:text-4xl font-semibold tracking-wide text-gray-900">
+            <p className="text-2xl font-semibold tracking-wide text-primary md:text-4xl">
               eCart
             </p>
-            <p className="text-sm text-gray-500">Fashion • Home • Tech</p>
+
+            <p className="text-sm text-text-secondary">
+              Fashion • Home • Tech
+            </p>
           </div>
         </Link>
 
@@ -54,20 +91,22 @@ export default function Navbar() {
                       to={link.path}
                       onClick={() => setHoveredLink(null)}
                       className={({ isActive }) =>
-                        `group relative flex items-center gap-1 px-1 py-3  font-semibold uppercase text-xs tracking-[0.18em] text-gray-700 transition-all duration-300 hover:text-[#ff3f6c] my-3 ${
-                          isActive ? "text-[#ff3f6c]" : ""
+                        `group relative my-3 flex items-center gap-1 px-1 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-primary transition-all duration-300 hover:text-secondary ${
+                          isActive ? "text-secondary" : ""
                         }`
                       }
                     >
                       {({ isActive }) => (
                         <span className="relative inline-flex items-center">
                           <span>{link.name}</span>
+
                           <ChevronDown
                             size={18}
                             className="transition-transform duration-300 group-hover:rotate-180"
                           />
+
                           <span
-                            className={`absolute bottom-0 left-0 h-[2px] rounded-full bg-[#ff3f6c] transition-all duration-300 ${
+                            className={`absolute bottom-0 left-0 h-[2px] rounded-full bg-secondary transition-all duration-300 ${
                               isActive || isHovered ? "w-full" : "w-0"
                             }`}
                           />
@@ -77,32 +116,31 @@ export default function Navbar() {
 
                     {link.sections && (
                       <div
-                        className={`absolute left-1/2 top-full mt-3 w-[560px] -translate-x-1/2 rounded-2xl border border-gray-100 bg-white p-5 shadow-[0_20px_60px_rgba(0,0,0,0.12)] transition-all duration-300 ${
+                        className={`absolute left-1/2 top-full z-50 mt-3 w-[560px] -translate-x-1/2 rounded-2xl border border-border-color bg-background p-5 shadow-[0_20px_60px_rgba(11,46,89,0.15)] transition-all duration-300 ${
                           isHovered
                             ? "visible translate-y-0 opacity-100"
                             : "invisible translate-y-2 opacity-0"
                         }`}
                       >
-                        <div>
-                          <div className="space-y-3">
-                            {link.sections.map((section) => (
-                              <div key={section.title}>
-                                <p className="mb-2 text-sm font-semibold uppercase tracking-[0.16em] text-[#0b2e59]">
-                                  {section.title}
-                                </p>
-                                <div className="flex flex-wrap gap-2">
-                                  {section.items.map((item) => (
-                                    <span
-                                      key={item}
-                                      className="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-600"
-                                    >
-                                      {item}
-                                    </span>
-                                  ))}
-                                </div>
+                        <div className="space-y-3">
+                          {link.sections.map((section) => (
+                            <div key={section.title}>
+                              <p className="mb-2 text-sm font-semibold uppercase tracking-[0.16em] text-primary">
+                                {section.title}
+                              </p>
+
+                              <div className="flex flex-wrap gap-2">
+                                {section.items.map((item) => (
+                                  <span
+                                    key={item}
+                                    className="rounded-full bg-surface px-3 py-1 text-sm text-text-secondary transition hover:bg-primary hover:text-white"
+                                  >
+                                    {item}
+                                  </span>
+                                ))}
                               </div>
-                            ))}
-                          </div>
+                            </div>
+                          ))}
                         </div>
                       </div>
                     )}
@@ -112,29 +150,55 @@ export default function Navbar() {
             </nav>
 
             <div className="flex items-center gap-3">
-              <div className="flex items-center gap-2 rounded-full border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-500">
+              <div className="flex items-center gap-2 rounded-full border border-border-color bg-surface px-3 py-2 text-sm text-text-secondary">
                 <Search size={16} />
+
                 <input
                   type="text"
                   placeholder="Search"
-                  className="w-32 bg-transparent outline-none placeholder:text-gray-400"
+                  className="w-32 bg-transparent text-primary outline-none placeholder:text-text-secondary"
                 />
               </div>
-              <Link to="/cart" className="relative">
+
+              { user && <Link
+                to="/cart"
+                className="relative rounded-full p-2 text-primary transition hover:bg-surface"
+              >
                 <ShoppingCart size={22} />
 
                 {cartCount > 0 && (
-                  <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-bold text-white">
+                  <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-secondary text-xs font-bold text-white">
                     {cartCount}
                   </span>
                 )}
-              </Link>
+              </Link>}
+
+              {user ? (
+                <button
+                  type="button"
+                  onClick={logout}
+                  className="flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:bg-primary-hover"
+                >
+                  <span className="h-2 w-2 rounded-full bg-accent" />
+                  Logout
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={handleBegin}
+                  className="flex items-center gap-2 rounded-full bg-secondary px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:bg-secondary-hover"
+                >
+                  <UserRoundPlus size={17} />
+                  Sign Up / Log In
+                </button>
+              )}
             </div>
           </>
         ) : (
           <button
+            type="button"
             onClick={() => setIsOpen(!isOpen)}
-            className="ml-auto rounded-full bg-gray-100 p-2 text-gray-700 transition duration-300 hover:bg-gray-200"
+            className="ml-auto rounded-full bg-surface p-2 text-primary transition duration-300 hover:bg-border-color"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -143,14 +207,17 @@ export default function Navbar() {
 
       {!isDesktop && (
         <nav
-          className={`absolute left-0 top-full z-40 flex h-screen w-80 flex-col gap-3 border-t border-gray-200 bg-white px-6 py-8 shadow-2xl transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
+          className={`absolute left-0 top-full z-40 flex h-screen w-80 flex-col gap-3 border-t border-border-color bg-background px-6 py-8 shadow-2xl transition-transform duration-300 ease-in-out ${
+            isOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
         >
-          <div className="mb-3 flex items-center gap-2 rounded-full border border-gray-200 bg-gray-50 px-3 py-2 text-lg text-gray-500">
+          <div className="mb-3 flex items-center gap-2 rounded-full border border-border-color bg-surface px-3 py-2 text-lg text-text-secondary">
             <Search size={25} />
+
             <input
               type="text"
               placeholder="Search"
-              className="w-full bg-transparent outline-none placeholder:text-gray-400"
+              className="w-full bg-transparent text-primary outline-none placeholder:text-text-secondary"
             />
           </div>
 
@@ -160,8 +227,10 @@ export default function Navbar() {
               to={link.path}
               onClick={() => setIsOpen(false)}
               className={({ isActive }) =>
-                `rounded-xl px-3 py-3 text-base font-semibold text-gray-700 transition-all duration-300 ${
-                  isActive ? "bg-[#fff0f4] text-[#ff3f6c]" : "hover:bg-gray-50"
+                `rounded-xl px-3 py-3 text-base font-semibold text-primary transition-all duration-300 ${
+                  isActive
+                    ? "bg-[#FFF0F4] text-secondary"
+                    : "hover:bg-surface"
                 }`
               }
             >
@@ -169,11 +238,60 @@ export default function Navbar() {
             </NavLink>
           ))}
 
-          <button className="text-lg mt-4 rounded-full bg-[#ff3f6c] px-5 py-2.5 font-semibold text-white transition-all duration-300 hover:bg-[#e53b67]">
+          <button
+            type="button"
+            className="mt-4 rounded-full bg-accent px-5 py-2.5 text-lg font-semibold text-primary transition-all duration-300 hover:bg-accent-hover"
+          >
             Shop Now
           </button>
+
+          {user ? (
+            <button
+              type="button"
+              onClick={() => {
+                logout();
+                setIsOpen(false);
+              }}
+              className="mt-2 flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-2.5 font-semibold text-white transition-all duration-300 hover:bg-primary-hover"
+            >
+              Logout
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => {
+                handleBegin();
+                setIsOpen(false);
+              }}
+              className="mt-2 flex items-center justify-center gap-2 rounded-full bg-secondary px-5 py-2.5 font-semibold text-white transition-all duration-300 hover:bg-secondary-hover"
+            >
+              <UserRoundPlus size={20} />
+              Sign Up / Log In
+            </button>
+          )}
+
+          {user && <Link
+            to="/cart"
+            onClick={() => setIsOpen(false)}
+            className="relative mt-2 flex items-center justify-center gap-2 rounded-full border border-border-color px-5 py-2.5 font-semibold text-primary transition-all duration-300 hover:bg-surface"
+          >
+            <ShoppingCart size={20} />
+            Cart
+
+            {cartCount > 0 && (
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-secondary text-xs font-bold text-white">
+                {cartCount}
+              </span>
+            )}
+          </Link>}
         </nav>
       )}
+
+      <AuthModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        defaultView={authView}
+      />
     </header>
   );
 }

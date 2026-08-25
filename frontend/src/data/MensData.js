@@ -2,37 +2,37 @@
 export const categories = [
   {
     title: "Shirts",
-    image: "/model_men.avif",
+    image: "/mens-shirt.jpg",
     subtitle: "Tailored staples",
     link: "/shop/products?department=men&category=shirts",
   },
   {
     title: "T-Shirts",
-    image: "/model_men.avif",
+    image: "/mens-tshirt.jpg",
     subtitle: "Everyday comfort",
     link: "/shop/products?department=men&category=t-shirts",
   },
   {
     title: "Jeans",
-    image: "/model_men.avif",
+    image: "/mens-jeans.jpg",
     subtitle: "Clean denim picks",
     link: "/shop/products?department=men&category=jeans",
   },
   {
     title: "Footwear",
-    image: "/model_men.avif",
+    image: "/mens-footwear.jpg",
     subtitle: "Modern sneakers",
     link: "/shop/products?department=men&category=footwear",
   },
   {
     title: "Accessories",
-    image: "/model_men.avif",
+    image: "/mens-accessories.jpg",
     subtitle: "Elevated details",
     link: "/shop/products?department=men&category=accessories",
   },
   {
     title: "Grooming",
-    image: "/model_men.avif",
+    image: "/mens-grooming.jpg",
     subtitle: "Fresh essentials",
     link: "/shop/products?department=men&category=grooming",
   },
@@ -45,18 +45,22 @@ export const brandCollections = [
     brands: [
       {
         name: "Arrow",
+        image: "/brands/arrow.webp",
         link: "/shop/products?category=Shirts&brand=Arrow&department=Men",
       },
       {
         name: "Peter England",
+        image: "/brands/peter-england.webp",
         link: "/shop/products?category=Shirts&brand=Peter%20England&department=Men",
       },
       {
         name: "Van Heusen",
+        image: "/brands/van-heusen.webp",
         link: "/shop/products?category=Shirts&brand=Van%20Heusen&department=Men",
       },
       {
         name: "Park Avenue",
+        image: "/brands/park-avenue.webp",
         link: "/shop/products?category=Shirts&brand=Park%20Avenue&department=Men",
       },
     ],
@@ -68,18 +72,22 @@ export const brandCollections = [
     brands: [
       {
         name: "Levis",
+        image: "/brands/levis.webp",
         link: "/shop/products?category=T-Shirts&brand=Levis&department=Men",
       },
       {
         name: "H&M",
+        image: "/brands/hm.webp",
         link: "/shop/products?category=T-Shirts&brand=H%26M&department=Men",
       },
       {
         name: "Roadster",
+        image: "/brands/roadster.webp",
         link: "/shop/products?category=T-Shirts&brand=Roadster&department=Men",
       },
       {
         name: "US Polo Assn.",
+        image: "/brands/us-polo-assn.webp",
         link: "/shop/products?category=T-Shirts&brand=US%20Polo%20Assn.&department=Men",
       },
     ],
@@ -91,18 +99,22 @@ export const brandCollections = [
     brands: [
       {
         name: "Wrangler",
+        image: "/brands/wrangler.webp",
         link: "/shop/products?category=Jeans&brand=Wrangler&department=Men",
       },
       {
         name: "Lee",
+        image: "/brands/lee.webp",
         link: "/shop/products?category=Jeans&brand=Lee&department=Men",
       },
       {
         name: "Pepe Jeans",
+        image: "/brands/pepe-jeans.webp",
         link: "/shop/products?category=Jeans&brand=Pepe%20Jeans&department=Men",
       },
       {
         name: "Levis",
+        image: "/brands/levis.webp",
         link: "/shop/products?category=Jeans&brand=Levis&department=Men",
       },
     ],
@@ -114,18 +126,22 @@ export const brandCollections = [
     brands: [
       {
         name: "Nike",
+        image: "/brands/nike.webp",
         link: "/shop/products?category=Footwear&brand=Nike&department=Men",
       },
       {
         name: "Adidas",
+        image: "/brands/adidas.webp",
         link: "/shop/products?category=Footwear&brand=Adidas&department=Men",
       },
       {
         name: "Puma",
+        image: "/brands/puma.webp",
         link: "/shop/products?category=Footwear&brand=Puma&department=Men",
       },
       {
         name: "Crocs",
+        image: "/brands/crocs.webp",
         link: "/shop/products?category=Footwear&brand=Crocs&department=Men",
       },
     ],
@@ -137,18 +153,22 @@ export const brandCollections = [
     brands: [
       {
         name: "Fossil",
+        image: "/brands/fossil.webp",
         link: "/shop/products?category=Accessories&brand=Fossil&department=Men",
       },
       {
         name: "Ray-Ban",
+        image: "/brands/ray-ban.webp",
         link: "/shop/products?category=Accessories&brand=Ray-Ban&department=Men",
       },
       {
         name: "Tommy Hilfiger",
+        image: "/brands/tommy-hilfiger.webp",
         link: "/shop/products?category=Accessories&brand=Tommy%20Hilfiger&department=Men",
       },
       {
         name: "Casio",
+        image: "/brands/casio.webp",
         link: "/shop/products?category=Accessories&brand=Casio&department=Men",
       },
     ],
@@ -160,18 +180,22 @@ export const brandCollections = [
     brands: [
       {
         name: "Beardo",
+        image: "/brands/beardo.webp",
         link: "/shop/products?category=Grooming&brand=Beardo&department=Men",
       },
       {
         name: "The Man Company",
+        image: "/brands/the-man-company.webp",
         link: "/shop/products?category=Grooming&brand=The%20Man%20Company&department=Men",
       },
       {
         name: "Gillette",
+        image: "/brands/gillette.webp",
         link: "/shop/products?category=Grooming&brand=Gillette&department=Men",
       },
       {
         name: "Nivea",
+        image: "/brands/nivea.webp",
         link: "/shop/products?category=Grooming&brand=Nivea&department=Men",
       },
     ],
@@ -182,37 +206,37 @@ export const collections = [
   {
     title: "Sneakers For Dancers",
     subtitle: "Made for all your moves",
-    image: "/model_men.avif",
+    image: "/dancing-shoes.jpg",
     link: "/shop/products?department=men&category=footwear",
   },
   {
     title: "Weekender Shirts",
     subtitle: "Relaxed fits, premium fabrics",
-    image: "/model_men.avif",
+    image: "/week-shrits.jpg",
     link: "/shop/products?department=men&category=shirts",
   },
   {
     title: "Denim Classics",
     subtitle: "Timeless jeans & comfortable",
-    image: "/model_men.avif",
+    image: "/denim-jeans.jpg",
     link: "/shop/products?department=men&category=jeans",
   },
   {
     title: "Everyday Tees",
     subtitle: "Soft cottons in staple colors",
-    image: "/model_men.avif",
+    image: "/every-tees.jpg",
     link: "/shop/products?department=men&category=t-shirts",
   },
   {
     title: "Workwear Shirts",
     subtitle: "Smart shirts for office & events",
-    image: "/model_men.avif",
+    image: "/men-shirt.jpg",
     link: "/shop/products?department=men&category=shirts",
   },
   {
     title: "Casual Footwear",
     subtitle: "Comfort-shoes for daily wear",
-    image: "/model_men.avif",
+    image: "/casual-shoes.jpg",
     link: "/shop/products?department=men&category=footwear",
   },
 ];
