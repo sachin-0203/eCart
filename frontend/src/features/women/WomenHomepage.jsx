@@ -2,13 +2,7 @@ import { Link } from "react-router-dom";
 import {
   categories,
   brandCollections,
-  collections,
-  topwear,
-  bottomwear,
-  ethnicWear,
-  footwear,
-  beauty,
-  accessories,
+  collections
 } from "../../data/WomensData";
 import CollectionCard from "../../components/ui/CollectionCard";
 import CategoryCard from "../../components/ui/CategoryCard";
@@ -17,6 +11,7 @@ import BrandCard from "../../components/ui/BrandCard";
 export default function WomenHomepage() {
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900">
+     
       <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
           <div className="overflow-hidden rounded-[2rem] bg-[#0b2e59] text-white shadow-[0_20px_60px_rgba(11,46,89,0.25)]">
@@ -101,37 +96,16 @@ export default function WomenHomepage() {
           </p>
         </div>
 
-        <div className="grid gap-6  sm:grid-cols-3 lg:grid-cols-6">
+        <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide">
           {categories.map((category) => (
-            <CategoryCard
-              key={category.title}
-              image={category.image}
-              title={category.title}
-              subtitle={category.subtitle}
-              link={category.link}
-            />
-          ))}
-        </div>
-      </section>
-
-      <section
-        id="brand"
-        className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 my-10"
-      >
-        <div className="mb-6 flex items-end justify-between">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#ff3f6c]">
-              Brand
-            </p>
-            <h2 className="text-2xl font-bold text-slate-900 uppercase tracking-wider ">
-              top product from top brands
-            </h2>
-          </div>
-        </div>
-
-        <div className="grid gap-6  sm:grid-cols-3 lg:grid-cols-6">
-          {brandCollections.map((brand) => (
-            <BrandCard key={brand.title} brand={brand} />
+            <div key={category.title} className="flex-shrink-0 w-48">
+              <CategoryCard
+                image={category.image}
+                title={category.title}
+                subtitle={category.subtitle}
+                link={category.link}
+              />
+            </div>
           ))}
         </div>
       </section>
@@ -165,168 +139,44 @@ export default function WomenHomepage() {
       </section>
 
       <section
-        id="topwear"
+        id="brands"
         className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 my-10"
       >
-        <div className="mb-6 flex items-end justify-between">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#ff3f6c]">
-              topwear
-            </p>
-            <h2 className="text-2xl font-bold text-slate-900 uppercase tracking-widest ">
-              Trendy in shirt / t-shirt
-            </h2>
-          </div>
+        <div className="mb-8">
+          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#ff3f6c]">
+            Shop by brands
+          </p>
+
+          <h2 className="mt-2 text-2xl font-bold uppercase tracking-wider text-slate-900">
+            Explore your favorite brands
+          </h2>
+
+          <p className="mt-2 text-sm text-slate-600">
+            Discover popular brands across every men's fashion category.
+          </p>
         </div>
 
-        <div className="grid gap-6  sm:grid-cols-3 lg:grid-cols-6">
-          {topwear.map((c) => (
-            <CollectionCard
-              key={c.title}
-              image={c.image}
-              title={c.title}
-              subtitle={c.subtitle}
-              link={c.link}
-            />
-          ))}
-        </div>
-      </section>
+        <div className="space-y-12">
+          {brandCollections.map((collection) => (
+            <div key={collection.title}>
+              {/* Category Heading */}
+              <div className="mb-5">
+                <h3 className="text-xl font-bold uppercase tracking-wide text-slate-900">
+                  {collection.title}
+                </h3>
 
-      <section
-        id="bottomwear"
-        className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 my-10"
-      >
-        <div className="mb-6 flex items-end justify-between">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#ff3f6c]">
-              bottomwear
-            </p>
-            <h2 className="text-2xl font-bold text-slate-900 uppercase tracking-widest ">
-              Trendy in Jeans, Trouser and Pants
-            </h2>
-          </div>
-        </div>
+                <p className="mt-1 text-sm text-slate-600">
+                  {collection.subtitle}
+                </p>
+              </div>
 
-        <div className="grid gap-6  sm:grid-cols-3 lg:grid-cols-6">
-          {bottomwear.map((c) => (
-            <CollectionCard
-              key={c.title}
-              image={c.image}
-              title={c.title}
-              subtitle={c.subtitle}
-              link={c.link}
-            />
-          ))}
-        </div>
-      </section>
-      <section
-        id="ethnicwear"
-        className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 my-10"
-      >
-        <div className="mb-6 flex items-end justify-between">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#ff3f6c]">
-              ethnicwear
-            </p>
-            <h2 className="text-2xl font-bold text-slate-900 uppercase tracking-widest ">
-              Trendy in festival and traditional events
-            </h2>
-          </div>
-        </div>
-
-        <div className="grid gap-6  sm:grid-cols-3 lg:grid-cols-6">
-          {ethnicWear.map((c) => (
-            <CollectionCard
-              key={c.title}
-              image={c.image}
-              title={c.title}
-              subtitle={c.subtitle}
-              link={c.link}
-            />
-          ))}
-        </div>
-      </section>
-
-      <section
-        id="footwear"
-        className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 my-10"
-      >
-        <div className="mb-6 flex items-end justify-between">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#ff3f6c]">
-              footwear
-            </p>
-            <h2 className="text-2xl font-bold text-slate-900 uppercase tracking-widest ">
-              Trendy in shoes , sandals, heels
-            </h2>
-          </div>
-        </div>
-
-        <div className="grid gap-6  sm:grid-cols-3 lg:grid-cols-6">
-          {footwear.map((c) => (
-            <CollectionCard
-              key={c.title}
-              image={c.image}
-              title={c.title}
-              subtitle={c.subtitle}
-              link={c.link}
-            />
-          ))}
-        </div>
-      </section>
-
-      <section
-        id="beauty"
-        className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 my-10"
-      >
-        <div className="mb-6 flex items-end justify-between">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#ff3f6c]">
-              beauty
-            </p>
-            <h2 className="text-2xl font-bold text-slate-900 uppercase tracking-widest ">
-              Trendy in Beauty
-            </h2>
-          </div>
-        </div>
-
-        <div className="grid gap-6  sm:grid-cols-3 lg:grid-cols-6">
-          {beauty.map((c) => (
-            <CollectionCard
-              key={c.title}
-              image={c.image}
-              title={c.title}
-              subtitle={c.subtitle}
-              link={c.link}
-            />
-          ))}
-        </div>
-      </section>
-
-      <section
-        id="Accessories"
-        className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 my-10"
-      >
-        <div className="mb-6 flex items-end justify-between">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#ff3f6c]">
-              Accessories
-            </p>
-            <h2 className="text-2xl font-bold text-slate-900 uppercase tracking-widest ">
-              Trendy Accessories
-            </h2>
-          </div>
-        </div>
-
-        <div className="grid gap-6  sm:grid-cols-3 lg:grid-cols-6">
-          {accessories.map((c) => (
-            <CollectionCard
-              key={c.title}
-              image={c.image}
-              title={c.title}
-              subtitle={c.subtitle}
-              link={c.link}
-            />
+              {/* Brand Cards */}
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+                {collection.brands.map((brand) => (
+                  <BrandCard key={brand.name} brand={brand} />
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       </section>

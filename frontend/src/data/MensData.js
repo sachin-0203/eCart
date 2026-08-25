@@ -72,22 +72,22 @@ export const brandCollections = [
     brands: [
       {
         name: "Levis",
-        image: "/brands/levis.webp",
+        image: "/brands/levis.jpg",
         link: "/shop/products?category=T-Shirts&brand=Levis&department=Men",
       },
       {
         name: "H&M",
-        image: "/brands/hm.webp",
+        image: "/brands/hm.jpg",
         link: "/shop/products?category=T-Shirts&brand=H%26M&department=Men",
       },
       {
         name: "Roadster",
-        image: "/brands/roadster.webp",
+        image: "/brands/roadster.jpg",
         link: "/shop/products?category=T-Shirts&brand=Roadster&department=Men",
       },
       {
         name: "US Polo Assn.",
-        image: "/brands/us-polo-assn.webp",
+        image: "/brands/usp.jpg",
         link: "/shop/products?category=T-Shirts&brand=US%20Polo%20Assn.&department=Men",
       },
     ],
@@ -99,22 +99,22 @@ export const brandCollections = [
     brands: [
       {
         name: "Wrangler",
-        image: "/brands/wrangler.webp",
+        image: "/brands/wrangler.jpg",
         link: "/shop/products?category=Jeans&brand=Wrangler&department=Men",
       },
       {
         name: "Lee",
-        image: "/brands/lee.webp",
+        image: "/brands/lee.jpg",
         link: "/shop/products?category=Jeans&brand=Lee&department=Men",
       },
       {
         name: "Pepe Jeans",
-        image: "/brands/pepe-jeans.webp",
+        image: "/brands/pepe.jpg",
         link: "/shop/products?category=Jeans&brand=Pepe%20Jeans&department=Men",
       },
       {
         name: "Levis",
-        image: "/brands/levis.webp",
+        image: "/brands/levis.jpg",
         link: "/shop/products?category=Jeans&brand=Levis&department=Men",
       },
     ],
@@ -126,22 +126,22 @@ export const brandCollections = [
     brands: [
       {
         name: "Nike",
-        image: "/brands/nike.webp",
+        image: "/brands/nike.jpg",
         link: "/shop/products?category=Footwear&brand=Nike&department=Men",
       },
       {
         name: "Adidas",
-        image: "/brands/adidas.webp",
+        image: "/brands/adidas.jpg",
         link: "/shop/products?category=Footwear&brand=Adidas&department=Men",
       },
       {
         name: "Puma",
-        image: "/brands/puma.webp",
+        image: "/brands/puma.jpg",
         link: "/shop/products?category=Footwear&brand=Puma&department=Men",
       },
       {
         name: "Crocs",
-        image: "/brands/crocs.webp",
+        image: "/brands/crocs.jpg",
         link: "/shop/products?category=Footwear&brand=Crocs&department=Men",
       },
     ],
@@ -153,22 +153,22 @@ export const brandCollections = [
     brands: [
       {
         name: "Fossil",
-        image: "/brands/fossil.webp",
+        image: "/brands/fossil.jpg",
         link: "/shop/products?category=Accessories&brand=Fossil&department=Men",
       },
       {
         name: "Ray-Ban",
-        image: "/brands/ray-ban.webp",
+        image: "/brands/rb.jpg",
         link: "/shop/products?category=Accessories&brand=Ray-Ban&department=Men",
       },
       {
         name: "Tommy Hilfiger",
-        image: "/brands/tommy-hilfiger.webp",
+        image: "/brands/tommy.jpg",
         link: "/shop/products?category=Accessories&brand=Tommy%20Hilfiger&department=Men",
       },
       {
         name: "Casio",
-        image: "/brands/casio.webp",
+        image: "/brands/casio.jpg",
         link: "/shop/products?category=Accessories&brand=Casio&department=Men",
       },
     ],
@@ -180,22 +180,22 @@ export const brandCollections = [
     brands: [
       {
         name: "Beardo",
-        image: "/brands/beardo.webp",
+        image: "/brands/beardo.jpg",
         link: "/shop/products?category=Grooming&brand=Beardo&department=Men",
       },
       {
         name: "The Man Company",
-        image: "/brands/the-man-company.webp",
+        image: "/brands/tmc.jpg",
         link: "/shop/products?category=Grooming&brand=The%20Man%20Company&department=Men",
       },
       {
         name: "Gillette",
-        image: "/brands/gillette.webp",
+        image: "/brands/gillette.jpg",
         link: "/shop/products?category=Grooming&brand=Gillette&department=Men",
       },
       {
         name: "Nivea",
-        image: "/brands/nivea.webp",
+        image: "/brands/nivea.jpg",
         link: "/shop/products?category=Grooming&brand=Nivea&department=Men",
       },
     ],
