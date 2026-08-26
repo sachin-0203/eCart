@@ -34,12 +34,6 @@ export default function SignupForm() {
           { duration: 2000 }
         );
 
-        setTimeout(() => {
-          toast.info("Please check your mailbox and verify yourself", {
-            duration: 4000,
-          });
-        }, 2000);
-
         setUsername("");
         setUseremail("");
         setUserpassword("");

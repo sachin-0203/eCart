@@ -16,9 +16,9 @@ export default function WomenHomepage() {
         <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
           <div className="overflow-hidden rounded-[2rem] bg-[#0b2e59] text-white shadow-[0_20px_60px_rgba(11,46,89,0.25)]">
             <img
-              src="/model_women.avif"
+              src="/women/women-main.jpg"
               alt="Stylish male model"
-              className="h-70 w-full object-fit lg:h-100"
+              className="h-70 w-full object-fill lg:h-100"
             />
             <div className="space-y-4 p-8 lg:p-10">
               <p className="text-sm font-semibold uppercase tracking-[0.3em] text-sky-200">

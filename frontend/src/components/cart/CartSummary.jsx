@@ -29,7 +29,7 @@ const CartSummary = () => {
         <div className="border-t pt-4">
           <div className="flex justify-between text-lg font-bold">
             <span>Total</span>
-            <span>₹{total}</span>
+            <span>₹{total-discount}</span>
           </div>
         </div>
       </div>

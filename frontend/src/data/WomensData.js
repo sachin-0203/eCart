@@ -218,19 +218,19 @@ export const collections = [
   {
     title: "Wedding Collection",
     subtitle: "Celebrate in style",
-    image: "/women/wedding.jpg",
+    image: "/women/wedding-wear.jpg",
     link: "/shop/products?department=women&collection=Wedding%20Collection",
   },
   {
     title: "Gym & Activewear",
     subtitle: "Move comfortably",
-    image: "/women/activewear.jpg",
+    image: "/women/actiwear.jpg",
     link: "/shop/products?department=women&collection=Gym%20%26%20Activewear",
   },
   {
     title: "Winter Essentials",
     subtitle: "Warm & stylish",
-    image: "/women/winter.jpg",
+    image: "/women/winter-wear.jpg",
     link: "/shop/products?department=women&collection=Winter%20Essentials",
   },
 ];

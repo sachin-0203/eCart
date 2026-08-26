@@ -36,7 +36,7 @@ const CartItem = ({ item }) => {
           <div className="flex items-center rounded-lg border">
             <button
               onClick={() => updateQuantity(item.id, item.quantity - 1)}
-              className="p-2"
+              className="p-2 cursor-pointer"
             >
               <Minus size={16} />
             </button>
@@ -45,7 +45,7 @@ const CartItem = ({ item }) => {
 
             <button
               onClick={() => updateQuantity(item.id, item.quantity + 1)}
-              className="p-2"
+              className="p-2 cursor-pointer"
             >
               <Plus size={16} />
             </button>

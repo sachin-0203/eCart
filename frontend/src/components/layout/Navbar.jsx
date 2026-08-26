@@ -6,8 +6,11 @@ import {
   Search,
   X,
   ShoppingCart,
+  UserRound,
   UserRoundPlus,
 } from "lucide-react";
+
+import ProfileMenu from "../auth/ProfileMenu";
 
 import { navLinks } from "../../data/navbarData";
 import { useCart } from "../../context/CartContext";
@@ -15,7 +18,7 @@ import AuthModal from "../auth/AuthModel";
 import { useAuth } from "../../context/AuthContext";
 
 export default function Navbar() {
-  const { user, logout } = useAuth();
+  const { user, userEmail, username, logout } = useAuth();
   const { cartCount } = useCart();
 
   const [showModal, setShowModal] = useState(false);
@@ -23,6 +26,7 @@ export default function Navbar() {
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredLink, setHoveredLink] = useState(null);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -49,15 +53,41 @@ export default function Navbar() {
     }
   };
 
+  const handleProfileToggle = () => {
+    setShowProfileMenu((prev) => !prev);
+  };
+
+  const handleProfileClose = () => {
+    setShowProfileMenu(false);
+  };
+
+  const handleLogout = () => {
+    logout();
+    setShowProfileMenu(false);
+    setIsOpen(false);
+  };
+
+  const handleMobileMenuToggle = () => {
+    setIsOpen((prev) => !prev);
+    setShowProfileMenu(false);
+  };
+
   useEffect(() => {
     if (user) {
       setShowModal(false);
+    }
+
+    if (!user) {
+      setShowProfileMenu(false);
     }
   }, [user]);
 
   return (
     <header className="sticky top-0 z-50 border-b border-border-color bg-background shadow-[0_2px_14px_rgba(11,46,89,0.08)]">
       <div className="mx-auto flex max-w-full items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
+        {/* =====================================================
+            LOGO
+            ===================================================== */}
         <Link to="/" className="flex items-center gap-2">
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-lg font-bold text-white">
             E
@@ -76,6 +106,9 @@ export default function Navbar() {
 
         {isDesktop ? (
           <>
+            {/* =====================================================
+                DESKTOP NAVIGATION
+                ===================================================== */}
             <nav className="flex flex-1 items-center justify-center gap-6">
               {navLinks.map((link) => {
                 const isHovered = hoveredLink === link.name;
@@ -114,6 +147,7 @@ export default function Navbar() {
                       )}
                     </NavLink>
 
+                    {/* Desktop Dropdown */}
                     {link.sections && (
                       <div
                         className={`absolute left-1/2 top-full z-50 mt-3 w-[560px] -translate-x-1/2 rounded-2xl border border-border-color bg-background p-5 shadow-[0_20px_60px_rgba(11,46,89,0.15)] transition-all duration-300 ${
@@ -149,7 +183,11 @@ export default function Navbar() {
               })}
             </nav>
 
+            {/* =====================================================
+                DESKTOP ACTIONS
+                ===================================================== */}
             <div className="flex items-center gap-3">
+              {/* Search */}
               <div className="flex items-center gap-2 rounded-full border border-border-color bg-surface px-3 py-2 text-sm text-text-secondary">
                 <Search size={16} />
 
@@ -160,28 +198,48 @@ export default function Navbar() {
                 />
               </div>
 
-              { user && <Link
-                to="/cart"
-                className="relative rounded-full p-2 text-primary transition hover:bg-surface"
-              >
-                <ShoppingCart size={22} />
-
-                {cartCount > 0 && (
-                  <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-secondary text-xs font-bold text-white">
-                    {cartCount}
-                  </span>
-                )}
-              </Link>}
-
-              {user ? (
-                <button
-                  type="button"
-                  onClick={logout}
-                  className="flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:bg-primary-hover"
+              {/* Desktop Cart */}
+              {user && (
+                <Link
+                  to="/cart"
+                  className="relative rounded-full p-2 text-primary transition hover:bg-surface"
+                  aria-label="Cart"
                 >
-                  <span className="h-2 w-2 rounded-full bg-accent" />
-                  Logout
-                </button>
+                  <ShoppingCart size={22} />
+
+                  {cartCount > 0 && (
+                    <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-secondary text-xs font-bold text-white">
+                      {cartCount}
+                    </span>
+                  )}
+                </Link>
+              )}
+
+              {/* =====================================================
+                  DESKTOP PROFILE / LOGIN
+                  ===================================================== */}
+              {user ? (
+                <div className="relative">
+                  <button
+                    type="button"
+                    onClick={handleProfileToggle}
+                    className="flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:bg-primary-hover"
+                    aria-label="Open profile menu"
+                    aria-expanded={showProfileMenu}
+                  >
+                    <UserRound size={17} />
+
+                    <span>Profile</span>
+                  </button>
+
+                  {showProfileMenu && (
+                    <ProfileMenu
+                      user={user}
+                      onLogout={handleLogout}
+                      onClose={handleProfileClose}
+                    />
+                  )}
+                </div>
               ) : (
                 <button
                   type="button"
@@ -189,28 +247,102 @@ export default function Navbar() {
                   className="flex items-center gap-2 rounded-full bg-secondary px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:bg-secondary-hover"
                 >
                   <UserRoundPlus size={17} />
-                  Sign Up / Log In
+
+                  <span>Sign Up / Log In</span>
                 </button>
               )}
             </div>
           </>
         ) : (
-          <button
-            type="button"
-            onClick={() => setIsOpen(!isOpen)}
-            className="ml-auto rounded-full bg-surface p-2 text-primary transition duration-300 hover:bg-border-color"
-          >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          /* =====================================================
+             MOBILE HEADER ACTIONS
+
+             Cart + Profile are OUTSIDE the hamburger menu
+             ===================================================== */
+          <div className="ml-auto flex items-center gap-1">
+            {/* =====================================================
+                MOBILE CART
+                ===================================================== */}
+            {user && (
+              <Link
+                to="/cart"
+                className="relative rounded-full p-2 text-primary transition hover:bg-surface"
+                aria-label="Cart"
+              >
+                <ShoppingCart size={22} />
+
+                {cartCount > 0 && (
+                  <span className="absolute -right-0.5 -top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-secondary text-xs font-bold text-white">
+                    {cartCount}
+                  </span>
+                )}
+              </Link>
+            )}
+
+            {/* =====================================================
+                MOBILE PROFILE / LOGIN
+                ===================================================== */}
+            {user ? (
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={handleProfileToggle}
+                  className="rounded-full bg-primary p-2 text-white transition hover:bg-primary-hover"
+                  aria-label="Open profile menu"
+                  aria-expanded={showProfileMenu}
+                >
+                  <UserRound size={20} />
+                </button>
+
+                {showProfileMenu && (
+                  <ProfileMenu
+                    name={user}
+                    username={username}
+                    mail={userEmail}
+                    onLogout={handleLogout}
+                    onClose={handleProfileClose}
+                  />
+                )}
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={handleBegin}
+                className="rounded-full bg-secondary p-2 text-white transition hover:bg-secondary-hover"
+                aria-label="Login"
+              >
+                <UserRoundPlus size={20} />
+              </button>
+            )}
+
+            {/* =====================================================
+                MOBILE MENU BUTTON
+                ===================================================== */}
+            <button
+              type="button"
+              onClick={handleMobileMenuToggle}
+              className="rounded-full bg-surface p-2 text-primary transition duration-300 hover:bg-border-color"
+              aria-label={isOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isOpen}
+            >
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         )}
       </div>
 
+      {/* =====================================================
+          MOBILE SLIDE-OUT MENU
+
+          Profile + Cart are NOT inside this menu
+          ===================================================== */}
       {!isDesktop && (
         <nav
           className={`absolute left-0 top-full z-40 flex h-screen w-80 flex-col gap-3 border-t border-border-color bg-background px-6 py-8 shadow-2xl transition-transform duration-300 ease-in-out ${
             isOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
+          {/* Mobile Search */}
           <div className="mb-3 flex items-center gap-2 rounded-full border border-border-color bg-surface px-3 py-2 text-lg text-text-secondary">
             <Search size={25} />
 
@@ -221,6 +353,7 @@ export default function Navbar() {
             />
           </div>
 
+          {/* Mobile Navigation Links */}
           {navLinks.map((link) => (
             <NavLink
               key={link.name}
@@ -238,55 +371,19 @@ export default function Navbar() {
             </NavLink>
           ))}
 
+          {/* Shop Now */}
           <button
             type="button"
             className="mt-4 rounded-full bg-accent px-5 py-2.5 text-lg font-semibold text-primary transition-all duration-300 hover:bg-accent-hover"
           >
             Shop Now
           </button>
-
-          {user ? (
-            <button
-              type="button"
-              onClick={() => {
-                logout();
-                setIsOpen(false);
-              }}
-              className="mt-2 flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-2.5 font-semibold text-white transition-all duration-300 hover:bg-primary-hover"
-            >
-              Logout
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={() => {
-                handleBegin();
-                setIsOpen(false);
-              }}
-              className="mt-2 flex items-center justify-center gap-2 rounded-full bg-secondary px-5 py-2.5 font-semibold text-white transition-all duration-300 hover:bg-secondary-hover"
-            >
-              <UserRoundPlus size={20} />
-              Sign Up / Log In
-            </button>
-          )}
-
-          {user && <Link
-            to="/cart"
-            onClick={() => setIsOpen(false)}
-            className="relative mt-2 flex items-center justify-center gap-2 rounded-full border border-border-color px-5 py-2.5 font-semibold text-primary transition-all duration-300 hover:bg-surface"
-          >
-            <ShoppingCart size={20} />
-            Cart
-
-            {cartCount > 0 && (
-              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-secondary text-xs font-bold text-white">
-                {cartCount}
-              </span>
-            )}
-          </Link>}
         </nav>
       )}
 
+      {/* =====================================================
+          AUTHENTICATION MODAL
+          ===================================================== */}
       <AuthModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
