@@ -33,8 +33,8 @@ export {
 
 // Home & Living
 export {
-  homeHeroCards,
-  homeProducts as homeLivingProducts,
+  categories,
+  products as homeLivingProducts,
 } from "./homeLivingData";
 
 // General shop products
@@ -57,8 +57,8 @@ import * as men from "./MensData";
 import * as women from "./WomensData";
 import * as kids from "./KidsData";
 import {
-  homeHeroCards as homeLivingHeroCards,
-  homeProducts as homeLivingProductsGrouped,
+  categories as homeLivingHeroCards,
+  products as homeLivingProductsGrouped,
 } from "./homeLivingData";
 import { allProducts as shopAllProducts } from "./productsData";
 import * as shop from "./productsData";

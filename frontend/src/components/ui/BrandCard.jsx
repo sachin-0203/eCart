@@ -8,11 +8,11 @@ const BrandCard = ({ brand }) => {
       className="group block overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg"
     >
       {/* Brand Image */}
-      <div className="flex h-32 items-center justify-center overflow-hidden bg-white p-2">
+      <div className="h-40 w-full flex items-center justify-center overflow-hidden">
         <img
           src={brand.image}
           alt={brand.name}
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          className="max-h-28 max-w-[80%] w-auto h-auto object-contain transition-transform duration-500 group-hover:scale-105"
         />
       </div>
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import {
   ChevronDown,
   Menu,
@@ -18,8 +18,9 @@ import AuthModal from "../auth/AuthModel";
 import { useAuth } from "../../context/AuthContext";
 
 export default function Navbar() {
-  const { user, userEmail, username, logout } = useAuth();
+  const { user, userEmail, username, profileSrc, logout } = useAuth();
   const { cartCount } = useCart();
+  const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
   const [authView, setAuthView] = useState("login");
@@ -72,6 +73,13 @@ export default function Navbar() {
     setShowProfileMenu(false);
   };
 
+  const handleCart = () => {
+    if (!user) {
+      setAuthView("login");
+      setShowModal(true);
+    } else navigate("/cart");
+  };
+
   useEffect(() => {
     if (user) {
       setShowModal(false);
@@ -85,6 +93,20 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-border-color bg-background shadow-[0_2px_14px_rgba(11,46,89,0.08)]">
       <div className="mx-auto flex max-w-full items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
+        
+        {/* =====================================================
+                MOBILE MENU BUTTON
+                ===================================================== */}
+        <button
+          type="button"
+          onClick={handleMobileMenuToggle}
+          className="rounded-full bg-surface p-2 text-primary transition duration-300 hover:bg-border-color"
+          aria-label={isOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isOpen}
+        >
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+        
         {/* =====================================================
             LOGO
             ===================================================== */}
@@ -98,9 +120,7 @@ export default function Navbar() {
               eCart
             </p>
 
-            <p className="text-sm text-text-secondary">
-              Fashion • Home • Tech
-            </p>
+            <p className="text-sm text-text-secondary">Fashion • Home • Tech</p>
           </div>
         </Link>
 
@@ -199,21 +219,19 @@ export default function Navbar() {
               </div>
 
               {/* Desktop Cart */}
-              {user && (
-                <Link
-                  to="/cart"
-                  className="relative rounded-full p-2 text-primary transition hover:bg-surface"
-                  aria-label="Cart"
-                >
-                  <ShoppingCart size={22} />
+              <button
+                onClick={handleCart}
+                className="relative rounded-full p-2 text-primary transition hover:bg-surface"
+                aria-label="Cart"
+              >
+                <ShoppingCart size={22} />
 
-                  {cartCount > 0 && (
-                    <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-secondary text-xs font-bold text-white">
-                      {cartCount}
-                    </span>
-                  )}
-                </Link>
-              )}
+                {cartCount > 0 && (
+                  <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-secondary text-xs font-bold text-white">
+                    {cartCount}
+                  </span>
+                )}
+              </button>
 
               {/* =====================================================
                   DESKTOP PROFILE / LOGIN
@@ -223,18 +241,30 @@ export default function Navbar() {
                   <button
                     type="button"
                     onClick={handleProfileToggle}
-                    className="flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:bg-primary-hover"
+                    className="flex items-center gap-2 rounded-full border border-primary  px-4 py-2 text-sm font-semibold text-primary shadow-sm transition-all duration-300 hover:text-white hover:bg-primary-hover cursor-pointer"
                     aria-label="Open profile menu"
                     aria-expanded={showProfileMenu}
                   >
-                    <UserRound size={17} />
+                    {profileSrc ? (
+                      <img
+                        src={profileSrc}
+                        alt={"Profile"}
+                        className="object-cover h-6 w-6 border-1 overflow-hidden rounded-full"
+                      />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center text-white">
+                        <UserRound size={24} strokeWidth={1.8} />
+                      </div>
+                    )}
 
-                    <span>Profile</span>
+                    <span>{user}</span>
                   </button>
 
                   {showProfileMenu && (
                     <ProfileMenu
-                      user={user}
+                      name={user}
+                      username={username}
+                      mail={userEmail}
                       onLogout={handleLogout}
                       onClose={handleProfileClose}
                     />
@@ -263,21 +293,19 @@ export default function Navbar() {
             {/* =====================================================
                 MOBILE CART
                 ===================================================== */}
-            {user && (
-              <Link
-                to="/cart"
-                className="relative rounded-full p-2 text-primary transition hover:bg-surface"
-                aria-label="Cart"
-              >
-                <ShoppingCart size={22} />
+            <button
+              onClick={handleCart}
+              className="relative rounded-full p-2 text-primary transition hover:bg-surface"
+              aria-label="Cart"
+            >
+              <ShoppingCart size={22} />
 
-                {cartCount > 0 && (
-                  <span className="absolute -right-0.5 -top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-secondary text-xs font-bold text-white">
-                    {cartCount}
-                  </span>
-                )}
-              </Link>
-            )}
+              {cartCount > 0 && (
+                <span className="absolute -right-0.5 -top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-secondary text-xs font-bold text-white">
+                  {cartCount}
+                </span>
+              )}
+            </button>
 
             {/* =====================================================
                 MOBILE PROFILE / LOGIN
@@ -287,11 +315,22 @@ export default function Navbar() {
                 <button
                   type="button"
                   onClick={handleProfileToggle}
-                  className="rounded-full bg-primary p-2 text-white transition hover:bg-primary-hover"
+                  className="rounded-full bg-primary text-white transition hover:bg-primary-hover"
                   aria-label="Open profile menu"
                   aria-expanded={showProfileMenu}
                 >
-                  <UserRound size={20} />
+                  {profileSrc ? (
+                    <img
+                      src={profileSrc}
+                      alt={"Profile"}
+                      className="object-cover h-9 w-9 border-2 border-primary overflow-hidden rounded-full
+                "
+                    />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center text-white">
+                      <UserRound size={24} strokeWidth={1.8} />
+                    </div>
+                  )}
                 </button>
 
                 {showProfileMenu && (
@@ -314,19 +353,6 @@ export default function Navbar() {
                 <UserRoundPlus size={20} />
               </button>
             )}
-
-            {/* =====================================================
-                MOBILE MENU BUTTON
-                ===================================================== */}
-            <button
-              type="button"
-              onClick={handleMobileMenuToggle}
-              className="rounded-full bg-surface p-2 text-primary transition duration-300 hover:bg-border-color"
-              aria-label={isOpen ? "Close menu" : "Open menu"}
-              aria-expanded={isOpen}
-            >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
           </div>
         )}
       </div>
@@ -361,9 +387,7 @@ export default function Navbar() {
               onClick={() => setIsOpen(false)}
               className={({ isActive }) =>
                 `rounded-xl px-3 py-3 text-base font-semibold text-primary transition-all duration-300 ${
-                  isActive
-                    ? "bg-[#FFF0F4] text-secondary"
-                    : "hover:bg-surface"
+                  isActive ? "bg-[#FFF0F4] text-secondary" : "hover:bg-surface"
                 }`
               }
             >

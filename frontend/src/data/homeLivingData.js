@@ -1,97 +1,207 @@
-import bedSheetImage from "../assets/images/products/home/cotton-bed-sheet-set.jpg";
-import knifeSetImage from "../assets/images/products/home/kitchen-knife-set.jpg";
-import cookwareImage from "../assets/images/products/home/stainless-steel-cookware.jpg";
-import pillowCoversImage from "../assets/images/products/home/decorative-pillow-covers.jpg";
 import homeImg from "../assets/images/categories/homeImg.jpg";
 import decorationImg from "../assets/images/categories/decorationImg.jpg";
 
-export const homeHeroCards = [
+import knifeSetImage from "../assets/images/products/home/kitchen-knife-set.jpg";
+import curtainsImg from "../assets/images/products/home/blackout-curtain-pair.jpg";
+import bedSheetImage from "../assets/images/products/home/cotton-bed-sheet-set.jpg";
+import cookwareImage from "../assets/images/products/home/stainless-steel-cookware.jpg";
+import pillowCoversImage from "../assets/images/products/home/decorative-pillow-covers.jpg";
+import lightingImg from "../assets/images/products/home/lighting.jpg";
+import cleaningImg from "../assets/images/products/home/spin-mop-bucket-set.jpg";
+import storageImg from "../assets/images/products/home/stainless-steel-spice-jar-set.jpg";
+import curtainPrivacy from "../assets/images/products/home/curtain-privacy.jpg";
+import cleaningEssential from "../assets/images/products/home/cleaning-essential.jpg";
+import storageBox from "../assets/images/products/home/stackable-storage-box.jpg";
+import net from "../assets/images/products/home/canopy-mosquito-net.jpg";
+import lamp from "../assets/images/products/home/led-table-lamp.jpg";
+import spaces from "/brands/spaces.jpg"
+import milton from "/brands/milton.png"
+import spotzero from "/brands/spotzero.png"
+import wonderchef from "/brands/wonderchef.jpg"
+import homecentre from "/brands/homecentre.jpg"
+import clothfusion from "/brands/clothfusion.jpg"
+import philips from "/brands/philips.png"
+
+export const categories = [
   {
-    id: 1,
-    title: "Monsoon",
-    image: homeImg,
-    link: "/shop/products?department=home&category=monsoon",
+    title: "Bedsheets",
+    image: bedSheetImage,
+    subtitle: "Soft bedroom essentials",
+    link: "/shop/products?department=home&category=bedsheets",
   },
   {
-    id: 2,
+    title: "Curtains",
+    image: curtainsImg,
+    subtitle: "Style and privacy",
+    link: "/shop/products?department=home&category=curtains",
+  },
+  {
     title: "Cookware",
+    image: cookwareImage,
+    subtitle: "Everyday kitchen essentials",
+    link: "/shop/products?department=home&category=cookware",
+  },
+  {
+    title: "Kitchen",
+    image: knifeSetImage,
+    subtitle: "Smart cooking essentials",
+    link: "/shop/products?department=home&category=kitchen",
+  },
+  {
+    title: "Home Decor",
+    image: pillowCoversImage,
+    subtitle: "Beautiful finishing touches",
+    link: "/shop/products?department=home&category=home-decor",
+  },
+  {
+    title: "Lighting",
+    image: lightingImg,
+    subtitle: "Brighten every space",
+    link: "/shop/products?department=home&category=lighting",
+  },
+  {
+    title: "Cleaning",
+    image: cleaningImg,
+    subtitle: "Easy cleaning essentials",
+    link: "/shop/products?department=home&category=cleaning",
+  },
+  {
+    title: "Storage",
+    image: storageImg,
+    subtitle: "Organise your home",
+    link: "/shop/products?department=home&category=storage",
+  },
+];
+
+export const brandCollections = [
+  {
+    title: "Bedsheets & Bedroom",
+    subtitle: "Comfortable essentials for better bedrooms",
+    brands: [
+      {
+        name: "Spaces",
+        image: spaces,
+        link: "/shop/products?category=Bedsheets&brand=Spaces&department=Home",
+      },
+      {
+        name: "Cloth Fusion",
+        image: clothfusion,
+        link: "/shop/products?category=Bedsheets&brand=Cloth%20Fusion&department=Home",
+      },
+      {
+        name: "Home Centre",
+        image: homecentre,
+        link: "/shop/products?category=Curtains&brand=Home%20Centre&department=Home",
+      },
+    ],
+  },
+
+  {
+    title: "Kitchen & Cookware",
+    subtitle: "Reliable essentials for everyday cooking",
+    brands: [
+      {
+        name: "Wonderchef",
+        image: wonderchef,
+        link: "/shop/products?category=Cookware&brand=Wonderchef&department=Home",
+      },
+      {
+        name: "Milton",
+        image: milton,
+        link: "/shop/products?category=Cookware&brand=Milton&department=Home",
+      },
+    ],
+  },
+
+  {
+    title: "Home Decor",
+    subtitle: "Small details that transform your space",
+    brands: [
+      {
+        name: "Home Centre",
+        image: homecentre,
+        link: "/shop/products?category=Home%20Decor&brand=Home%20Centre&department=Home",
+      },
+    ],
+  },
+
+  {
+    title: "Lighting",
+    subtitle: "Modern lighting for work and relaxation",
+    brands: [
+      {
+        name: "Philips",
+        image: philips,
+        link: "/shop/products?category=Lighting&brand=Philips&department=Home",
+      },
+    ],
+  },
+
+  {
+    title: "Cleaning",
+    subtitle: "Simple tools for a cleaner home",
+    brands: [
+      {
+        name: "Spotzero",
+        image: spotzero,
+        link: "/shop/products?category=Cleaning&brand=Spotzero&department=Home",
+      },
+    ],
+  },
+
+  {
+    title: "Storage",
+    subtitle: "Keep every room neat and organised",
+    brands: [
+      {
+        name: "Milton",
+        image: milton,
+        link: "/shop/products?category=Storage&brand=Milton&department=Home",
+      },
+    ],
+  },
+];
+
+export const collections = [
+  {
+    title: "Bedroom Essentials",
+    subtitle: "Soft bedsheets, pillows and sleep essentials",
+    image: bedSheetImage,
+    link: "/shop/products?department=home&category=bedsheets",
+  },
+  {
+    title: "Kitchen Essentials",
+    subtitle: "Cookware and tools for everyday cooking",
     image: cookwareImage,
     link: "/shop/products?department=home&category=cookware",
   },
   {
-    id: 3,
-    title: "Hardware",
-    image: decorationImg,
-    link: "/shop/products?department=home&category=hardware",
-  },
-  {
-    id: 4,
-    title: "Bathroom",
-    image: homeImg,
-    link: "/shop/products?department=home&category=bathroom",
-  },
-  {
-    id: 5,
-    title: "Comforters",
-    image: bedSheetImage,
-    link: "/shop/products?department=home&category=comforters",
-  },
-  {
-    id: 6,
-    title: "Containers",
-    image: homeImg,
-    link: "/shop/products?department=home&category=containers",
-  },
-  {
-    id: 7,
-    title: "Decor",
+    title: "Home Decor",
+    subtitle: "Refresh your rooms with stylish details",
     image: pillowCoversImage,
-    link: "/shop/products?department=home&category=decor",
+    link: "/shop/products?department=home&category=home-decor",
   },
   {
-    id: 8,
-    title: "Lighting",
-    image: homeImg,
-    link: "/shop/products?department=home&category=lighting",
+    title: "Curtains & Privacy",
+    subtitle: "Block light and elevate your interiors",
+    image: curtainPrivacy,
+    link: "/shop/products?department=home&category=curtains",
   },
   {
-    id: 9,
-    title: "Lighting",
-    image: homeImg,
-    link: "/shop/products?department=home&category=lighting",
+    title: "Cleaning Essentials",
+    subtitle: "Make everyday cleaning easier",
+    image: cleaningEssential,
+    link: "/shop/products?department=home&category=cleaning",
   },
   {
-    id: 10,
-    title: "Lighting",
-    image: homeImg,
-    link: "/shop/products?department=home&category=lighting",
-  },
-  {
-    id: 11,
-    title: "Lighting",
-    image: homeImg,
-    link: "/shop/products?department=home&category=lighting",
-  },
-  {
-    id: 12,
-    title: "Lighting",
-    image: homeImg,
-    link: "/shop/products?department=home&category=lighting",
-  },
-  {
-    id: 13,
-    title: "Lighting",
-    image: homeImg,
-    link: "/shop/products?department=home&category=lighting",
-  },
-  {
-    id: 14,
-    title: "Lighting",
-    image: homeImg,
-    link: "/shop/products?department=home&category=lighting",
+    title: "Smart Storage",
+    subtitle: "Organise your home with practical solutions",
+    image: storageBox,
+    link: "/shop/products?department=home&category=storage",
   },
 ];
-export const homeProducts = [
+
+export const products = [
   // =====================================================
   // 1. COTTON BEDSHEET
   // =====================================================
@@ -197,8 +307,8 @@ export const homeProducts = [
 
     featured: true,
 
-    image: decorationImg,
-    images: [decorationImg],
+    image: curtainsImg,
+    images: [curtainsImg,curtainPrivacy],
 
     description:
       "Premium blackout curtains designed to block excessive sunlight while providing privacy. Perfect for bedrooms and living rooms.",
@@ -509,8 +619,8 @@ export const homeProducts = [
 
     featured: false,
 
-    image: homeImg,
-    images: [homeImg],
+    image: net,
+    images: [net],
 
     description:
       "Lightweight canopy mosquito net designed to provide comfortable and peaceful sleep while protecting against mosquitoes.",
@@ -582,8 +692,8 @@ export const homeProducts = [
 
     featured: false,
 
-    image: homeImg,
-    images: [homeImg],
+    image: lamp,
+    images: [lamp,lightingImg],
 
     description:
       "Energy-efficient LED table lamp suitable for bedside tables, study desks and workspaces. Provides comfortable illumination for everyday use.",
@@ -657,8 +767,8 @@ export const homeProducts = [
 
     featured: false,
 
-    image: homeImg,
-    images: [homeImg],
+    image: cleaningImg,
+    images: [cleaningImg,cleaningEssential],
 
     description:
       "Easy-clean spin mop and bucket set designed for quick and efficient floor cleaning. The rotating mechanism helps remove excess water easily.",
@@ -731,8 +841,8 @@ export const homeProducts = [
 
     featured: false,
 
-    image: homeImg,
-    images: [homeImg],
+    image: storageBox,
+    images: [storageBox],
 
     description:
       "Durable stackable storage boxes designed to keep clothes, toys, accessories and household items organised.",
@@ -806,8 +916,8 @@ export const homeProducts = [
 
     featured: false,
 
-    image: homeImg,
-    images: [homeImg],
+    image: storageImg,
+    images: [storageImg],
 
     description:
       "Stainless steel spice jar set designed to keep everyday spices organised and easily accessible in your kitchen.",
