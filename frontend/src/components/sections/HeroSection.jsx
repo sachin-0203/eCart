@@ -1,8 +1,10 @@
 import React from "react";
 import { ArrowRight, ShieldCheck, Sparkles, Star, Truck } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import heroImage from "../../assets/images/heroImg.jpg";
 
 const HeroSection = () => {
+  const navigate = useNavigate();
   const highlights = [
     { icon: Truck, title: "Fast delivery", text: "Across India in 24-48 hrs" },
     { icon: ShieldCheck, title: "Verified quality", text: "Trusted brands and products" },
@@ -33,11 +35,17 @@ const HeroSection = () => {
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
-            <button className="inline-flex items-center justify-center gap-2 rounded-2xl bg-primary px-7 py-3.5 font-semibold text-white shadow-lg shadow-primary/20 transition-all duration-300 hover:-translate-y-1 hover:bg-primary-hover">
+            <button 
+              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-primary px-7 py-3.5 font-semibold text-white shadow-lg shadow-primary/20 transition-all duration-300 hover:-translate-y-1 hover:bg-primary-hover"
+              onClick={() => navigate("/shop/products")}
+            >
               Shop now
               <ArrowRight size={18} />
             </button>
-            <button className="rounded-2xl border border-border-color bg-white px-7 py-3.5 font-semibold text-text-primary transition-all duration-300 hover:border-primary hover:text-primary">
+            <button
+              className="rounded-2xl border border-border-color bg-white px-7 py-3.5 font-semibold text-text-primary transition-all duration-300 hover:border-primary hover:text-primary"
+              onClick={() => navigate("/shop/products")}
+            >
               Explore categories
             </button>
           </div>

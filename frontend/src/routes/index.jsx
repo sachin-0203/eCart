@@ -18,6 +18,7 @@ import ElectronicHomepage from "../features/electronics/ElectronicHomepage";
 import Products from "../pages/product/ProductsPage";
 import ProductDetailsPage from "../pages/product/ProductDetailsPage";
 import CartPage from "../pages/cart/CartPage";
+import ComingSoonPage from "../pages/ComingSoonPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -36,6 +37,7 @@ const router = createBrowserRouter(
         <Route path="electronics" element={<ElectronicHomepage />} />
       </Route>
       <Route path="cart" element={<CartPage />} />
+      <Route path="coming-soon" element={<ComingSoonPage />} />
     </Route>,
   ),
 );

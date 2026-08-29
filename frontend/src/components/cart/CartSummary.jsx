@@ -35,7 +35,7 @@ const CartSummary = () => {
       </div>
 
       <Link
-        to="/checkout"
+        to="/coming-soon?feature=Buy%20Now"
         className="mt-6 block rounded-lg bg-primary px-6 py-4 text-center font-semibold text-white"
       >
         Proceed to Checkout
