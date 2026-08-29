@@ -7,6 +7,7 @@ import {
   AtSign,
   Camera,
 } from "lucide-react";
+import { toast } from "sonner";
 
 export default function ProfileMenu({
   name,
@@ -60,13 +61,13 @@ export default function ProfileMenu({
 
     // Only allow images
     if (!file.type.startsWith("image/")) {
-      alert("Please select an image.");
+      toast.error("Please select an image.");
       return;
     }
 
     // Limit to 2MB
     if (file.size > 5 * 1024 * 1024) {
-      alert("Please select an image smaller than 5MB.");
+      toast.error("Please select an image smaller than 5MB.");
       return;
     }
 

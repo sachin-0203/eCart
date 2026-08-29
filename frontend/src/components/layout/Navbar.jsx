@@ -106,7 +106,7 @@ export default function Navbar() {
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
-        
+
         {/* =====================================================
             LOGO
             ===================================================== */}
@@ -241,7 +241,7 @@ export default function Navbar() {
                   <button
                     type="button"
                     onClick={handleProfileToggle}
-                    className="flex items-center gap-2 rounded-full border border-primary  px-4 py-2 text-sm font-semibold text-primary shadow-sm transition-all duration-300 hover:text-white hover:bg-primary-hover cursor-pointer"
+                    className=" flex items-center gap-2 rounded-full border border-primary  px-4 py-2 text-sm font-semibold text-primary shadow-sm transition-all duration-300 hover:text-white hover:bg-primary-hover cursor-pointer"
                     aria-label="Open profile menu"
                     aria-expanded={showProfileMenu}
                   >
@@ -252,7 +252,7 @@ export default function Navbar() {
                         className="object-cover h-6 w-6 border-1 overflow-hidden rounded-full"
                       />
                     ) : (
-                      <div className="flex h-full w-full items-center justify-center text-white">
+                      <div className="flex h-full w-full items-center justify-center">
                         <UserRound size={24} strokeWidth={1.8} />
                       </div>
                     )}
@@ -327,7 +327,7 @@ export default function Navbar() {
                 "
                     />
                   ) : (
-                    <div className="flex h-full w-full items-center justify-center text-white">
+                    <div className="flex h-full w-full items-center justify-center p-2">
                       <UserRound size={24} strokeWidth={1.8} />
                     </div>
                   )}
