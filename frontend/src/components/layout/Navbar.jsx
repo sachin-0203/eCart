@@ -94,10 +94,8 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 border-b border-border-color bg-background shadow-[0_2px_14px_rgba(11,46,89,0.08)]">
       <div className="mx-auto flex max-w-full items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
         
-        {/* =====================================================
-                MOBILE MENU BUTTON
-                ===================================================== */}
-        <button
+        {/* Mobile Menu Button */}
+        { !isDesktop &&  <button
           type="button"
           onClick={handleMobileMenuToggle}
           className="rounded-full bg-surface p-2 text-primary transition duration-300 hover:bg-border-color"
@@ -105,11 +103,9 @@ export default function Navbar() {
           aria-expanded={isOpen}
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        </button>}
 
-        {/* =====================================================
-            LOGO
-            ===================================================== */}
+        {/*  LOGO  */}
         <Link to="/" className="flex items-center gap-2">
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-lg font-bold text-white">
             E
@@ -126,9 +122,7 @@ export default function Navbar() {
 
         {isDesktop ? (
           <>
-            {/* =====================================================
-                DESKTOP NAVIGATION
-                ===================================================== */}
+            {/* DESKTOP NAVIGATION */}
             <nav className="flex flex-1 items-center justify-center gap-6">
               {navLinks.map((link) => {
                 const isHovered = hoveredLink === link.name;
