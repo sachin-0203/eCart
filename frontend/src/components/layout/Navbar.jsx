@@ -5,7 +5,7 @@ import {
   Menu,
   Search,
   X,
-  ShoppingCart,
+  ShoppingBag,
   UserRound,
   UserRoundPlus,
 } from "lucide-react";
@@ -93,17 +93,18 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-border-color bg-background shadow-[0_2px_14px_rgba(11,46,89,0.08)]">
       <div className="mx-auto flex max-w-full items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
-        
         {/* Mobile Menu Button */}
-        { !isDesktop &&  <button
-          type="button"
-          onClick={handleMobileMenuToggle}
-          className="rounded-full bg-surface p-2 text-primary transition duration-300 hover:bg-border-color"
-          aria-label={isOpen ? "Close menu" : "Open menu"}
-          aria-expanded={isOpen}
-        >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>}
+        {!isDesktop && (
+          <button
+            type="button"
+            onClick={handleMobileMenuToggle}
+            className="rounded-full bg-surface p-2 text-primary transition duration-300 hover:bg-border-color"
+            aria-label={isOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isOpen}
+          >
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        )}
 
         {/*  LOGO  */}
         <Link to="/" className="flex items-center gap-2">
@@ -218,10 +219,10 @@ export default function Navbar() {
                 className="relative rounded-full p-2 text-primary transition hover:bg-surface"
                 aria-label="Cart"
               >
-                <ShoppingCart size={22} />
+                <ShoppingBag size={22} />
 
                 {cartCount > 0 && (
-                  <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-secondary text-xs font-bold text-white">
+                  <span className="absolute right-0 top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-secondary text-[12px] font-bold text-white">
                     {cartCount}
                   </span>
                 )}
@@ -235,7 +236,7 @@ export default function Navbar() {
                   <button
                     type="button"
                     onClick={handleProfileToggle}
-                    className=" flex items-center gap-2 rounded-full border border-primary  px-4 py-2 text-sm font-semibold text-primary shadow-sm transition-all duration-300 hover:text-white hover:bg-primary-hover cursor-pointer"
+                    className=" cursor-pointer"
                     aria-label="Open profile menu"
                     aria-expanded={showProfileMenu}
                   >
@@ -243,15 +244,13 @@ export default function Navbar() {
                       <img
                         src={profileSrc}
                         alt={"Profile"}
-                        className="object-cover h-6 w-6 border-1 overflow-hidden rounded-full"
+                        className={`object-cover ${showProfileMenu ? "scale-95" : ""} h-8 w-8  overflow-hidden rounded-full duration-100 transition-all`}
                       />
                     ) : (
                       <div className="flex h-full w-full items-center justify-center">
                         <UserRound size={24} strokeWidth={1.8} />
                       </div>
                     )}
-
-                    <span>{user}</span>
                   </button>
 
                   {showProfileMenu && (
@@ -268,11 +267,10 @@ export default function Navbar() {
                 <button
                   type="button"
                   onClick={handleBegin}
-                  className="flex items-center gap-2 rounded-full bg-secondary px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:bg-secondary-hover"
+                  className="flex flex-col items-center   px-2 py-2 text-sm font-semibold transition-all duration-300 "
                 >
                   <UserRoundPlus size={17} />
-
-                  <span>Sign Up / Log In</span>
+                  <div className="text-[12px]">Profile</div>
                 </button>
               )}
             </div>
@@ -292,10 +290,10 @@ export default function Navbar() {
               className="relative rounded-full p-2 text-primary transition hover:bg-surface"
               aria-label="Cart"
             >
-              <ShoppingCart size={22} />
+              <ShoppingBag size={22} />
 
               {cartCount > 0 && (
-                <span className="absolute -right-0.5 -top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-secondary text-xs font-bold text-white">
+                <span className="absolute right-1 top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-secondary text-[10px] font-bold text-white">
                   {cartCount}
                 </span>
               )}
@@ -309,7 +307,7 @@ export default function Navbar() {
                 <button
                   type="button"
                   onClick={handleProfileToggle}
-                  className="rounded-full bg-primary text-white transition hover:bg-primary-hover"
+                  className="rounded-full transition"
                   aria-label="Open profile menu"
                   aria-expanded={showProfileMenu}
                 >
@@ -317,8 +315,7 @@ export default function Navbar() {
                     <img
                       src={profileSrc}
                       alt={"Profile"}
-                      className="object-cover h-9 w-9 border-2 border-primary overflow-hidden rounded-full
-                "
+                      className={`object-cover ${showProfileMenu ? "scale-95" : ""} h-8 w-8  overflow-hidden rounded-full duration-100 transition-all`}
                     />
                   ) : (
                     <div className="flex h-full w-full items-center justify-center p-2">
