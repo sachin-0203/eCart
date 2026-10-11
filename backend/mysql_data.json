@@ -1,0 +1,207 @@
+[
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$g4BmO0KMl1PpbyyQblLfcu$2lzJtMpADvSUunuUqvKHjtejD5zBiP+OVf6CdjOKFjI=",
+    "last_login": "2026-08-31T18:06:55.659Z",
+    "is_superuser": true,
+    "username": "saar",
+    "first_name": "",
+    "last_name": "",
+    "email": "sachinprajapati0203@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-08-31T17:54:54.728Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "bvbueakbqhbqqwr3gc4kne57k649ebc0",
+  "fields": {
+    "session_data": ".eJxVjDsOwjAQBe_iGlkOWf8o6XMGy-td4wCypTipEHeHSCmgfTPzXiLEbS1h67yEmcRFDOL0u2FMD647oHustyZTq-syo9wVedAup0b8vB7u30GJvXxrxWYgSOOZDILVGXCM5EBbJK8joAajwGVg8oQZVVbKs0PrzJgRshbvD-lVOD4:1x16PH:DsQUZldb2tIiQCaDIFUl5MdgMG5kCJOKN1bE5DVMTfI",
+    "expire_date": "2026-09-14T18:06:55.675Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 1,
+  "fields": {
+    "slug": "iphone-15-pro",
+    "title": "iPhone 15 Pro updated through admin portal",
+    "brand": "Apple",
+    "category": "Smartphones",
+    "sub_category": "Premium Phones",
+    "price": "89999.00",
+    "old_price": "109999.00",
+    "discount_percentage": "9.00",
+    "rating": "4.7",
+    "review_count": 1250,
+    "short_description": "Premium smartphone with a titanium design and powerful performance.",
+    "description": "The iPhone 15 Pro features a titanium design, A17 Pro chip, advanced camera system, and excellent battery performance. It is designed for users who want premium performance and photography capabilities.",
+    "stock": 25,
+    "in_stock": false,
+    "featured": true,
+    "bestseller": true,
+    "created_at": "2026-08-22T11:16:00.919Z",
+    "updated_at": "2026-10-10T17:35:50.445Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 5,
+  "fields": {
+    "slug": "patch samsung-galaxy-buds-3",
+    "title": "Patch Samsung Galaxy Buds 3",
+    "brand": "Romsung",
+    "category": "Electronics",
+    "sub_category": "Wireless Earbuds",
+    "price": "9999.00",
+    "old_price": "12999.00",
+    "discount_percentage": "23.08",
+    "rating": "4.3",
+    "review_count": 850,
+    "short_description": "Premium wireless earbuds with high-quality sound.",
+    "description": "Samsung Galaxy Buds 3 deliver immersive sound, comfortable fit, and reliable wireless connectivity.",
+    "stock": 10,
+    "in_stock": true,
+    "featured": true,
+    "bestseller": false,
+    "created_at": "2026-09-07T18:23:49.994Z",
+    "updated_at": "2026-10-05T17:21:38.481Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 6,
+  "fields": {
+    "slug": "samsung-galaxy-buds-1",
+    "title": "Samsung Galaxy Buds 1",
+    "brand": "Samsung",
+    "category": "Electronics",
+    "sub_category": "Wireless Earbuds",
+    "price": "9999.00",
+    "old_price": "12999.00",
+    "discount_percentage": "23.08",
+    "rating": "4.3",
+    "review_count": 850,
+    "short_description": "Premium wireless earbuds with high-quality sound.",
+    "description": "Samsung Galaxy Buds 3 deliver immersive sound, comfortable fit, and reliable wireless connectivity.",
+    "stock": 75,
+    "in_stock": true,
+    "featured": true,
+    "bestseller": true,
+    "created_at": "2026-09-07T18:30:23.377Z",
+    "updated_at": "2026-10-05T17:21:48.005Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 7,
+  "fields": {
+    "slug": "iphone-18-pro",
+    "title": "iPhone 18 Pro",
+    "brand": "Apple",
+    "category": "Smartphones",
+    "sub_category": "Premium Phones",
+    "price": "129999.00",
+    "old_price": "139999.00",
+    "discount_percentage": "9.00",
+    "rating": "4.7",
+    "review_count": 1250,
+    "short_description": "Premium smartphone with a titanium design and powerful performance.",
+    "description": "The iPhone 15 Pro features a titanium design, A17 Pro chip, advanced camera system, and excellent battery performance. It is designed for users who want premium performance and photography capabilities.",
+    "stock": 25,
+    "in_stock": true,
+    "featured": true,
+    "bestseller": true,
+    "created_at": "2026-09-14T16:54:04.902Z",
+    "updated_at": "2026-09-14T16:54:04.902Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 8,
+  "fields": {
+    "slug": "iphone-duo",
+    "title": "iPhone Duo",
+    "brand": "Apple",
+    "category": "Smartphones",
+    "sub_category": "Premium Phones",
+    "price": "350000.00",
+    "old_price": "360000.00",
+    "discount_percentage": "9.00",
+    "rating": "4.7",
+    "review_count": 1250,
+    "short_description": "Premium smartphone with a titanium design and powerful performance.",
+    "description": "The iPhone 18 Pro features a titanium design, A18 Pro chip, advanced camera system, and excellent battery performance. It is designed for users who want premium performance and photography capabilities.",
+    "stock": 25,
+    "in_stock": true,
+    "featured": true,
+    "bestseller": true,
+    "created_at": "2026-09-14T17:01:52.205Z",
+    "updated_at": "2026-09-14T17:01:52.205Z"
+  }
+},
+{
+  "model": "leads.lead",
+  "pk": 1,
+  "fields": {
+    "name": "Sachin Kumar**",
+    "email": "sachin@gmail.com",
+    "phone": "9876543210",
+    "subject": "Product Enquiry",
+    "message": "I want to know more about this product.",
+    "status": "contacted",
+    "created_at": "2026-09-15T18:32:44.210Z"
+  }
+},
+{
+  "model": "leads.lead",
+  "pk": 3,
+  "fields": {
+    "name": "Rohit Kumar**",
+    "email": "sachin@gmail.com",
+    "phone": "9876543210",
+    "subject": "Product Enquiry",
+    "message": "I want to know more about this product.",
+    "status": "resolved",
+    "created_at": "2026-09-16T17:47:52.010Z"
+  }
+},
+{
+  "model": "cart.cart",
+  "pk": 2,
+  "fields": {
+    "created_at": "2026-09-23T17:23:04.219Z"
+  }
+},
+{
+  "model": "cart.cartitem",
+  "pk": 1,
+  "fields": {
+    "cart": 2,
+    "product": 1,
+    "quantity": 1
+  }
+},
+{
+  "model": "cart.cartitem",
+  "pk": 3,
+  "fields": {
+    "cart": 2,
+    "product": 5,
+    "quantity": 10
+  }
+},
+{
+  "model": "cart.cartitem",
+  "pk": 5,
+  "fields": {
+    "cart": 2,
+    "product": 7,
+    "quantity": 10
+  }
+}
+]
