@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "start": "concurrently -k \"npm:backend\" \"npm:frontend\"",
+    "backend": "cd backend && venv\\Scripts\\python.exe manage.py runserver",
+    "frontend": "npm --prefix frontend run dev"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.4"
+  }
+}
