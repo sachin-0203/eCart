@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import {
   categories,
   brandCollections,
@@ -7,76 +6,48 @@ import {
 import CollectionCard from "../../components/ui/CollectionCard";
 import CategoryCard from "../../components/ui/CategoryCard";
 import BrandCard from "../../components/ui/BrandCard";
+import ImageSlider from "../../components/ui/ImageSlider";
+
+const heroSlides = [
+  {
+    eyebrow: "The new women's edit",
+    title: "Style that feels",
+    highlight: "like you.",
+    description:
+      "Discover considered everyday pieces, fresh silhouettes, and favourites for every occasion.",
+    image: "/banner/women-banner-1.jpg",
+    imageAlt: "Women's dress collection",
+    action: "Shop women's collection",
+    to: "/shop/products?department=women",
+  },
+  {
+    eyebrow: "Made for sunny days",
+    title: "A fresh look",
+    highlight: "for the season.",
+    description:
+      "Light layers and easy outfits to bring a little sunshine to your wardrobe.",
+    image: "/banner/women-banner-2.jpg",
+    imageAlt: "Women's summer collection",
+    action: "Shop summer styles",
+    to: "/shop/products?department=women&category=dresses",
+  },
+  {
+    eyebrow: "A moment to dress up",
+    title: "Make an entrance.",
+    highlight: "Stay unforgettable.",
+    description:
+      "Find occasion-ready looks with just the right amount of statement.",
+    image: "/banner/women-banner-3.jpg",
+    imageAlt: "Women's occasion wear collection",
+    action: "Explore occasion wear",
+    to: "/shop/products?department=women&category=dresses",
+  },
+];
 
 export default function WomenHomepage() {
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900">
-     
-      <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
-          <div className="overflow-hidden rounded-[2rem] bg-[#0b2e59] text-white shadow-[0_20px_60px_rgba(11,46,89,0.25)]">
-            <img
-              src="/women/women-main.jpg"
-              alt="Stylish male model"
-              className="h-70 w-full object-fill lg:h-100"
-            />
-            <div className="space-y-4 p-8 lg:p-10">
-              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-sky-200">
-                New season essentials
-              </p>
-              <h1 className="text-3xl font-bold leading-tight sm:text-4xl">
-                Upgrade your wardrobe with confident everyday style.
-              </h1>
-              <p className="max-w-2xl text-base text-slate-200 sm:text-lg">
-                Discover premium shirts, relaxed tees, denim classics, footwear,
-                accessories and grooming picks in one place.
-              </p>
-              <div className="flex flex-wrap gap-3 pt-2">
-                <Link
-                  to="/products"
-                  className="rounded-full bg-white px-5 py-2.5 font-semibold text-[#0b2e59] transition hover:-translate-y-0.5"
-                >
-                  Shop collection
-                </Link>
-                <a
-                  href="#brands"
-                  className="rounded-full border border-white/40 px-5 py-2.5 font-semibold text-white transition hover:bg-white/10"
-                >
-                  Explore brands
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-6">
-            <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm">
-              <p className="text-sm font-semibold uppercase tracking-[0.26em] text-[#ff3f6c]">
-                Limited offer
-              </p>
-              <h2 className="mt-3 text-2xl font-bold text-slate-900">
-                Flat 20% off on premium essentials
-              </h2>
-              <p className="mt-3 text-sm text-slate-600">
-                Grab your favorite picks from the latest men’s edit before it
-                sells out.
-              </p>
-            </div>
-
-            <div className="rounded-[2rem] bg-gradient-to-br from-[#ff3f6c] to-[#f59e0b] p-6 text-white shadow-sm">
-              <p className="text-sm font-semibold uppercase tracking-[0.26em] text-white/80">
-                Top picks
-              </p>
-              <h2 className="mt-3 text-2xl font-bold">
-                Fresh arrivals from top labels
-              </h2>
-              <p className="mt-3 text-sm text-white/90">
-                From street-ready sneakers to polished shirts, find the pieces
-                that match your mood.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <ImageSlider slides={heroSlides} label="Women's featured collection" />
 
       <section
         id="categories"

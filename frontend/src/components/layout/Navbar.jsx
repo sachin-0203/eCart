@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import {
-  ChevronDown,
+  Heart,
   Menu,
   Search,
   X,
@@ -24,7 +24,7 @@ export default function Navbar() {
 
   const [showModal, setShowModal] = useState(false);
   const [authView, setAuthView] = useState("login");
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1280);
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredLink, setHoveredLink] = useState(null);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
@@ -92,13 +92,13 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border-color bg-background shadow-[0_2px_14px_rgba(11,46,89,0.08)]">
-      <div className="mx-auto flex max-w-full items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
+      <div className="mx-auto flex max-w-[1600px] items-center gap-3 px-4 py-3 sm:px-6 xl:gap-7 xl:px-8">
         {/* Mobile Menu Button */}
         {!isDesktop && (
           <button
             type="button"
             onClick={handleMobileMenuToggle}
-            className="rounded-full bg-surface p-2 text-primary transition duration-300 hover:bg-border-color"
+            className="rounded-md p-2 text-primary transition duration-300 hover:bg-surface"
             aria-label={isOpen ? "Close menu" : "Open menu"}
             aria-expanded={isOpen}
           >
@@ -107,24 +107,21 @@ export default function Navbar() {
         )}
 
         {/*  LOGO  */}
-        <Link to="/" className="flex items-center gap-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-lg font-bold text-white">
+        <Link to="/" className="flex shrink-0 items-center gap-2" aria-label="eCart home">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-lg font-bold text-white">
             E
           </div>
-
-          <div className="leading-tight">
-            <p className="text-2xl font-semibold tracking-wide text-primary md:text-4xl">
+          {/* <div className="leading-tight">
+            <p className="text-2xl font-semibold tracking-wide text-primary">
               eCart
             </p>
-
-            <p className="text-sm text-text-secondary">Fashion • Home • Tech</p>
-          </div>
+          </div> */}
         </Link>
 
         {isDesktop ? (
           <>
             {/* DESKTOP NAVIGATION */}
-            <nav className="flex flex-1 items-center justify-center gap-6">
+            <nav className="flex flex-1 items-center justify-between gap-4">
               {navLinks.map((link) => {
                 const isHovered = hoveredLink === link.name;
 
@@ -139,7 +136,7 @@ export default function Navbar() {
                       to={link.path}
                       onClick={() => setHoveredLink(null)}
                       className={({ isActive }) =>
-                        `group relative my-3 flex items-center gap-1 px-1 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-primary transition-all duration-300 hover:text-secondary ${
+                        `group relative flex items-center px-5 py-5 text-[13px] font-bold uppercase tracking-wide text-primary transition-all duration-300 hover:text-secondary ${
                           isActive ? "text-secondary" : ""
                         }`
                       }
@@ -148,24 +145,24 @@ export default function Navbar() {
                         <span className="relative inline-flex items-center">
                           <span>{link.name}</span>
 
-                          <ChevronDown
-                            size={18}
-                            className="transition-transform duration-300 group-hover:rotate-180"
-                          />
-
                           <span
-                            className={`absolute bottom-0 left-0 h-[2px] rounded-full bg-secondary transition-all duration-300 ${
+                            className={`absolute -bottom-8 left-0 h-[4px]  bg-secondary transition-all duration-300 ${
                               isActive || isHovered ? "w-full" : "w-0"
                             }`}
                           />
+                          {link.badge && (
+                            <span className="absolute -right-7 -top-1 text-[10px] font-bold text-secondary">
+                              {link.badge}
+                            </span>
+                          )}
                         </span>
                       )}
                     </NavLink>
 
                     {/* Desktop Dropdown */}
-                    {link.sections && (
+                    {/* {link.sections && (
                       <div
-                        className={`absolute left-1/2 top-full z-50 mt-3 w-[560px] -translate-x-1/2 rounded-2xl border border-border-color bg-background p-5 shadow-[0_20px_60px_rgba(11,46,89,0.15)] transition-all duration-300 ${
+                        className={`absolute left-1/2 top-full z-50 mt-0 w-[560px] -translate-x-1/2 rounded-b-2xl border border-border-color bg-background p-5 shadow-[0_20px_60px_rgba(11,46,89,0.15)] transition-all duration-300 ${
                           isHovered
                             ? "visible translate-y-0 opacity-100"
                             : "invisible translate-y-2 opacity-0"
@@ -192,7 +189,7 @@ export default function Navbar() {
                           ))}
                         </div>
                       </div>
-                    )}
+                    )} */}
                   </div>
                 );
               })}
@@ -201,56 +198,37 @@ export default function Navbar() {
             {/* =====================================================
                 DESKTOP ACTIONS
                 ===================================================== */}
-            <div className="flex items-center gap-3">
+            <div className="flex shrink-0 items-center gap-5">
               {/* Search */}
-              <div className="flex items-center gap-2 rounded-full border border-border-color bg-surface px-3 py-2 text-sm text-text-secondary">
-                <Search size={16} />
+              <label className="flex w-64 items-center gap-3 rounded-md bg-[#f5f5f6] px-4 py-3 text-sm text-text-secondary 2xl:w-80">
+                <Search size={20} className="shrink-0 text-[#696e79]" />
 
                 <input
                   type="text"
-                  placeholder="Search"
-                  className="w-32 bg-transparent text-primary outline-none placeholder:text-text-secondary"
+                  placeholder="Search for products, brands and more"
+                  className="min-w-0 flex-1 bg-transparent text-primary outline-none placeholder:text-[#777]"
                 />
-              </div>
+              </label>
 
-              {/* Desktop Cart */}
-              <button
-                onClick={handleCart}
-                className="relative rounded-full p-2 text-primary transition hover:bg-surface"
-                aria-label="Cart"
-              >
-                <ShoppingBag size={22} />
-
-                {cartCount > 0 && (
-                  <span className="absolute right-0 top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-secondary text-[12px] font-bold text-white">
-                    {cartCount}
-                  </span>
-                )}
-              </button>
-
-              {/* =====================================================
-                  DESKTOP PROFILE / LOGIN
-                  ===================================================== */}
               {user ? (
                 <div className="relative">
                   <button
                     type="button"
                     onClick={handleProfileToggle}
-                    className=" cursor-pointer"
+                    className="flex min-w-12 flex-col items-center gap-1 text-primary"
                     aria-label="Open profile menu"
                     aria-expanded={showProfileMenu}
                   >
                     {profileSrc ? (
                       <img
                         src={profileSrc}
-                        alt={"Profile"}
-                        className={`object-cover ${showProfileMenu ? "scale-95" : ""} h-8 w-8  overflow-hidden rounded-full duration-100 transition-all`}
+                        alt="Profile"
+                        className={`h-[22px] w-[22px] rounded-full object-cover transition-all ${showProfileMenu ? "scale-95" : ""}`}
                       />
                     ) : (
-                      <div className="flex h-full w-full items-center justify-center">
-                        <UserRound size={24} strokeWidth={1.8} />
-                      </div>
+                      <UserRound size={22} strokeWidth={1.7} />
                     )}
+                    <span className="text-xs font-semibold">Profile</span>
                   </button>
 
                   {showProfileMenu && (
@@ -267,12 +245,37 @@ export default function Navbar() {
                 <button
                   type="button"
                   onClick={handleBegin}
-                  className="flex flex-col items-center   px-2 py-2 text-sm font-semibold transition-all duration-300 "
+                  className="flex min-w-12 flex-col items-center gap-1 text-primary"
                 >
-                  <UserRoundPlus size={17} />
-                  <div className="text-[12px]">Profile</div>
+                  <UserRound size={22} strokeWidth={1.7} />
+                  <span className="text-xs font-semibold">Profile</span>
                 </button>
               )}
+
+              {/* <button
+                type="button"
+                className="flex min-w-12 flex-col items-center gap-1 text-primary"
+                aria-label="Wishlist"
+                title="Wishlist"
+              >
+                <Heart size={22} strokeWidth={1.7} />
+                <span className="text-xs font-semibold">Wishlist</span>
+              </button> */}
+
+              <button
+                type="button"
+                onClick={handleCart}
+                className="relative flex min-w-12 flex-col items-center gap-1 text-primary"
+                aria-label={`Bag${cartCount > 0 ? `, ${cartCount} items` : ""}`}
+              >
+                <ShoppingBag size={22} strokeWidth={1.7} />
+                {cartCount > 0 && (
+                  <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-secondary px-1 text-[10px] font-bold text-white">
+                    {cartCount}
+                  </span>
+                )}
+                <span className="text-xs font-semibold">Bag</span>
+              </button>
             </div>
           </>
         ) : (
@@ -338,8 +341,8 @@ export default function Navbar() {
               <button
                 type="button"
                 onClick={handleBegin}
-                className="rounded-full bg-secondary p-2 text-white transition hover:bg-secondary-hover"
-                aria-label="Login"
+                className="rounded-full p-2 text-primary transition hover:bg-surface"
+                aria-label="Profile"
               >
                 <UserRoundPlus size={20} />
               </button>
