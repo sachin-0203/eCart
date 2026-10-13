@@ -24,7 +24,7 @@ export default function Navbar() {
 
   const [showModal, setShowModal] = useState(false);
   const [authView, setAuthView] = useState("login");
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1280);
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredLink, setHoveredLink] = useState(null);
   const [showProfileMenu, setShowProfileMenu] = useState(false);

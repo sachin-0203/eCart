@@ -44,3 +44,18 @@ body {
   color: var(--color-text-primary);
   font-family: 'Inter', sans-serif;
 }
+
+.hero-pagination .swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  margin: 0 !important;
+  opacity: 1;
+  background: #d4d4d8;
+  transition: width 300ms ease, background-color 300ms ease;
+}
+
+.hero-pagination .swiper-pagination-bullet-active {
+  width: 30px;
+  border-radius: 9999px;
+  background: var(--color-secondary, #db7f8e);
+}

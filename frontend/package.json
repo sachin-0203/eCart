@@ -23,6 +23,7 @@
     "react-router-dom": "^7.6.2",
     "react-router-hash-link": "^2.4.3",
     "sonner": "^2.0.8",
+    "swiper": "^14.3.0",
     "tailwindcss": "^4.1.8"
   },
   "devDependencies": {
