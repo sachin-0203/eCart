@@ -1,23 +1,2 @@
-# Python
-__pycache__/
-*.py[cod]
-*.pyo
-
-# Virtual environments
-venv/
-.venv/
-
-# Environment variables and secrets
-.env
-.env.*
-!.env.example
-
-# Node.js
 node_modules/
 dist/
-
-# IDE and OS files
-.vscode/
-.idea/
-.DS_Store
-Thumbs.db
