@@ -5,14 +5,17 @@ import {
   Menu,
   Search,
   X,
-  ShoppingBag,
+  ShoppingCart,
   UserRound,
   UserRoundPlus,
+  House,
+  Shirt,
 } from "lucide-react";
 
 import ProfileMenu from "../auth/ProfileMenu";
+import MobileBottomNav from "./MobileBottomNav";
 
-import { navLinks } from "../../data/navbarData";
+import { navLinks, mobileLinks } from "../../data/navbarData";
 import { useCart } from "../../context/CartContext";
 import AuthModal from "../auth/AuthModel";
 import { useAuth } from "../../context/AuthContext";
@@ -92,9 +95,9 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border-color bg-background shadow-[0_2px_14px_rgba(11,46,89,0.08)]">
-      <div className="mx-auto flex max-w-[1600px] items-center gap-3 px-4 py-3 sm:px-6 xl:gap-7 xl:px-8">
+      <div className="mx-auto flex max-w-[1600px] flex-wrap items-center gap-3 px-4 py-3 sm:px-6 xl:gap-7 xl:px-8">
         {/* Mobile Menu Button */}
-        {!isDesktop && (
+        {/* {!isDesktop && (
           <button
             type="button"
             onClick={handleMobileMenuToggle}
@@ -104,10 +107,14 @@ export default function Navbar() {
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
-        )}
+        )} */}
 
         {/*  LOGO  */}
-        <Link to="/" className="flex shrink-0 items-center gap-2" aria-label="eCart home">
+        <Link
+          to="/"
+          className="flex shrink-0 items-center gap-2"
+          aria-label="eCart home"
+        >
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-lg font-bold text-white">
             E
           </div>
@@ -200,13 +207,14 @@ export default function Navbar() {
                 ===================================================== */}
             <div className="flex shrink-0 items-center gap-5">
               {/* Search */}
-              <label className="flex w-64 items-center gap-3 rounded-md bg-[#f5f5f6] px-4 py-3 text-sm text-text-secondary 2xl:w-80">
-                <Search size={20} className="shrink-0 text-[#696e79]" />
+              <label className="flex w-64 items-center gap-3 rounded-xl border border-border-color bg-surface px-4 py-3 text-sm text-text-secondary 2xl:w-80">
+                <Search size={20} className="shrink-0 text-text-secondary" />
 
                 <input
                   type="text"
                   placeholder="Search for products, brands and more"
-                  className="min-w-0 flex-1 bg-transparent text-primary outline-none placeholder:text-[#777]"
+                  aria-label="Search products"
+                  className="min-w-0 flex-1 bg-transparent text-primary outline-none placeholder:text-text-secondary"
                 />
               </label>
 
@@ -268,7 +276,7 @@ export default function Navbar() {
                 className="relative flex min-w-12 flex-col items-center gap-1 text-primary"
                 aria-label={`Bag${cartCount > 0 ? `, ${cartCount} items` : ""}`}
               >
-                <ShoppingBag size={22} strokeWidth={1.7} />
+                <ShoppingCart size={22} strokeWidth={1.7} />
                 {cartCount > 0 && (
                   <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-secondary px-1 text-[10px] font-bold text-white">
                     {cartCount}
@@ -284,16 +292,17 @@ export default function Navbar() {
 
              Cart + Profile are OUTSIDE the hamburger menu
              ===================================================== */
-          <div className="ml-auto flex items-center gap-1">
+          <>
+            <div className="ml-auto flex items-center gap-1">
             {/* =====================================================
                 MOBILE CART
                 ===================================================== */}
             <button
               onClick={handleCart}
-              className="relative rounded-full p-2 text-primary transition hover:bg-surface"
+              className="relative rounded-full p-2 text-primary/80 transition hover:bg-surface"
               aria-label="Cart"
             >
-              <ShoppingBag size={22} />
+              <ShoppingCart size={20} strokeWidth={1.8} />
 
               {cartCount > 0 && (
                 <span className="absolute right-1 top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-secondary text-[10px] font-bold text-white">
@@ -344,64 +353,26 @@ export default function Navbar() {
                 className="rounded-full p-2 text-primary transition hover:bg-surface"
                 aria-label="Profile"
               >
-                <UserRoundPlus size={20} />
+                <UserRoundPlus size={20} strokeWidth={1.6} />
               </button>
             )}
-          </div>
+            </div>
+            <label className="order-last flex min-h-11 w-full basis-full items-center gap-2 rounded-xl border border-border-color bg-surface px-3 text-sm text-text-secondary transition focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10">
+              <Search size={19} className="shrink-0 text-text-secondary" />
+
+              <input
+                type="text"
+                placeholder="Search products, brands and more"
+                aria-label="Search products"
+                className="min-w-0 flex-1 bg-transparent py-2 text-base text-primary outline-none placeholder:text-text-secondary sm:text-sm"
+              />
+            </label>
+          </>
         )}
       </div>
 
-      {/* =====================================================
-          MOBILE SLIDE-OUT MENU
+      {!isDesktop && <MobileBottomNav />}
 
-          Profile + Cart are NOT inside this menu
-          ===================================================== */}
-      {!isDesktop && (
-        <nav
-          className={`absolute left-0 top-full z-40 flex h-screen w-80 flex-col gap-3 border-t border-border-color bg-background px-6 py-8 shadow-2xl transition-transform duration-300 ease-in-out ${
-            isOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
-        >
-          {/* Mobile Search */}
-          <div className="mb-3 flex items-center gap-2 rounded-full border border-border-color bg-surface px-3 py-2 text-lg text-text-secondary">
-            <Search size={25} />
-
-            <input
-              type="text"
-              placeholder="Search"
-              className="w-full bg-transparent text-primary outline-none placeholder:text-text-secondary"
-            />
-          </div>
-
-          {/* Mobile Navigation Links */}
-          {navLinks.map((link) => (
-            <NavLink
-              key={link.name}
-              to={link.path}
-              onClick={() => setIsOpen(false)}
-              className={({ isActive }) =>
-                `rounded-xl px-3 py-3 text-base font-semibold text-primary transition-all duration-300 ${
-                  isActive ? "bg-[#FFF0F4] text-secondary" : "hover:bg-surface"
-                }`
-              }
-            >
-              {link.name}
-            </NavLink>
-          ))}
-
-          {/* Shop Now */}
-          <button
-            type="button"
-            className="mt-4 rounded-full bg-accent px-5 py-2.5 text-lg font-semibold text-primary transition-all duration-300 hover:bg-accent-hover"
-          >
-            Shop Now
-          </button>
-        </nav>
-      )}
-
-      {/* =====================================================
-          AUTHENTICATION MODAL
-          ===================================================== */}
       <AuthModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}

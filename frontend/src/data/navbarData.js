@@ -1,3 +1,5 @@
+import { Bed, Shirt, ShoppingBag, Baby, Tv } from "lucide-react";
+
 export const navLinks = [
   {
     name: "Men",
@@ -58,4 +60,12 @@ export const navLinks = [
   //   path: "/coming-soon",
   //   badge: "NEW",
   // },
+];
+
+export const mobileLinks = [
+  { name: "Men", path: "/shop/men", icon: Shirt },
+  { name: "Women", path: "/shop/women", icon: ShoppingBag },
+  { name: "Kids", path: "/shop/kids", icon: Baby },
+  { name: "Home Living", path: "/shop/home-living", icon: Bed },
+  { name: "Electronic", path: "/coming-soon", icon: Tv },
 ];
