@@ -3,6 +3,13 @@ from django.db import models
 # Create your models here.
 
 class Product(models.Model):
+  PRODUCT_TYPE_CHOICES = [
+    ("men", "Men"),
+    ("women", "Women"),
+    ("children", "Children"),
+    ("unisex", "Unisex"),
+  ]
+
   # id = models.AutoField(primary_key=True)  # Django Create it automatically
   slug = models.CharField(max_length=200, unique=True)
 
@@ -10,6 +17,13 @@ class Product(models.Model):
   brand = models.CharField(max_length=50)
   category = models.CharField(max_length=100)
   sub_category = models.CharField(max_length=200)
+  product_type = models.CharField(
+    max_length=20,
+    choices=PRODUCT_TYPE_CHOICES,
+    blank=True,
+    default="",
+  )
+  sizes = models.JSONField(default=list, blank=True)
 
   price = models.DecimalField(max_digits=10, decimal_places=2)
   old_price = models.DecimalField(max_digits=10, decimal_places=2)

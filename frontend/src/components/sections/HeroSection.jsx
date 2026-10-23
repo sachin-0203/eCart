@@ -41,39 +41,10 @@ const slides = [
   },
 ];
 
-const highlights = [
-  { icon: Truck, title: "Fast delivery", text: "Across India in 24-48 hrs" },
-  {
-    icon: ShieldCheck,
-    title: "Verified quality",
-    text: "Trusted brands and products",
-  },
-  { icon: Star, title: "Top rated", text: "Loved by 10k+ shoppers" },
-];
-
 const HeroSection = () => {
   return (
     <>
       <ImageSlider slides={slides} label="Featured collections" />
-
-      <div className="mx-auto grid max-w-7xl gap-4 bg-white px-6 pb-10 md:grid-cols-3 lg:px-10">
-        {highlights.map((highlight) => (
-          <div
-            key={highlight.title}
-            className="flex items-center gap-3 rounded-xl border border-border-color bg-white p-4 shadow-sm"
-          >
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
-              <highlight.icon size={20} />
-            </div>
-            <div>
-              <p className="font-semibold text-text-primary">
-                {highlight.title}
-              </p>
-              <p className="text-sm text-text-secondary">{highlight.text}</p>
-            </div>
-          </div>
-        ))}
-      </div>
     </>
   );
 };

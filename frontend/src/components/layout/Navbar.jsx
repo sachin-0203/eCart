@@ -218,6 +218,21 @@ export default function Navbar() {
                 />
               </label>
 
+              <button
+                type="button"
+                onClick={handleCart}
+                className="relative flex min-w-12 flex-col items-center gap-1 text-primary cursor-pointer "
+                aria-label={`Bag${cartCount > 0 ? `, ${cartCount} items` : ""}`}
+              >
+                <ShoppingCart size={22} strokeWidth={1.7} />
+                {cartCount > 0 && (
+                  <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-secondary px-1 text-[10px] font-bold text-white">
+                    {cartCount}
+                  </span>
+                )}
+                <span className="text-xs font-semibold">Bag</span>
+              </button>
+
               {user ? (
                 <div className="relative">
                   <button
@@ -270,20 +285,7 @@ export default function Navbar() {
                 <span className="text-xs font-semibold">Wishlist</span>
               </button> */}
 
-              <button
-                type="button"
-                onClick={handleCart}
-                className="relative flex min-w-12 flex-col items-center gap-1 text-primary"
-                aria-label={`Bag${cartCount > 0 ? `, ${cartCount} items` : ""}`}
-              >
-                <ShoppingCart size={22} strokeWidth={1.7} />
-                {cartCount > 0 && (
-                  <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-secondary px-1 text-[10px] font-bold text-white">
-                    {cartCount}
-                  </span>
-                )}
-                <span className="text-xs font-semibold">Bag</span>
-              </button>
+              
             </div>
           </>
         ) : (
@@ -299,7 +301,7 @@ export default function Navbar() {
                 ===================================================== */}
             <button
               onClick={handleCart}
-              className="relative rounded-full p-2 text-primary/80 transition hover:bg-surface"
+              className="relative rounded-full p-2 text-primary/80 transition hover:bg-surface cursor-pointer "
               aria-label="Cart"
             >
               <ShoppingCart size={20} strokeWidth={1.8} />
