@@ -53,6 +53,15 @@ export const getCarts = async () => {
 export const getProduct = (productId) =>
   request({ method: "get", url: `${productsEndpoint}${productId}/` });
 
+export const getProductBySlug = async (slug) => {
+  const data = await request({
+    method: "get",
+    url: `${productsEndpoint}?slug=${encodeURIComponent(slug)}`,
+  });
+  const products = Array.isArray(data) ? data : data.results || [];
+  return products[0] || null;
+};
+
 export const createProduct = (product) =>
   request({ method: "post", url: productsEndpoint, data: product });
 
