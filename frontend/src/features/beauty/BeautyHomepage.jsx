@@ -1,7 +1,6 @@
-import React from "react";
+import CategoryLandingPage from "../catalog/CategoryLandingPage";
+import { beautyLandingData } from "../catalog/categoryLandingData";
 
-const BeautyHomepage = () => {
-  return <div>BeautyHomepage</div>;
-};
-
-export default BeautyHomepage;
+export default function BeautyHomepage() {
+  return <CategoryLandingPage {...beautyLandingData} />;
+}

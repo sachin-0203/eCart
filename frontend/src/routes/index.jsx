@@ -13,6 +13,7 @@ import MenHomepage from "../features/men/MenHomepage";
 import KidsHomepage from "../features/kids/KidsHomepage";
 import WomenHomepage from "../features/women/WomenHomepage";
 import BeautyHomepage from "../features/beauty/BeautyHomepage";
+import DecorationHomepage from "../features/decoration/DecorationHomepage";
 import ElectronicHomepage from "../features/electronics/ElectronicHomepage";
 
 import Products from "../pages/product/ProductsPage";
@@ -30,6 +31,7 @@ import DashboardPage from "../features/admin/pages/DashboardPage";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
+
       <Route path="/" element={<App />}>
         <Route index element={<Home />} />
         <Route path="/about" element={<About />} />
@@ -43,10 +45,12 @@ const router = createBrowserRouter(
           <Route path="home-living" element={<HomeLiving />} />
           <Route path="beauty" element={<BeautyHomepage />} />
           <Route path="electronics" element={<ElectronicHomepage />} />
+          <Route path="decoration" element={<DecorationHomepage />} />
         </Route>
         <Route path="cart" element={<CartPage />} />
         <Route path="coming-soon" element={<ComingSoonPage />} />
       </Route>
+
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<DashboardPage />} />
         <Route path="products" element={<ProductManagementPage />} />
@@ -54,6 +58,7 @@ const router = createBrowserRouter(
         <Route path="products/:productId/edit" element={<ProductFormPage />} />
         <Route path="leads" element={<LeadManagementPage />} />
       </Route>
+
     </>,
   ),
 );

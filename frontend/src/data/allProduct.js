@@ -61,12 +61,14 @@ import {
   products as homeLivingProductsGrouped,
 } from "./homeLivingData";
 import { allProducts as shopAllProducts } from "./productsData";
+import decorationProducts from "./decorationData";
 import * as shop from "./productsData";
 import { categoriesData as allCategoriesData } from "./categoriesData";
 
 export const ecommerceProducts = [
   ...shopAllProducts,
   ...homeLivingProductsGrouped,
+  ...decorationProducts,
 ];
 
 export const ecommerceData  = {

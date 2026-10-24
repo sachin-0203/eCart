@@ -7,6 +7,13 @@ import CollectionCard from "../../components/ui/CollectionCard";
 import CategoryCard from "../../components/ui/CategoryCard";
 import BrandCard from "../../components/ui/BrandCard";
 import ImageSlider from "../../components/ui/ImageSlider";
+import SmallProductCard from "../../components/ui/SmallProductCard";
+import ecommerceData from "../../data/allProduct";
+import { filterProducts } from "../../utils/productFilters";
+
+const womensProducts = filterProducts(ecommerceData.ecommerceProducts, {
+  department: "women",
+});
 
 const heroSlides = [
   {
@@ -109,7 +116,36 @@ export default function WomenHomepage() {
         </div>
       </section>
 
-      <section
+            <section
+              id="mens-products"
+              className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 my-10"
+            >
+              <div className="mb-6">
+                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#ff3f6c]">
+                  Shop women
+                </p>
+                <h2 className="text-2xl font-bold uppercase tracking-wider text-slate-900">
+                  All women&apos;s products
+                </h2>
+                <p className="mt-2 text-sm text-slate-600">
+                  Explore the complete collection of women&apos;s styles.
+                </p>
+              </div>
+      
+              {womensProducts.length === 0 ? (
+                <p className="rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center text-slate-600">
+                  No women&apos;s products are available right now.
+                </p>
+              ) : (
+                <div className="grid gap-6 sm:grid-cols-3 lg:grid-cols-5">
+                  {womensProducts.map((product) => (
+                    <SmallProductCard key={product.id} product={product} />
+                  ))}
+                </div>
+              )}
+            </section>
+
+      {/* <section
         id="brands"
         className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 my-10"
       >
@@ -123,14 +159,14 @@ export default function WomenHomepage() {
           </h2>
 
           <p className="mt-2 text-sm text-slate-600">
-            Discover popular brands across every men's fashion category.
+            Discover popular brands across every women's fashion category.
           </p>
         </div>
 
         <div className="space-y-12">
           {brandCollections.map((collection) => (
             <div key={collection.title}>
-              {/* Category Heading */}
+               
               <div className="mb-5">
                 <h3 className="text-xl font-bold uppercase tracking-wide text-slate-900">
                   {collection.title}
@@ -141,7 +177,6 @@ export default function WomenHomepage() {
                 </p>
               </div>
 
-              {/* Brand Cards */}
               <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
                 {collection.brands.map((brand) => (
                   <BrandCard key={brand.name} brand={brand} />
@@ -150,7 +185,7 @@ export default function WomenHomepage() {
             </div>
           ))}
         </div>
-      </section>
+      </section> */}
     </main>
   );
 }

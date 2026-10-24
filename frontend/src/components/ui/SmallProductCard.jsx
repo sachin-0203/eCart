@@ -5,7 +5,11 @@ import { useCart } from "../../context/CartContext";
 
 export default function SmallProductCard({ product }) {
   const navigate = useNavigate();
-  const reviewCount = product.reviewsCount ?? product.reviews?.length ?? 0;
+  const reviewCount =
+    product.reviewsCount ??
+    (Array.isArray(product.reviews)
+      ? product.reviews.length
+      : product.reviews ?? 0);
   const { addToCart } = useCart();
 
   const handleAddToCart = () => {

@@ -8,6 +8,13 @@ import CollectionCard from "../../components/ui/CollectionCard";
 import CategoryCard from "../../components/ui/CategoryCard";
 import BrandCard from "../../components/ui/BrandCard";
 import ImageSlider from "../../components/ui/ImageSlider";
+import SmallProductCard from "../../components/ui/SmallProductCard";
+import ecommerceData from "../../data/allProduct";
+import { filterProducts } from "../../utils/productFilters";
+
+const kidsProducts = filterProducts(ecommerceData.ecommerceProducts, {
+  department: "kids",
+});
 
 const heroSlides = [
   {
@@ -54,11 +61,8 @@ export default function KidsHomepage() {
         id="categories"
         className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 my-10"
       >
-
         <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
-
           <div>
-
             <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#ff3f6c]">
               Categories
             </p>
@@ -66,22 +70,16 @@ export default function KidsHomepage() {
             <h2 className="text-2xl font-bold text-slate-900 uppercase tracking-wider">
               Shop by kids category
             </h2>
-
           </div>
 
           <p className="text-sm text-slate-600">
             Everything little ones need for every part of their day.
           </p>
-
         </div>
 
         <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide">
-
           {categories.map((category) => (
-            <div
-              key={category.title}
-              className="flex-shrink-0 w-48"
-            >
+            <div key={category.title} className="flex-shrink-0 w-48">
               <CategoryCard
                 image={category.image}
                 title={category.title}
@@ -90,20 +88,15 @@ export default function KidsHomepage() {
               />
             </div>
           ))}
-
         </div>
-
       </section>
 
       <section
         id="collections"
         className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 my-10"
       >
-
         <div className="mb-6 flex items-end justify-between">
-
           <div>
-
             <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#ff3f6c]">
               Collections
             </p>
@@ -111,13 +104,10 @@ export default function KidsHomepage() {
             <h2 className="text-2xl font-bold text-slate-900 uppercase tracking-wider">
               Curated collections for every occasion
             </h2>
-
           </div>
-
         </div>
 
         <div className="grid gap-6 sm:grid-cols-3 lg:grid-cols-6">
-
           {collections.map((collection) => (
             <CollectionCard
               key={collection.title}
@@ -127,12 +117,39 @@ export default function KidsHomepage() {
               link={collection.link}
             />
           ))}
-
         </div>
-
       </section>
 
       <section
+        id="kids-products"
+        className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 my-10"
+      >
+        <div className="mb-6">
+          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#ff3f6c]">
+            Shop kids
+          </p>
+          <h2 className="text-2xl font-bold uppercase tracking-wider text-slate-900">
+            All kids&apos;s products
+          </h2>
+          <p className="mt-2 text-sm text-slate-600">
+            Explore the complete collection of kids&apos;s styles.
+          </p>
+        </div>
+
+        {kidsProducts.length === 0 ? (
+          <p className="rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center text-slate-600">
+            No kids&apos;s products are available right now.
+          </p>
+        ) : (
+          <div className="grid gap-6 sm:grid-cols-3 lg:grid-cols-5">
+            {kidsProducts.map((product) => (
+              <SmallProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* <section
         id="brands"
         className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 my-10"
       >
@@ -190,8 +207,7 @@ export default function KidsHomepage() {
 
         </div>
 
-      </section>
-
+      </section> */}
     </main>
   );
 }
