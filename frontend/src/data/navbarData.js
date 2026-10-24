@@ -1,4 +1,12 @@
-import { Bed, Shirt, ShoppingBag, Baby, Tv } from "lucide-react";
+import {
+  Bed,
+  Shirt,
+  ShoppingBag,
+  Baby,
+  Tv,
+  Sparkles,
+  PanelsTopLeft,
+} from "lucide-react";
 
 export const navLinks = [
   {
@@ -53,8 +61,24 @@ export const navLinks = [
   },
   {
     name: "Electronics",
-    path: "/coming-soon",
+    path: "/shop/electronics",
+    sections: [
+      { title: "Audio", items: ["Headphones", "Speakers", "Earbuds"] },
+      { title: "Mobile Accessories", items: ["Chargers", "Cables", "Cases"] },
+      { title: "Wearables", items: ["Smartwatches", "Fitness Trackers"] },
+    ],
+    banner: "Everyday tech to keep you connected",
   },
+  // {
+  //   name: "Decoration",
+  //   path: "/shop/decoration",
+  //   sections: [
+  //     { title: "Wall Decor", items: ["Wall Art", "Mirrors", "Wall Hangings"] },
+  //     { title: "Lighting", items: ["Table Lamps", "Accent Lighting"] },
+  //     { title: "Soft Furnishings", items: ["Pillow Covers", "Throws"] },
+  //   ],
+  //   banner: "Finishing touches to make a space yours",
+  // },
   // {
   //   name: "Studio",
   //   path: "/coming-soon",
@@ -66,6 +90,8 @@ export const mobileLinks = [
   { name: "Men", path: "/shop/men", icon: Shirt },
   { name: "Women", path: "/shop/women", icon: ShoppingBag },
   { name: "Kids", path: "/shop/kids", icon: Baby },
-  { name: "Home Living", path: "/shop/home-living", icon: Bed },
-  { name: "Electronic", path: "/coming-soon", icon: Tv },
+  { name: "Home", path: "/shop/home-living", icon: Bed },
+  { name: "Beauty", path: "/shop/beauty", icon: Sparkles },
+  { name: "Electronics", path: "/shop/electronics", icon: Tv },
+  { name: "Decor", path: "/shop/decoration", icon: PanelsTopLeft },
 ];

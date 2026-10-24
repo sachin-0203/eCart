@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     "default": dj_database_url.config(
-        default="postgresql://postgres:saar@1122@localhost:5432/ecommerce_db",
+        default="postgresql://postgres:saar@1122@localhost:5432/ecommerce_fresh",
         conn_max_age=600,
         conn_health_checks=True,
     )

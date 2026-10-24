@@ -35,7 +35,7 @@ const CategorySection = () => {
             return (
               <Link
                 key={category.id}
-                to={`/shop/products?category=${encodeURIComponent(category.title)}`}
+                to={category.link}
                 className={`group relative isolate overflow-hidden rounded-2xl bg-primary ${
                   isFeatured ? "col-span-2 sm:row-span-2" : ""
                 }`}

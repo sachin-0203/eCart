@@ -1,7 +1,6 @@
-import React from "react";
+import CategoryLandingPage from "../catalog/CategoryLandingPage";
+import { electronicsLandingData } from "../catalog/categoryLandingData";
 
-const ElectronicHomepage = () => {
-  return <div>ElectronicHomepage</div>;
-};
-
-export default ElectronicHomepage;
+export default function ElectronicHomepage() {
+  return <CategoryLandingPage {...electronicsLandingData} />;
+}
