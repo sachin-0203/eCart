@@ -2,6 +2,7 @@ import ImageSlider from "../../components/ui/ImageSlider";
 import CategoryCard from "../../components/ui/CategoryCard";
 import CollectionCard from "../../components/ui/CollectionCard";
 import SmallProductCard from "../../components/ui/SmallProductCard";
+import BrandCard from "../../components/ui/BrandCard";
 
 export default function CategoryLandingPage({
   title,
@@ -10,6 +11,7 @@ export default function CategoryLandingPage({
   categories,
   collections,
   products,
+  brandCollections = []
 }) {
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900">
@@ -63,6 +65,47 @@ export default function CategoryLandingPage({
           ))}
         </div>
       </section>
+
+      {brandCollections.length > 0 && <section
+        id="brands"
+        className=" mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 my-10"
+      >
+        <div className="mb-8">
+          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#ff3f6c]">
+            Shop by brands
+          </p>
+
+          <h2 className="mt-2 text-2xl font-bold uppercase tracking-wider text-slate-900">
+            Explore your favorite brands
+          </h2>
+
+          <p className="mt-2 text-sm text-slate-600">
+            Discover popular brands across every men's fashion category.
+          </p>
+        </div>
+
+        <div className="space-y-12">
+          {brandCollections.map((collection) => (
+            <div key={collection.title}>
+              <div className="mb-5">
+                <h3 className="text-xl font-bold uppercase tracking-wide text-slate-900">
+                  {collection.title}
+                </h3>
+
+                <p className="mt-1 text-sm text-slate-600">
+                  {collection.subtitle}
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+                {collection.brands.map((brand) => (
+                  <BrandCard key={brand.name} brand={brand} />
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>}
 
       <section className="mx-auto my-10 max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
         <div className="mb-8">
