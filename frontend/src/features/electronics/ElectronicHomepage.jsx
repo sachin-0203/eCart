@@ -1,5 +1,5 @@
 import CategoryLandingPage from "../catalog/CategoryLandingPage";
-import ecommerceData from "../../data/allProduct";
+import ecommerceData from "../../data/mock/allProduct";
 import wirelessHeadphonesImage from "../../assets/images/products/electronics/wireless-headphones.jpg";
 import smartphoneChargerImage from "../../assets/images/products/electronics/smartphone-charger.jpg";
 import smartwatchImage from "../../assets/images/products/electronics/smartwatch.jpg";

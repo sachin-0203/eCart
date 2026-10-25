@@ -1,7 +1,7 @@
 import React from "react";
 import { ArrowRight, ArrowUpRight, ShoppingBag } from "lucide-react";
 import { Link } from "react-router-dom";
-import { footerSections } from "../../data/footerData";
+import { footerSections } from "../../data/static/footerData";
 
 export default function Footer() {
   return (

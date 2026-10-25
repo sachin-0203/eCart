@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 
-import { mobileLinks } from "../../data/navbarData";
+import { mobileLinks } from "../../data/static/navbarData";
 
 export default function MobileBottomNav() {
   return (

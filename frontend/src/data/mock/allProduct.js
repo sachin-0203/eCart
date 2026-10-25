@@ -3,7 +3,7 @@ export {
   categories as menCategories,
   brandCollections as menBrandCollections,
   collections as menCollections,
-} from "./MensData";
+} from "../MensData";
 
 // Women
 export {
@@ -16,7 +16,7 @@ export {
   footwear as womenFootwear,
   beauty as womenBeauty,
   accessories as womenAccessories,
-} from "./WomensData";
+} from "../WomensData";
 
 // Kids
 export {
@@ -29,13 +29,13 @@ export {
   footwear as kidsFootwear,
   toys as kidsToys,
   schoolEssentials as kidsSchoolEssentials,
-} from "./KidsData";
+} from "../KidsData";
 
 // Home & Living
 export {
   categories,
   products as homeLivingProducts,
-} from "./homeLivingData";
+} from "../homeLivingData";
 
 // General shop products
 export {
@@ -47,23 +47,23 @@ export {
   accessoriesProducts,
   allProducts,
   featuredProducts,
-} from "./productsData";
+} from "../productsData";
 
 // Categories
-export { categoriesData } from "./categoriesData";
+export { categoriesData } from "../static/categoriesData";
 
 // Grouped export for convenient access
-import * as men from "./MensData";
-import * as women from "./WomensData";
-import * as kids from "./KidsData";
+import * as men from "../MensData";
+import * as women from "../WomensData";
+import * as kids from "../KidsData";
 import {
   categories as homeLivingHeroCards,
   products as homeLivingProductsGrouped,
-} from "./homeLivingData";
-import { allProducts as shopAllProducts } from "./productsData";
-import decorationProducts from "./decorationData";
-import * as shop from "./productsData";
-import { categoriesData as allCategoriesData } from "./categoriesData";
+} from "../homeLivingData";
+import { allProducts as shopAllProducts } from "../productsData";
+import decorationProducts from "../decorationData";
+import * as shop from "../productsData";
+import { categoriesData as allCategoriesData } from "../static/categoriesData";
 
 export const ecommerceProducts = [
   ...shopAllProducts,

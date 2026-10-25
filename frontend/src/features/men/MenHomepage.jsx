@@ -1,7 +1,7 @@
 import CategoryLandingPage from "../catalog/CategoryLandingPage";
 
 import { categories, collections, brandCollections } from "../../data/MensData";
-import ecommerceData from "../../data/allProduct";
+import ecommerceData from "../../data/mock/allProduct";
 import { filterProducts } from "../../utils/productFilters";
 
 

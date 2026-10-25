@@ -1,8 +1,17 @@
 from rest_framework import serializers
-from .models import Product
+from .models import Product, ProductImage
+
+
+class ProductImageSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = ProductImage
+    fields = ["id","product", "image"]
 
 
 class ProductSerializer(serializers.ModelSerializer):
+
+  images = ProductImageSerializer(many=True, read_only=True)
+
   class Meta:
     model = Product
     fields = "__all__"
@@ -22,3 +31,4 @@ class ProductSerializer(serializers.ModelSerializer):
         sizes.append(normalized_size)
 
     return sizes
+

@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, LoaderCircle, Save } from "lucide-react";
 import { Link } from "react-router-dom";
+import { getProductImageUrl } from "../api/productImagesApi";
 
 const inputClass =
   "mt-2 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/10";
@@ -150,10 +151,41 @@ export default function ProductForm({
 }) {
   const [form, setForm] = useState(() => createInitialForm(initialProduct));
   const [errors, setErrors] = useState({});
+  const [images, setImages] = useState([]);
+  const [existingImages, setExistingImages] = useState([]);
+  const previewUrls = useRef(new Set());
 
   useEffect(() => {
     setForm(createInitialForm(initialProduct));
+    setExistingImages(
+      (initialProduct?.images ?? []).map((image) => ({
+        ...image,
+        removed: false,
+        replacementFile: null,
+        replacementPreviewUrl: null,
+      })),
+    );
   }, [initialProduct]);
+
+  useEffect(
+    () => () => {
+      previewUrls.current.forEach((url) => URL.revokeObjectURL(url));
+      previewUrls.current.clear();
+    },
+    [],
+  );
+
+  const createPreviewUrl = (file) => {
+    const url = URL.createObjectURL(file);
+    previewUrls.current.add(url);
+    return url;
+  };
+
+  const revokePreviewUrl = (url) => {
+    if (!url) return;
+    URL.revokeObjectURL(url);
+    previewUrls.current.delete(url);
+  };
 
   const updateField = (event) => {
     const { name, type, value, checked } = event.target;
@@ -162,6 +194,78 @@ export default function ProductForm({
       [name]: type === "checkbox" ? checked : value,
     }));
     setErrors((current) => ({ ...current, [name]: "" }));
+  };
+
+  const addImages = (event) => {
+    const selectedImages = Array.from(event.target.files ?? []);
+    if (selectedImages.length) {
+      const newImages = selectedImages.map((file) => ({
+        file,
+        previewUrl: createPreviewUrl(file),
+        uploaded: false,
+      }));
+      setImages((current) => [...current, ...newImages]);
+    }
+    event.target.value = "";
+  };
+
+  const removeSelectedImage = (imageToRemove) => {
+    revokePreviewUrl(imageToRemove.previewUrl);
+    setImages((current) =>
+      current.filter((image) => image !== imageToRemove),
+    );
+  };
+
+  const selectReplacement = (imageId, file) => {
+    if (!file) return;
+    const previewUrl = createPreviewUrl(file);
+    const previousImage = existingImages.find((image) => image.id === imageId);
+    revokePreviewUrl(previousImage?.replacementPreviewUrl);
+    setExistingImages((current) =>
+      current.map((image) => {
+        if (image.id !== imageId) return image;
+        return { ...image, replacementFile: file, replacementPreviewUrl: previewUrl };
+      }),
+    );
+  };
+
+  const markImageUploaded = (uploadedFile, uploadedImage) => {
+    const uploadedPreview = images.find((image) => image.file === uploadedFile);
+    revokePreviewUrl(uploadedPreview?.previewUrl);
+    setImages((current) =>
+      current.filter((image) => image.file !== uploadedFile),
+    );
+    if (uploadedImage) {
+      setExistingImages((current) => [
+        ...current,
+        {
+          ...uploadedImage,
+          removed: false,
+          replacementFile: null,
+          replacementPreviewUrl: null,
+        },
+      ]);
+    }
+  };
+
+  const markImageReplaced = (imageId, updatedImage) => {
+    const replacedImage = existingImages.find((image) => image.id === imageId);
+    revokePreviewUrl(replacedImage?.replacementPreviewUrl);
+    setExistingImages((current) =>
+      current.map((image) => {
+        if (image.id !== imageId) return image;
+        return {
+          ...updatedImage,
+          removed: false,
+          replacementFile: null,
+          replacementPreviewUrl: null,
+        };
+      }),
+    );
+  };
+
+  const markImageRemoved = (imageId) => {
+    setExistingImages((current) => current.filter((image) => image.id !== imageId));
   };
 
   const handleSubmit = async (event) => {
@@ -179,29 +283,45 @@ export default function ProductForm({
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length) return;
 
-    await onSubmit({
-      ...form,
-      title: form.title.trim(),
-      slug: form.slug.trim(),
-      brand: form.brand.trim(),
-      category: form.category.trim(),
-      sub_category: form.sub_category.trim(),
-      product_type: form.product_type,
-      sizes: form.sizes
-        .split(",")
-        .map((size) => size.trim())
-        .filter(Boolean)
-        .filter((size, index, availableSizes) => availableSizes.indexOf(size) === index),
-      short_description: form.short_description.trim(),
-      description: form.description.trim(),
-      price: Number(form.price),
-      old_price: Number(form.old_price),
-      discount_percentage: Number(form.discount_percentage),
-      rating: Number(form.rating),
-      review_count: Number(form.review_count),
-      stock: Number(form.stock),
-      in_stock: form.in_stock,
-    });
+    await onSubmit(
+      {
+        ...form,
+        title: form.title.trim(),
+        slug: form.slug.trim(),
+        brand: form.brand.trim(),
+        category: form.category.trim(),
+        sub_category: form.sub_category.trim(),
+        product_type: form.product_type,
+        sizes: form.sizes
+          .split(",")
+          .map((size) => size.trim())
+          .filter(Boolean)
+          .filter(
+            (size, index, availableSizes) => availableSizes.indexOf(size) === index,
+          ),
+        short_description: form.short_description.trim(),
+        description: form.description.trim(),
+        price: Number(form.price),
+        old_price: Number(form.old_price),
+        discount_percentage: Number(form.discount_percentage),
+        rating: Number(form.rating),
+        review_count: Number(form.review_count),
+        stock: Number(form.stock),
+        in_stock: form.in_stock,
+      },
+      images.filter((image) => !image.uploaded).map((image) => image.file),
+      markImageUploaded,
+      {
+        replacements: existingImages
+          .filter((image) => !image.removed && image.replacementFile)
+          .map(({ id, replacementFile }) => ({ id, file: replacementFile })),
+        removedImageIds: existingImages
+          .filter((image) => image.removed)
+          .map((image) => image.id),
+        markImageReplaced,
+        markImageRemoved,
+      },
+    );
   };
 
   return (
@@ -271,6 +391,157 @@ export default function ProductForm({
             />
           ))}
         </div>
+      </div>
+
+      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
+        <div className="mb-6">
+          <h2 className="text-lg font-bold text-slate-900">Product images</h2>
+          <p className="mt-1 text-sm text-slate-500">
+            Select the front image first. Images upload in the order listed below.
+          </p>
+        </div>
+        <label className="block text-sm font-semibold text-slate-700">
+          Choose product images
+          <input
+            className={inputClass}
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={addImages}
+          />
+        </label>
+        {(existingImages.length > 0 || images.length > 0) && (
+          <ul className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {existingImages.map((image) => {
+              const activeImages = existingImages.filter(
+                (item) => !item.removed,
+              );
+              const activeIndex = activeImages.indexOf(image);
+              const previewUrl =
+                image.replacementPreviewUrl ||
+                getProductImageUrl(image.image);
+              return (
+                <li
+                  key={`existing-${image.id}`}
+                  className={`overflow-hidden rounded-xl border ${
+                    image.removed ? "border-red-200 opacity-60" : "border-slate-200"
+                  }`}
+                >
+                  <img
+                    src={previewUrl}
+                    alt={`${form.title || "Product"} ${image.replacementFile ? "replacement preview" : "image preview"}`}
+                    className="h-44 w-full bg-slate-50 object-contain"
+                  />
+                  <div className="space-y-2 p-3">
+                    <p className="text-sm font-semibold text-slate-800">
+                      {image.removed
+                        ? "Marked for removal"
+                        : activeIndex === 0
+                          ? "Front image"
+                          : `Image ${activeIndex + 1}`}
+                    </p>
+                    {image.replacementFile && (
+                      <p className="truncate text-xs text-slate-500">
+                        Replacement: {image.replacementFile.name}
+                      </p>
+                    )}
+                    <div className="flex flex-wrap gap-2">
+                      {image.removed ? (
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setExistingImages((current) =>
+                              current.map((item) =>
+                                item.id === image.id
+                                  ? { ...item, removed: false }
+                                  : item,
+                              ),
+                            )
+                          }
+                          className="text-xs font-semibold text-cyan-700 hover:text-cyan-900"
+                        >
+                          Undo remove
+                        </button>
+                      ) : (
+                        <>
+                          <label className="cursor-pointer text-xs font-semibold text-cyan-700 hover:text-cyan-900">
+                            Replace image
+                            <input
+                              type="file"
+                              accept="image/*"
+                              className="sr-only"
+                              onChange={(event) => {
+                                selectReplacement(
+                                  image.id,
+                                  event.target.files?.[0],
+                                );
+                                event.target.value = "";
+                              }}
+                            />
+                          </label>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setExistingImages((current) =>
+                                current.map((item) =>
+                                  item.id === image.id
+                                    ? { ...item, removed: true }
+                                    : item,
+                                ),
+                              )
+                            }
+                            className="text-xs font-semibold text-red-600 hover:text-red-800"
+                          >
+                            Remove
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </li>
+              );
+            })}
+            {images.map(({ file, previewUrl }, index) => {
+              const frontImage =
+                existingImages.every((image) => image.removed) && index === 0;
+              const imageNumber =
+                existingImages.filter((image) => !image.removed).length +
+                index +
+                1;
+              return (
+                <li
+                  key={`${file.name}-${file.lastModified}-${index}`}
+                  className="overflow-hidden rounded-xl border border-slate-200"
+                >
+                  <img
+                    src={previewUrl}
+                    alt={`${form.title || "Product"} upload preview`}
+                    className="h-44 w-full bg-slate-50 object-contain"
+                  />
+                  <div className="flex items-center justify-between gap-2 p-3">
+                    <span className="min-w-0">
+                      <span className="block text-sm font-semibold text-slate-800">
+                        {frontImage ? "Front image" : `Image ${imageNumber}`}
+                      </span>
+                      <span className="block truncate text-xs text-slate-500">
+                        {file.name}
+                      </span>
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        removeSelectedImage(images[index])
+                      }
+                      className="shrink-0 text-xs font-semibold text-red-600 hover:text-red-800"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
 
       <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">

@@ -9,7 +9,7 @@ import {
   Plus,
   Trash2,
 } from "lucide-react";
-import { deleteProduct, getProducts } from "../../api/products";
+import { deleteProduct, getProducts } from "../../api/productApi";
 import AdminLoading from "../../components/AdminLoading";
 import AdminSearch from "../../components/AdminSearch";
 

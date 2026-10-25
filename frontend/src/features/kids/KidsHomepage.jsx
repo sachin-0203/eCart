@@ -1,6 +1,6 @@
 import CategoryLandingPage from "../catalog/CategoryLandingPage";
 import { brandCollections, categories, collections } from "../../data/KidsData";
-import ecommerceData from "../../data/allProduct";
+import ecommerceData from "../../data/mock/allProduct";
 import { filterProducts } from "../../utils/productFilters";
 
 const kidsProducts = filterProducts(ecommerceData.ecommerceProducts, {

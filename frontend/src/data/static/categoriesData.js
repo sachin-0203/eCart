@@ -1,12 +1,12 @@
-import accessoriesImg from "../assets/images/categories/accessoriesImg.jpg";
-import beautyImg from "../assets/images/categories/beautyImg.jpg";
-import electronicsImg from "../assets/images/categories/electronicImg.jpg";
-import fashionImg from "../assets/images/categories/fashionImg.jpg";
-import homeImg from "../assets/images/categories/homeImg.jpg";
-import footwearImg from "../assets/images/categories/footwearImg.jpg";
-import dryfruitsImg from "../assets/images/categories/dryfruitsImg.jpg";
-import decorationImg from "../assets/images/categories/decorationImg.jpg";
-import handycraftImg from "../assets/images/categories/handycraftImg.jpg";
+import accessoriesImg from "../../assets/images/categories/accessoriesImg.jpg";
+import beautyImg from "../../assets/images/categories/beautyImg.jpg";
+import electronicsImg from "../../assets/images/categories/electronicImg.jpg";
+import fashionImg from "../../assets/images/categories/fashionImg.jpg";
+import homeImg from "../../assets/images/categories/homeImg.jpg";
+import footwearImg from "../../assets/images/categories/footwearImg.jpg";
+import dryfruitsImg from "../../assets/images/categories/dryfruitsImg.jpg";
+import decorationImg from "../../assets/images/categories/decorationImg.jpg";
+import handycraftImg from "../../assets/images/categories/handycraftImg.jpg";
 
 export const categoriesData = [
   {

@@ -25,6 +25,9 @@ ALLOWED_HOSTS = [
     if host.strip()
 ]
 
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR/"media"
+
 
 # Application definition
 

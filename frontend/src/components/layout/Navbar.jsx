@@ -15,7 +15,7 @@ import {
 import ProfileMenu from "../auth/ProfileMenu";
 import MobileBottomNav from "./MobileBottomNav";
 
-import { navLinks, mobileLinks } from "../../data/navbarData";
+import { navLinks, mobileLinks } from "../../data/static/navbarData";
 import { useCart } from "../../context/CartContext";
 import AuthModal from "../auth/AuthModel";
 import { useAuth } from "../../context/AuthContext";

@@ -1,7 +1,7 @@
 import React from "react";
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import { categoriesData } from "../../data/categoriesData";
+import { categoriesData } from "../../data/static/categoriesData";
 
 const CategorySection = () => {
   return (

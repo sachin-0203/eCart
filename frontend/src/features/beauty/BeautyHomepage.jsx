@@ -1,5 +1,5 @@
 import CategoryLandingPage from "../catalog/CategoryLandingPage";
-import ecommerceData from "../../data/allProduct";
+import ecommerceData from "../../data/mock/allProduct";
 import antiAgingSerumImage from "../../assets/images/products/beauty/anti-aging-serum.jpg";
 import hairCareImage from "../../assets/images/products/beauty/hair-shampoo-conditioner.jpg";
 import lipstickImage from "../../assets/images/products/beauty/lipstick-collection.jpg";
