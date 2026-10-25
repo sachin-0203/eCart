@@ -3,7 +3,16 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { AlertCircle, ArrowLeft, LoaderCircle } from "lucide-react";
 import ProductForm from "../../components/ProductForm";
-import { createProduct, getProduct, updateProduct } from "../../api/products";
+import {
+  createProduct,
+  getProduct,
+  updateProduct,
+} from "../../api/productApi";
+import {
+  deleteProductImage,
+  updateProductImage,
+  uploadProductImage,
+} from "../../api/productImagesApi";
 
 export default function ProductFormPage() {
   const { productId } = useParams();
@@ -13,6 +22,7 @@ export default function ProductFormPage() {
   const [isLoading, setIsLoading] = useState(isEditing);
   const [loadError, setLoadError] = useState("");
   const [isSaving, setIsSaving] = useState(false);
+  const [createdProduct, setCreatedProduct] = useState(null);
 
   useEffect(() => {
     if (!productId) return undefined;
@@ -34,21 +44,61 @@ export default function ProductFormPage() {
     };
   }, [productId]);
 
-  const handleSubmit = async (formData) => {
+  const handleSubmit = async (formData, images, onImageUploaded, imageEdits) => {
     setIsSaving(true);
+    let productWasSaved = false;
     try {
-      if (isEditing) {
-        await updateProduct(productId, formData);
-        toast.success("Product updated.");
+      let savedProduct;
+      if (isEditing || createdProduct) {
+        savedProduct = await updateProduct(
+          createdProduct?.id ?? product?.id ?? productId,
+          formData,
+        );
+        productWasSaved = true;
       } else {
-        await createProduct(formData);
-        toast.success("Product created.");
+        savedProduct = await createProduct(formData);
+        if (!savedProduct?.id) {
+          throw new Error("The product was saved, but its ID was not returned.");
+        }
+        setCreatedProduct(savedProduct);
+        productWasSaved = true;
       }
+
+      const imageProductId =
+        savedProduct?.id ?? createdProduct?.id ?? product?.id;
+      if (images.length && !imageProductId) {
+        throw new Error("Could not determine the product ID for image uploads.");
+      }
+      for (const image of images) {
+        const uploadedImage = await uploadProductImage(imageProductId, image);
+        onImageUploaded(image, uploadedImage);
+      }
+      for (const replacement of imageEdits.replacements) {
+        const updatedImage = await updateProductImage(
+          replacement.id,
+          replacement.file,
+        );
+        imageEdits.markImageReplaced(replacement.id, updatedImage);
+      }
+      for (const imageId of imageEdits.removedImageIds) {
+        await deleteProductImage(imageId);
+        imageEdits.markImageRemoved(imageId);
+      }
+
+      toast.success(
+        isEditing || createdProduct ? "Product updated." : "Product created.",
+      );
       navigate("/admin/products");
     } catch (error) {
-      toast.error(`Could not ${isEditing ? "update" : "create"} product`, {
-        description: error.message,
-      });
+      if (productWasSaved) {
+        toast.error("Product saved, but an image could not be uploaded.", {
+          description: `${error.message} Retry saving to upload the remaining images.`,
+        });
+      } else {
+        toast.error(`Could not ${isEditing ? "update" : "create"} product`, {
+          description: error.message,
+        });
+      }
     } finally {
       setIsSaving(false);
     }
@@ -101,7 +151,13 @@ export default function ProductFormPage() {
           initialProduct={product}
           isSaving={isSaving}
           onSubmit={handleSubmit}
-          submitLabel={isEditing ? "Save changes" : "Create product"}
+          submitLabel={
+            createdProduct
+              ? "Retry image upload"
+              : isEditing
+                ? "Save changes"
+                : "Create product"
+          }
         />
       )}
     </div>

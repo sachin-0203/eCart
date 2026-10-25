@@ -10,12 +10,10 @@ import {
   ShoppingCart,
   UsersRound,
 } from "lucide-react";
-import {
-  getCarts,
-  getLeads,
-  getOrders,
-  getProducts,
-} from "../api/products";
+import { getCarts } from "../api/cartApi";
+import { getLeads } from "../api/leadsApi";
+import { getOrders } from "../api/orderApi";
+import { getProducts } from "../api/productApi";
 import AdminLoading from "../components/AdminLoading";
 
 const currency = new Intl.NumberFormat("en-IN", {

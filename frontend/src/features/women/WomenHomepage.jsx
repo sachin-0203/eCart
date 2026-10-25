@@ -3,7 +3,7 @@ import {
   collections,
   brandCollections,
 } from "../../data/WomensData";
-import ecommerceData from "../../data/allProduct";
+import ecommerceData from "../../data/mock/allProduct";
 import { filterProducts } from "../../utils/productFilters";
 import CategoryLandingPage from "../catalog/CategoryLandingPage";
 

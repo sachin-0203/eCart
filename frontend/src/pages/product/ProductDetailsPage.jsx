@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import ecommerceData from "../../data/allProduct";
+import ecommerceData from "../../data/mock/allProduct";
 import ProductImageGallery from "../../components/ui/ProductImageGallery";
 import ProductInfo from "../../components/ui/ProductInfo";
 import ProductDetails from "../../components/ui/ProductDetails";
 import ProductReviews from "../../components/ui/Reviews";
 import RelatedProducts from "../../components/ui/RelatedProducts";
-import { getProductBySlug } from "../../features/admin/api/products";
+import { getProductBySlug } from "../../features/admin/api/productApi";
 
 const ProductDetailsPage = () => {
   const [searchParams] = useSearchParams();
@@ -21,49 +21,59 @@ const ProductDetailsPage = () => {
   const [isLoadingApiProduct, setIsLoadingApiProduct] = useState(false);
   const [apiError, setApiError] = useState("");
 
-  useEffect(() => {
-    let isCurrent = true;
+useEffect(() => {
+  let isCurrent = true;
 
+  const fetchProduct = async () => {
     if (!slug || catalogProduct) {
       setApiProduct(null);
       setApiError("");
       setIsLoadingApiProduct(false);
-      return undefined;
+      return;
     }
 
     setApiProduct(null);
     setApiError("");
     setIsLoadingApiProduct(true);
 
-    getProductBySlug(slug)
-      .then((product) => {
-        if (isCurrent) setApiProduct(product);
-      })
-      .catch((error) => {
-        if (isCurrent) setApiError(error.message);
-      })
-      .finally(() => {
-        if (isCurrent) setIsLoadingApiProduct(false);
-      });
+    try {
+      const product = await getProductBySlug(slug);
 
-    return () => {
-      isCurrent = false;
-    };
-  }, [slug, catalogProduct]);
-
-  const product = catalogProduct ?? (apiProduct
-    ? {
-        ...apiProduct,
-        oldPrice: apiProduct.old_price,
-        discountPercentage: Number(apiProduct.discount_percentage),
-        reviewsCount: apiProduct.review_count,
-        productType: apiProduct.product_type,
-        description: apiProduct.description || apiProduct.short_description,
-        images: [],
-        reviews: [],
-        details: {},
+      if (isCurrent) {
+        setApiProduct(product);
       }
-    : null);
+    } catch (error) {
+      if (isCurrent) {
+        setApiError(error.message);
+      }
+    } finally {
+      if (isCurrent) {
+        setIsLoadingApiProduct(false);
+      }
+    }
+  };
+
+  fetchProduct();
+  return () => {
+    isCurrent = false;
+  };
+}, [slug, catalogProduct]);
+
+  const product =
+    catalogProduct ??
+    (apiProduct
+      ? {
+          ...apiProduct,
+          oldPrice: apiProduct.old_price,
+          discountPercentage: Number(apiProduct.discount_percentage),
+          reviewsCount: apiProduct.review_count,
+          productType: apiProduct.product_type,
+          description: apiProduct.description || apiProduct.short_description,
+          images: apiProduct.images ?? [],
+          reviews: [],
+          details: {},
+        }
+      : null);
 
   const relatedProducts = product?.relatedProducts?.length
     ? ecommerceData.ecommerceProducts.filter((item) =>
@@ -95,14 +105,14 @@ const ProductDetailsPage = () => {
         </div>
       </section>
     );
-  }
+  }  
 
   return (
     <main className="min-h-screen bg-background px-6 py-10 lg:px-20">
       <div>
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-2">
           <ProductImageGallery
-            images={product.images ?? (product.image ? [product.image] : [])}
+            images={product.images?.map((img) => img.image) ?? []}
             title={product.title}
           />
 
@@ -112,7 +122,10 @@ const ProductDetailsPage = () => {
 
           <ProductReviews product={product} />
         </div>
-        <RelatedProducts category={product.category} relatedProducts={relatedProducts} />
+        <RelatedProducts
+          category={product.category}
+          relatedProducts={relatedProducts}
+        />
       </div>
     </main>
   );

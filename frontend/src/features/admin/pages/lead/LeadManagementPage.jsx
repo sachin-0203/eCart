@@ -9,7 +9,7 @@ import {
   Trash2,
   UsersRound,
 } from "lucide-react";
-import { deleteLead, getLeads, updateLead } from "../../api/products";
+import { deleteLead, getLeads, updateLead } from "../../api/leadsApi";
 import AdminLoading from "../../components/AdminLoading";
 import AdminSearch from "../../components/AdminSearch";
 import LeadDetailsModal from "../../components/LeadDetailsModal";
