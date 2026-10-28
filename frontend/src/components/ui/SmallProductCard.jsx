@@ -28,7 +28,7 @@ export default function SmallProductCard({ product }) {
     <div className="group relative overflow-hidden rounded-sm border border-border-color w-50  bg-white hover:shadow-xl cursor-pointer ">
       <div onClick={handleProductClick} className="relative overflow-hidden">
         <img
-          src={product.image}
+          src={product.images[0].image}
           alt={product.title}
           className="h-50 w-70 object-cover transition duration-500 group-hover:scale-105"
         />
@@ -36,7 +36,7 @@ export default function SmallProductCard({ product }) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-0 transition duration-300 group-hover:opacity-100" />
 
         <div className="absolute right-2 top-2 z-10 rounded-full bg-primary/80 px-2 text-[10px] font-semibold text-white  shadow-md">
-          {product.discountPercentage}% OFF
+          {parseFloat(product.discount_percentage)}% OFF
         </div>
 
         <div className=" absolute left-3 bottom-2 flex items-center gap-1 bg-white/70 px-2 text-black font-semibold text-xs ">
@@ -44,7 +44,7 @@ export default function SmallProductCard({ product }) {
           <div className="text-green-600">
             <Star size={12} className="fill-current" />
           </div>
-          |<span className="text-black">{reviewCount}</span>
+          |<span className="text-black">{product.review_count}</span>
         </div>
       </div>
 
@@ -54,7 +54,7 @@ export default function SmallProductCard({ product }) {
             <div className="my-4">
               <button
                 onClick={handleAddToCart}
-               className="rounded-sm bg-primary px-3 py-2 text-[10px] font-semibold text-white transition hover:bg-primary-hover cursor-pointer w-full "
+                className="rounded-sm bg-primary px-3 py-2 text-[10px] font-semibold text-white transition hover:bg-primary-hover cursor-pointer w-full "
               >
                 Add to Cart
               </button>
@@ -75,7 +75,7 @@ export default function SmallProductCard({ product }) {
           <div className="flex items-center justify-between gap-3 mt-2 ">
             <p className="font-bold text-primary text-sm">Rs.{product.price}</p>
             <p className="text-[11px] text-text-secondary line-through">
-              Rs. {product.oldPrice}
+              Rs. {product.old_price}
             </p>
           </div>
         </div>

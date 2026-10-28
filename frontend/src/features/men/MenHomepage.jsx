@@ -1,9 +1,11 @@
+import { useEffect, useState } from "react";
+
 import CategoryLandingPage from "../catalog/CategoryLandingPage";
 
 import { categories, collections, brandCollections } from "../../data/MensData";
 import ecommerceData from "../../data/mock/allProduct";
 import { filterProducts } from "../../utils/productFilters";
-
+import { getMenProducts } from "./api/menApi";
 
 const mensProducts = filterProducts(ecommerceData.ecommerceProducts, {
   department: "men",
@@ -46,15 +48,77 @@ const heroSlides = [
 ];
 
 export default function MenHomepage() {
+  const [menProducts, setMenProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    const fetchMenProduct = async () => {
+      try {
+        setLoading(true);
+        setError("");
+
+        const response = await getMenProducts({
+          signal: controller.signal,
+        });
+
+        console.log("response data==========", response);
+        
+
+        setMenProducts(response);
+      } catch (err) {
+        if (
+          err.code === "ERR_CANCELED" ||
+          err.name === "CanceledError"
+        ) {
+          return;
+        }
+
+        setError(
+          err.response?.data?.detail ||
+            err.message ||
+            "Failed to fetch men's products."
+        );
+      } finally {
+        if (!controller.signal.aborted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchMenProduct();
+
+    return () => controller.abort();
+  }, []);
+
+  if (loading) {
+    return <p className="p-6">Loading men's products...</p>;
+  }
+
+  if (error) {
+    return (
+      <div className="p-6" role="alert">
+        <p>{error}</p>
+        <button
+          onClick={() => window.location.reload()}
+          className="mt-3 rounded bg-black px-4 py-2 text-white"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
+
   return (
     <CategoryLandingPage
-      title="Mens"
-      description="Everything little ones need for every part of their day."
+      title="Men"
+      description="Explore everyday essentials, timeless styles, and the latest trends for men."
       heroSlides={heroSlides}
       categories={categories}
       collections={collections}
-      products={mensProducts}
-      // brandCollections={brandCollections}
+      products={menProducts}
     />
   );
 }

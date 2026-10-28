@@ -26,6 +26,8 @@ import AdminLayout from "../features/admin/AdminLayout";
 import ProductManagementPage from "../features/admin/pages/product/ProductManagementPage";
 import ProductFormPage from "../features/admin/pages/product/ProductFormPage";
 import LeadManagementPage from "../features/admin/pages/lead/LeadManagementPage";
+import OrderManagementPage from "../features/admin/pages/order/OrderManagementPage";
+import CartManagementPage from "../features/admin/pages/cart/CartManagementPage";
 import DashboardPage from "../features/admin/pages/DashboardPage";
 
 const router = createBrowserRouter(
@@ -57,6 +59,8 @@ const router = createBrowserRouter(
         <Route path="products/new" element={<ProductFormPage />} />
         <Route path="products/:productId/edit" element={<ProductFormPage />} />
         <Route path="leads" element={<LeadManagementPage />} />
+        <Route path="orders" element={<OrderManagementPage />} />
+        <Route path="carts" element={<CartManagementPage />} />
       </Route>
 
     </>,

@@ -130,27 +130,42 @@ export default function LeadManagementPage() {
         </p>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         {[
-          { label: "Total leads", value: leads.length, tone: "text-slate-950" },
-          { label: "New", value: countByStatus("new"), tone: "text-sky-700" },
+          {
+            label: "Total leads",
+            value: leads.length,
+            tone: "text-slate-950",
+            accent: "from-slate-900 to-slate-700",
+          },
+          {
+            label: "New",
+            value: countByStatus("new"),
+            tone: "text-sky-700",
+            accent: "from-sky-500 to-sky-600",
+          },
           {
             label: "Contacted",
             value: countByStatus("contacted"),
             tone: "text-amber-700",
+            accent: "from-amber-400 to-amber-500",
           },
           {
             label: "Resolved",
             value: countByStatus("resolved"),
             tone: "text-emerald-700",
+            accent: "from-emerald-500 to-emerald-600",
           },
         ].map((stat) => (
           <div
             key={stat.label}
-            className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+            className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"
           >
-            <p className="text-sm font-medium text-slate-500">{stat.label}</p>
-            <p className={`mt-2 text-3xl font-bold ${stat.tone}`}>
+            <div className={`mb-3 h-1.5 w-16 rounded-full bg-gradient-to-r ${stat.accent}`} />
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+              {stat.label}
+            </p>
+            <p className={`mt-3 text-2xl font-bold ${stat.tone}`}>
               {stat.value}
             </p>
           </div>
@@ -158,26 +173,36 @@ export default function LeadManagementPage() {
       </div>
 
       <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-        <div className="flex flex-col gap-3 border-b border-slate-100 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
-          <AdminSearch
-            value={search}
-            onChange={setSearch}
-            placeholder="Search name, email, or subject"
-            label="Search leads"
-          />
-          <select
-            value={statusFilter}
-            onChange={(event) => setStatusFilter(event.target.value)}
-            className="rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-medium text-slate-700 outline-none focus:border-cyan-500"
-            aria-label="Filter leads by status"
-          >
-            <option value="all">All statuses</option>
-            {statusOptions.map((status) => (
-              <option key={status.value} value={status.value}>
-                {status.label}
-              </option>
-            ))}
-          </select>
+        <div className="flex flex-col gap-4 border-b border-slate-100 p-4 sm:p-5">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+            <div className="min-w-0 flex-1">
+              <AdminSearch
+                value={search}
+                onChange={setSearch}
+                placeholder="Search name, email, or subject"
+                label="Search leads"
+              />
+            </div>
+            <div className="inline-flex flex-wrap items-center gap-1 rounded-md bg-gray-200 p-1 shadow-inner ring-1 ring-white/10">
+              {[
+                { value: "all", label: "All" },
+                ...statusOptions,
+              ].map((option) => (
+                <button
+                  key={option.value}
+                  type="button"
+                  onClick={() => setStatusFilter(option.value)}
+                  className={`rounded-sm px-2 py-1 text-sm font-medium transition ${
+                    statusFilter === option.value
+                      ? "bg-white/90 text-slate-900 shadow-sm"
+                      : "text-slate-800 hover:text-black"
+                  }`}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
 
         {isLoading ? (

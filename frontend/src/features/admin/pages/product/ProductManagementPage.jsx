@@ -19,6 +19,12 @@ const currency = new Intl.NumberFormat("en-IN", {
   maximumFractionDigits: 2,
 });
 
+const inventoryOptions = [
+  { value: "all", label: "All" },
+  { value: "in-stock", label: "In stock" },
+  { value: "out-of-stock", label: "Out of stock" },
+];
+
 export default function ProductManagementPage() {
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
@@ -107,40 +113,70 @@ export default function ProductManagementPage() {
         </Link>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-3 sm:grid-cols-3">
         {[
-          { label: "Total products", value: products.length, tone: "text-slate-950" },
-          { label: "In stock", value: inStockCount, tone: "text-emerald-700" },
-          { label: "Out of stock", value: outOfStockCount, tone: "text-amber-700" },
+          {
+            label: "Total products",
+            value: products.length,
+            tone: "text-slate-950",
+            accent: "from-slate-900 to-slate-700",
+          },
+          {
+            label: "In stock",
+            value: inStockCount,
+            tone: "text-emerald-700",
+            accent: "from-emerald-500 to-emerald-600",
+          },
+          {
+            label: "Out of stock",
+            value: outOfStockCount,
+            tone: "text-amber-700",
+            accent: "from-amber-400 to-amber-500",
+          },
         ].map((stat) => (
           <div
             key={stat.label}
-            className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+            className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"
           >
-            <p className="text-sm font-medium text-slate-500">{stat.label}</p>
-            <p className={`mt-2 text-3xl font-bold ${stat.tone}`}>{stat.value}</p>
+            <div className={`mb-3 h-1.5 w-16 rounded-full bg-gradient-to-r ${stat.accent}`} />
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+              {stat.label}
+            </p>
+            <p className={`mt-3 text-2xl font-bold ${stat.tone}`}>
+              {stat.value}
+            </p>
           </div>
         ))}
       </div>
 
       <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-        <div className="flex flex-col gap-3 border-b border-slate-100 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
-          <AdminSearch
-            value={search}
-            onChange={setSearch}
-            placeholder="Search by product, brand, or slug"
-            label="Search products"
-          />
-          <select
-            value={inventoryFilter}
-            onChange={(event) => setInventoryFilter(event.target.value)}
-            className="rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-medium text-slate-700 outline-none focus:border-cyan-500"
-            aria-label="Filter by stock status"
-          >
-            <option value="all">All inventory</option>
-            <option value="in-stock">In stock</option>
-            <option value="out-of-stock">Out of stock</option>
-          </select>
+        <div className="flex flex-col gap-4 border-b border-slate-100 p-4 sm:p-5">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+            <div className="min-w-0 flex-1">
+              <AdminSearch
+                value={search}
+                onChange={setSearch}
+                placeholder="Search by product, brand, or slug"
+                label="Search products"
+              />
+            </div>
+            <div className="inline-flex flex-wrap items-center gap-1 rounded-md bg-gray-200 p-1 shadow-inner ring-1 ring-white/10">
+              {inventoryOptions.map((option) => (
+                <button
+                  key={option.value}
+                  type="button"
+                  onClick={() => setInventoryFilter(option.value)}
+                  className={`rounded-sm px-2  py-1 text-sm font-medium transition ${
+                    inventoryFilter === option.value
+                      ? "bg-white/90 text-slate-900 shadow-sm"
+                      : "text-slate-800 hover:text-black "
+                  }`}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
 
         {isLoading ? (
@@ -164,7 +200,9 @@ export default function ProductManagementPage() {
           <div className="flex min-h-64 flex-col items-center justify-center px-5 text-center">
             <PackageOpen className="text-slate-300" size={36} />
             <h2 className="mt-3 font-semibold text-slate-900">
-              {products.length ? "No matching products" : "Your catalog is empty"}
+              {products.length
+                ? "No matching products"
+                : "Your catalog is empty"}
             </h2>
             <p className="mt-1 text-sm text-slate-500">
               {products.length
@@ -191,14 +229,24 @@ export default function ProductManagementPage() {
                     <th className="px-5 py-4 font-semibold">Price</th>
                     <th className="px-5 py-4 font-semibold">Inventory</th>
                     <th className="px-5 py-4 font-semibold">Status</th>
-                    <th className="px-5 py-4 text-right font-semibold">Actions</th>
+                    <th className="px-5 py-4 text-right font-semibold">
+                      Actions
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   {visibleProducts.map((product) => (
                     <tr key={product.id} className="hover:bg-slate-50/70">
                       <td className="px-5 py-4">
-                        <p className="font-semibold text-slate-900">{product.title}</p>
+                        <p className="font-semibold text-slate-900 flex  flex-col gap-0.5 items-start ">
+                          <img
+                            className="size-12 object-cover rounded-md "
+                            src={product.images[0].image} alt="product-image" 
+                          />
+                          <span>
+                            {product.title}
+                          </span>
+                        </p>
                         <p className="mt-1 text-xs text-slate-500">
                           {product.brand} · {product.slug}
                         </p>
@@ -243,7 +291,10 @@ export default function ProductManagementPage() {
                             className="rounded-lg border border-slate-200 p-2 text-slate-600 hover:border-red-200 hover:text-red-600 disabled:opacity-50"
                           >
                             {deletingId === product.id ? (
-                              <LoaderCircle size={16} className="animate-spin" />
+                              <LoaderCircle
+                                size={16}
+                                className="animate-spin"
+                              />
                             ) : (
                               <Trash2 size={16} />
                             )}

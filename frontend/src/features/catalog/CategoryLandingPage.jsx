@@ -13,6 +13,9 @@ export default function CategoryLandingPage({
   products,
   brandCollections = []
 }) {
+
+  console.log("categoryLendingPage product================", products);
+  
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900">
       <ImageSlider slides={heroSlides} label={`${title} featured collection`} />
