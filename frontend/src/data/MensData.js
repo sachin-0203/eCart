@@ -239,4 +239,4 @@ export const collections = [
     image: "/casual-shoes.jpg",
     link: "/shop/products?department=men&category=footwear",
   },
-];
+]

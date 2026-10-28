@@ -1,3 +1,4 @@
+from django.db.models import Q
 
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import generics
@@ -19,22 +20,64 @@ class ProductViewSet(ModelViewSet):
 
   def get_object(self):
     queryset = self.filter_queryset(self.get_queryset())
-    lookup = self.kwargs.get(self.lookup_url_kwarg or self.lookup_field)
+    lookup = self.kwargs.get(
+      self.lookup_url_kwarg or self.lookup_field
+    )
+
     if lookup.isdecimal():
       product = get_object_or_404(queryset, pk=lookup)
     else:
       product = get_object_or_404(queryset, slug=lookup)
+
     self.check_object_permissions(self.request, product)
     return product
 
   def get_queryset(self):
     queryset = super().get_queryset()
-    slug = self.request.query_params.get("slug")
-    return queryset.filter(slug=slug) if slug else queryset
+    params = self.request.query_params
 
-  @action(detail=False, methods=["get"], url_path="slug/(?P<slug>[^/.]+)")
+    category = params.get("category")
+    department = params.get("department")
+    brand = params.get("brand")
+
+    if category:
+      queryset = queryset.filter(category__iexact=category)
+
+    if department:
+      queryset = queryset.filter(department__iexact=department)
+
+    if brand:
+      queryset = queryset.filter(brand__iexact=brand)
+
+    search = params.get("search", "").strip()
+
+    if search:
+      for term in search.split():
+        queryset = queryset.filter(
+          Q(title__icontains=term)
+          | Q(name__icontains=term)
+          | Q(description__icontains=term)
+          | Q(category__icontains=term)
+          | Q(department__icontains=term)
+          | Q(brand__icontains=term)
+        )
+
+    slug = params.get("slug")
+    if slug:
+      queryset = queryset.filter(slug=slug)
+
+    return queryset.distinct()
+
+  @action(
+    detail=False,
+    methods=["get"],
+    url_path="slug/(?P<slug>[^/.]+)"
+  )
   def get_by_slug(self, request, slug=None):
-    product = get_object_or_404(self.get_queryset(), slug=slug)
+    product = get_object_or_404(
+      Product.objects.all(),
+      slug=slug
+    )
     serializer = self.get_serializer(product)
     return Response(serializer.data)
 

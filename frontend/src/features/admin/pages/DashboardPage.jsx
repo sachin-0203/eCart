@@ -214,26 +214,30 @@ export default function DashboardPage() {
         </div>
       </section>
 
-      <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <section className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
         {metrics.map((metric) => (
           <div
             key={metric.label}
-            className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+            className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm"
           >
-            <div className="flex items-start justify-between">
-              <span
-                className={`flex h-11 w-11 items-center justify-center rounded-xl ${metric.iconStyle}`}
-              >
-                <metric.icon size={20} />
-              </span>
+            <span
+              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${metric.iconStyle}`}
+            >
+              <metric.icon size={16} />
+            </span>
+            <div className="min-w-0 flex-1">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                {metric.label}
+              </p>
+              <div className="mt-1 flex items-baseline gap-2">
+                <p className="text-xl font-bold tracking-tight text-slate-950">
+                  {metric.value.toLocaleString("en-IN")}
+                </p>
+                <p className="truncate text-[11px] text-slate-500">
+                  {metric.detail}
+                </p>
+              </div>
             </div>
-            <p className="mt-5 text-sm font-medium text-slate-500">
-              {metric.label}
-            </p>
-            <p className="mt-1 text-3xl font-bold tracking-tight text-slate-950">
-              {metric.value.toLocaleString("en-IN")}
-            </p>
-            <p className="mt-2 text-xs text-slate-500">{metric.detail}</p>
           </div>
         ))}
       </section>
