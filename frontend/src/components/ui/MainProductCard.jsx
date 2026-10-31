@@ -2,6 +2,7 @@ import React from "react";
 import { ArrowUpRight, ShoppingBag, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
+import { getProductImage } from "../../features/admin/api/productApi";
 
 export default function MainProductCard({ product }) {
   const { addToCart } = useCart();
@@ -42,7 +43,7 @@ export default function MainProductCard({ product }) {
         className="relative block aspect-[4/5] overflow-hidden bg-surface"
       >
         <img
-          src={product.image}
+          src={getProductImage(product)}
           alt={product.title}
           loading="lazy"
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"

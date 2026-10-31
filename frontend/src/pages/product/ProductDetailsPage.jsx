@@ -6,7 +6,10 @@ import ProductInfo from "../../components/ui/ProductInfo";
 import ProductDetails from "../../components/ui/ProductDetails";
 import ProductReviews from "../../components/ui/Reviews";
 import RelatedProducts from "../../components/ui/RelatedProducts";
-import { getProductBySlug } from "../../features/admin/api/productApi";
+import {
+  getProductBySlug,
+  getProductImages,
+} from "../../features/admin/api/productApi";
 
 const ProductDetailsPage = () => {
   const [searchParams] = useSearchParams();
@@ -64,6 +67,7 @@ useEffect(() => {
     (apiProduct
       ? {
           ...apiProduct,
+          image: apiProduct.images?.[0]?.image ?? apiProduct.image,
           oldPrice: apiProduct.old_price,
           discountPercentage: Number(apiProduct.discount_percentage),
           reviewsCount: apiProduct.review_count,
@@ -112,7 +116,7 @@ useEffect(() => {
       <div>
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-2">
           <ProductImageGallery
-            images={product.images?.map((img) => img.image) ?? []}
+            images={getProductImages(product)}
             title={product.title}
           />
 

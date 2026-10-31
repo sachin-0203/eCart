@@ -9,7 +9,11 @@ import {
   Plus,
   Trash2,
 } from "lucide-react";
-import { deleteProduct, getProducts } from "../../api/productApi";
+import {
+  deleteProduct,
+  getProductImage,
+  getProducts,
+} from "../../api/productApi";
 import AdminLoading from "../../components/AdminLoading";
 import AdminSearch from "../../components/AdminSearch";
 
@@ -241,7 +245,8 @@ export default function ProductManagementPage() {
                         <p className="font-semibold text-slate-900 flex  flex-col gap-0.5 items-start ">
                           <img
                             className="size-12 object-cover rounded-md "
-                            src={product.images[0].image} alt="product-image" 
+                            src={getProductImage(product)}
+                            alt="product-image"
                           />
                           <span>
                             {product.title}
