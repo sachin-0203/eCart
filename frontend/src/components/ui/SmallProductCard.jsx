@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, Star } from "lucide-react";
 import { useCart } from "../../context/CartContext";
+import { getProductImage } from "../../features/admin/api/productApi";
 
 export default function SmallProductCard({ product }) {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ export default function SmallProductCard({ product }) {
     <div className="group relative overflow-hidden rounded-sm border border-border-color w-50  bg-white hover:shadow-xl cursor-pointer ">
       <div onClick={handleProductClick} className="relative overflow-hidden">
         <img
-          src={product.images[0].image}
+          src={getProductImage(product)}
           alt={product.title}
           className="h-50 w-70 object-cover transition duration-500 group-hover:scale-105"
         />

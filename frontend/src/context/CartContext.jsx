@@ -36,6 +36,10 @@ export const CartProvider = ({ children }) => {
         );
       }
 
+      const image = Array.isArray(product.images)
+        ? product.images[0]?.image ?? product.image
+        : product.image;
+
       return [
         ...currentItems,
         {
@@ -44,7 +48,7 @@ export const CartProvider = ({ children }) => {
           title: product.title,
           brand: product.brand,
           category: product.category,
-          image: product.image,
+          image,
           price: product.price,
           oldPrice: product.oldPrice,
           quantity,

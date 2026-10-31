@@ -32,20 +32,29 @@ MEDIA_ROOT = BASE_DIR/"media"
 # Application definition
 
 INSTALLED_APPS = [
+    # Django built-in apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Third-party apps
     'rest_framework',
     'corsheaders',
+
+    # Custom user app first
+    'authentication',
+
+    # Other project apps
     'products',
     'leads',
     'cart',
     'orders',
-    'authentication'
 ]
+
+AUTH_USER_MODEL = "authentication.User"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -85,13 +94,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     "default": dj_database_url.config(
-        default="postgresql://postgres:saar@1122@localhost:5432/ecommerce_fresh",
+        default="postgresql://postgres:saar%401122@localhost:5432/ecommerce_fresh",
         conn_max_age=600,
         conn_health_checks=True,
     )
 }
 
-AUTH_USER_MODEL = "authentication.User"
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

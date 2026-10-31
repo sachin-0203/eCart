@@ -37,7 +37,7 @@ export const categoriesData = [
     id: 5,
     title: "Electronics",
     image: electronicsImg,
-    link: "/shop/electronis"
+    link: "/shop/electronics"
   },
   { 
     id: 6,
