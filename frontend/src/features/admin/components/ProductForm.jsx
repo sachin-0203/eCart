@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, LoaderCircle, Save } from "lucide-react";
 import { Link } from "react-router-dom";
+import { getBrands } from "../api/brandApi";
 import { getProductImageUrl } from "../api/productImagesApi";
 
 const inputClass =
@@ -45,13 +46,6 @@ const textFields = [
     placeholder: "e.g. classic-cotton-t-shirt",
     required: true,
     maxLength: 200,
-  },
-  {
-    name: "brand",
-    label: "Brand",
-    placeholder: "e.g. Roadster",
-    required: true,
-    maxLength: 50,
   },
   {
     name: "category",
@@ -122,10 +116,20 @@ const numberFields = [
   },
 ];
 
+const normalizeBrandValue = (brand) => {
+  if (brand === null || brand === undefined || brand === "") return "";
+  if (typeof brand === "object") {
+    if (brand.id !== undefined && brand.id !== null) return String(brand.id);
+    if (brand.name) return brand.name;
+    return "";
+  }
+  return String(brand);
+};
+
 const createInitialForm = (product) => ({
   title: product?.title ?? "",
   slug: product?.slug ?? "",
-  brand: product?.brand ?? "",
+  brand: normalizeBrandValue(product?.brand),
   category: product?.category ?? "",
   sub_category: product?.sub_category ?? "",
   product_type: product?.product_type ?? "",
@@ -150,10 +154,28 @@ export default function ProductForm({
   submitLabel,
 }) {
   const [form, setForm] = useState(() => createInitialForm(initialProduct));
+  const [brandOptions, setBrandOptions] = useState([]);
   const [errors, setErrors] = useState({});
   const [images, setImages] = useState([]);
   const [existingImages, setExistingImages] = useState([]);
   const previewUrls = useRef(new Set());
+
+  useEffect(() => {
+    let isCurrent = true;
+
+    getBrands()
+      .then((brands) => {
+        if (!isCurrent) return;
+        setBrandOptions(brands.filter((brand) => brand.is_active !== false));
+      })
+      .catch(() => {
+        if (isCurrent) setBrandOptions([]);
+      });
+
+    return () => {
+      isCurrent = false;
+    };
+  }, []);
 
   useEffect(() => {
     setForm(createInitialForm(initialProduct));
@@ -166,6 +188,19 @@ export default function ProductForm({
       })),
     );
   }, [initialProduct]);
+
+  useEffect(() => {
+    if (!brandOptions.length || !form.brand) return;
+
+    const matchedBrand = brandOptions.find(
+      (brand) =>
+        String(brand.id) === String(form.brand) || brand.name === form.brand,
+    );
+
+    if (matchedBrand && String(form.brand) !== String(matchedBrand.id)) {
+      setForm((current) => ({ ...current, brand: String(matchedBrand.id) }));
+    }
+  }, [brandOptions, form.brand]);
 
   useEffect(
     () => () => {
@@ -274,6 +309,7 @@ export default function ProductForm({
 
     if (!form.title.trim()) nextErrors.title = "Product name is required.";
     if (!form.slug.trim()) nextErrors.slug = "URL slug is required.";
+    if (!form.brand) nextErrors.brand = "Please select a brand.";
     if (!form.short_description.trim()) {
       nextErrors.short_description = "Short description is required.";
     }
@@ -288,7 +324,7 @@ export default function ProductForm({
         ...form,
         title: form.title.trim(),
         slug: form.slug.trim(),
-        brand: form.brand.trim(),
+        brand: Number(form.brand),
         category: form.category.trim(),
         sub_category: form.sub_category.trim(),
         product_type: form.product_type,
@@ -343,6 +379,25 @@ export default function ProductForm({
               error={errors[field.name]}
             />
           ))}
+          <label className="block text-sm font-semibold text-slate-700">
+            Brand
+            <select
+              className={inputClass}
+              name="brand"
+              value={form.brand}
+              onChange={updateField}
+            >
+              <option value="">Select a brand</option>
+              {brandOptions.map((brand) => (
+                <option key={brand.id} value={String(brand.id)}>
+                  {brand.name}
+                </option>
+              ))}
+            </select>
+            {errors.brand && (
+              <span className="mt-1 block text-xs text-red-600">{errors.brand}</span>
+            )}
+          </label>
           <label className="block text-sm font-semibold text-slate-700">
             Product type
             <select

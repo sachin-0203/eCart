@@ -6,6 +6,7 @@ import {
   ShoppingBag,
   ShoppingCart,
   Store,
+  Tags,
   UsersRound,
 } from "lucide-react";
 import { Link, NavLink, Outlet } from "react-router-dom";
@@ -14,6 +15,7 @@ import { Toaster } from "sonner";
 const navItems = [
   { label: "Overview", to: "/admin", icon: LayoutDashboard, end: true },
   { label: "Products", to: "/admin/products", icon: Package2 },
+  { label: "Brands", to: "/admin/brands", icon: Tags },
   { label: "Leads", to: "/admin/leads", icon: UsersRound },
   { label: "Orders", to: "/admin/orders", icon: ShoppingBag },
   { label: "Carts", to: "/admin/carts", icon: ShoppingCart },

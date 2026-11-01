@@ -1,4 +1,5 @@
 from django.db import models
+from brand.models import Brand
 
 # Create your models here.
 
@@ -14,7 +15,11 @@ class Product(models.Model):
   slug = models.CharField(max_length=200, unique=True)
 
   title = models.CharField(max_length=200)
-  brand = models.CharField(max_length=50)
+  brand = models.ForeignKey(
+    Brand,
+    on_delete=models.PROTECT,
+    related_name="products"
+  )
   category = models.CharField(max_length=100)
   sub_category = models.CharField(max_length=200)
   product_type = models.CharField(
