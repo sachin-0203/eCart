@@ -3,6 +3,11 @@ from brand.models import Brand
 
 # Create your models here.
 
+from django.db import models
+from category.models import Category
+from brand.models import Brand
+
+
 class Product(models.Model):
   PRODUCT_TYPE_CHOICES = [
     ("men", "Men"),
@@ -11,30 +16,49 @@ class Product(models.Model):
     ("unisex", "Unisex"),
   ]
 
-  # id = models.AutoField(primary_key=True)  # Django Create it automatically
-  slug = models.CharField(max_length=200, unique=True)
+  slug = models.SlugField(max_length=200, unique=True)
 
   title = models.CharField(max_length=200)
+
   brand = models.ForeignKey(
     Brand,
     on_delete=models.PROTECT,
     related_name="products"
   )
-  category = models.CharField(max_length=100)
-  sub_category = models.CharField(max_length=200)
+
+  category = models.ForeignKey(
+    Category,
+    on_delete=models.PROTECT,
+    related_name="products"
+  )
+
   product_type = models.CharField(
     max_length=20,
     choices=PRODUCT_TYPE_CHOICES,
     blank=True,
     default="",
   )
+
   sizes = models.JSONField(default=list, blank=True)
 
   price = models.DecimalField(max_digits=10, decimal_places=2)
-  old_price = models.DecimalField(max_digits=10, decimal_places=2)
-  discount_percentage = models.DecimalField(max_digits=5, decimal_places=2, default=0)
- 
-  rating = models.DecimalField(max_digits=3, decimal_places=1)
+  old_price = models.DecimalField(
+    max_digits=10,
+    decimal_places=2,
+    null=True,
+    blank=True
+  )
+  discount_percentage = models.DecimalField(
+    max_digits=5,
+    decimal_places=2,
+    default=0
+  )
+
+  rating = models.DecimalField(
+    max_digits=3,
+    decimal_places=1,
+    default=0
+  )
   review_count = models.PositiveBigIntegerField(default=0)
 
   short_description = models.TextField()
