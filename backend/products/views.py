@@ -13,7 +13,10 @@ from .serializers import ProductSerializer, ProductImageSerializer
 
 
 class ProductViewSet(ModelViewSet):
-  queryset = Product.objects.all()
+  queryset = Product.objects.select_related(
+    "brand",
+    "category"
+  ).prefetch_related("images")
   serializer_class = ProductSerializer
   lookup_field = "pk"
   lookup_value_regex = "[^/.]+"
