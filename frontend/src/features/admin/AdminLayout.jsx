@@ -15,6 +15,7 @@ import { Toaster } from "sonner";
 const navItems = [
   { label: "Overview", to: "/admin", icon: LayoutDashboard, end: true },
   { label: "Products", to: "/admin/products", icon: Package2 },
+  { label: "Categories", to: "/admin/categories", icon: Tags },
   { label: "Brands", to: "/admin/brands", icon: Tags },
   { label: "Leads", to: "/admin/leads", icon: UsersRound },
   { label: "Orders", to: "/admin/orders", icon: ShoppingBag },

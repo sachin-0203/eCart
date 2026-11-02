@@ -30,6 +30,7 @@ import OrderManagementPage from "../features/admin/pages/order/OrderManagementPa
 import CartManagementPage from "../features/admin/pages/cart/CartManagementPage";
 import DashboardPage from "../features/admin/pages/DashboardPage";
 import BrandManagementPage from "../features/admin/pages/brand/BrandManagementPage";
+import CategoryManagementPage from "../features/admin/pages/category/CategoryManagementPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -59,6 +60,7 @@ const router = createBrowserRouter(
         <Route path="products" element={<ProductManagementPage />} />
         <Route path="products/new" element={<ProductFormPage />} />
         <Route path="products/:productId/edit" element={<ProductFormPage />} />
+        <Route path="categories" element={<CategoryManagementPage />} />
         <Route path="brands" element={<BrandManagementPage />} />
         <Route path="leads" element={<LeadManagementPage />} />
         <Route path="orders" element={<OrderManagementPage />} />

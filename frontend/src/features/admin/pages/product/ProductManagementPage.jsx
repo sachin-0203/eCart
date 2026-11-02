@@ -58,8 +58,9 @@ export default function ProductManagementPage() {
     return products.filter((product) => {
       const matchesSearch = [
         product.title,
-        product.brand,
-        product.category,
+        product.brand_name ?? product.brand,
+        product.category_name ?? product.category,
+        product.parent_category_name,
         product.slug,
       ]
         .filter(Boolean)
@@ -253,13 +254,13 @@ export default function ProductManagementPage() {
                           </span>
                         </p>
                         <p className="mt-1 text-xs text-slate-500">
-                          {product.brand} · {product.slug}
+                          {product.brand_name ?? product.brand} · {product.slug}
                         </p>
                       </td>
                       <td className="px-5 py-4 text-sm text-slate-600">
-                        <span>{product.category}</span>
+                        <span>{product.category_name ?? product.category}</span>
                         <span className="block text-xs text-slate-400">
-                          {product.sub_category}
+                          {product.parent_category_name || product.sub_category || ""}
                         </span>
                       </td>
                       <td className="px-5 py-4 text-sm font-semibold text-slate-900">

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, LoaderCircle, Save } from "lucide-react";
 import { Link } from "react-router-dom";
 import { getBrands } from "../api/brandApi";
+import { getCategories } from "../api/categoryApi";
 import { getProductImageUrl } from "../api/productImagesApi";
 
 const inputClass =
@@ -44,20 +45,6 @@ const textFields = [
     name: "slug",
     label: "URL slug",
     placeholder: "e.g. classic-cotton-t-shirt",
-    required: true,
-    maxLength: 200,
-  },
-  {
-    name: "category",
-    label: "Category",
-    placeholder: "e.g. Fashion",
-    required: true,
-    maxLength: 100,
-  },
-  {
-    name: "sub_category",
-    label: "Subcategory",
-    placeholder: "e.g. T-Shirts",
     required: true,
     maxLength: 200,
   },
@@ -126,12 +113,21 @@ const normalizeBrandValue = (brand) => {
   return String(brand);
 };
 
+const normalizeCategoryValue = (category) => {
+  if (category === null || category === undefined || category === "") return "";
+  if (typeof category === "object") {
+    if (category.id !== undefined && category.id !== null) return String(category.id);
+    if (category.name) return category.name;
+    return "";
+  }
+  return String(category);
+};
+
 const createInitialForm = (product) => ({
   title: product?.title ?? "",
   slug: product?.slug ?? "",
   brand: normalizeBrandValue(product?.brand),
-  category: product?.category ?? "",
-  sub_category: product?.sub_category ?? "",
+  category: normalizeCategoryValue(product?.category),
   product_type: product?.product_type ?? "",
   sizes: Array.isArray(product?.sizes) ? product.sizes.join(", ") : "",
   price: product?.price ?? "",
@@ -155,6 +151,7 @@ export default function ProductForm({
 }) {
   const [form, setForm] = useState(() => createInitialForm(initialProduct));
   const [brandOptions, setBrandOptions] = useState([]);
+  const [categoryOptions, setCategoryOptions] = useState([]);
   const [errors, setErrors] = useState({});
   const [images, setImages] = useState([]);
   const [existingImages, setExistingImages] = useState([]);
@@ -170,6 +167,15 @@ export default function ProductForm({
       })
       .catch(() => {
         if (isCurrent) setBrandOptions([]);
+      });
+
+    getCategories()
+      .then((categories) => {
+        if (!isCurrent) return;
+        setCategoryOptions(categories.filter((category) => category.is_active !== false));
+      })
+      .catch(() => {
+        if (isCurrent) setCategoryOptions([]);
       });
 
     return () => {
@@ -202,6 +208,19 @@ export default function ProductForm({
     }
   }, [brandOptions, form.brand]);
 
+  useEffect(() => {
+    if (!categoryOptions.length || !form.category) return;
+
+    const matchedCategory = categoryOptions.find(
+      (category) =>
+        String(category.id) === String(form.category) || category.name === form.category,
+    );
+
+    if (matchedCategory && String(form.category) !== String(matchedCategory.id)) {
+      setForm((current) => ({ ...current, category: String(matchedCategory.id) }));
+    }
+  }, [categoryOptions, form.category]);
+
   useEffect(
     () => () => {
       previewUrls.current.forEach((url) => URL.revokeObjectURL(url));
@@ -209,6 +228,13 @@ export default function ProductForm({
     },
     [],
   );
+
+  const categorySelectOptions = categoryOptions.map((category) => ({
+    ...category,
+    label: category.parent_name
+      ? `${category.parent_name} / ${category.name}`
+      : category.name,
+  }));
 
   const createPreviewUrl = (file) => {
     const url = URL.createObjectURL(file);
@@ -310,6 +336,7 @@ export default function ProductForm({
     if (!form.title.trim()) nextErrors.title = "Product name is required.";
     if (!form.slug.trim()) nextErrors.slug = "URL slug is required.";
     if (!form.brand) nextErrors.brand = "Please select a brand.";
+    if (!form.category) nextErrors.category = "Please select a category.";
     if (!form.short_description.trim()) {
       nextErrors.short_description = "Short description is required.";
     }
@@ -325,8 +352,7 @@ export default function ProductForm({
         title: form.title.trim(),
         slug: form.slug.trim(),
         brand: Number(form.brand),
-        category: form.category.trim(),
-        sub_category: form.sub_category.trim(),
+        category: Number(form.category),
         product_type: form.product_type,
         sizes: form.sizes
           .split(",")
@@ -396,6 +422,25 @@ export default function ProductForm({
             </select>
             {errors.brand && (
               <span className="mt-1 block text-xs text-red-600">{errors.brand}</span>
+            )}
+          </label>
+          <label className="block text-sm font-semibold text-slate-700">
+            Category / Subcategory
+            <select
+              className={inputClass}
+              name="category"
+              value={form.category}
+              onChange={updateField}
+            >
+              <option value="">Select a category</option>
+              {categorySelectOptions.map((category) => (
+                <option key={category.id} value={String(category.id)}>
+                  {category.label}
+                </option>
+              ))}
+            </select>
+            {errors.category && (
+              <span className="mt-1 block text-xs text-red-600">{errors.category}</span>
             )}
           </label>
           <label className="block text-sm font-semibold text-slate-700">
