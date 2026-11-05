@@ -3,6 +3,10 @@ import os
 
 from dotenv import load_dotenv
 
+from decouple import config
+
+from datetime import timedelta
+
 import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -39,6 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # for tracking outstanding and blacklist token
+    'rest_framework_simplejwt.token_blacklist',
 
     # Third-party apps
     'rest_framework',
@@ -93,12 +100,13 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 
+
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
     "default": dj_database_url.config(
-        default="postgresql://postgres:saar%401122@localhost:5432/ecommerce_fresh",
+        default=config("DATABASE_URL"),
         conn_max_age=600,
         conn_health_checks=True,
     )
@@ -122,6 +130,21 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
+
+
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ROTATE_REFRESH_TOKENS': False,
+}
 
 
 # Internationalization
