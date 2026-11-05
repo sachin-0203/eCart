@@ -20,6 +20,7 @@ import Products from "../pages/product/ProductsPage";
 import ProductDetailsPage from "../pages/product/ProductDetailsPage";
 import CartPage from "../pages/cart/CartPage";
 import ComingSoonPage from "../pages/ComingSoonPage";
+import ProfilePage from "../pages/ProfilePage";
 
 // Admin Pages ------------------------------
 import AdminLayout from "../features/admin/AdminLayout";
@@ -52,6 +53,7 @@ const router = createBrowserRouter(
           <Route path="decoration" element={<DecorationHomepage />} />
         </Route>
         <Route path="cart" element={<CartPage />} />
+        <Route path="profile" element={<ProfilePage />} />
         <Route path="coming-soon" element={<ComingSoonPage />} />
       </Route>
 

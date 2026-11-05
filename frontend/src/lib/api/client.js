@@ -36,8 +36,15 @@ const getErrorMessage = (error) => {
 // Request interceptor
 apiClient.interceptors.request.use(
   (config) => {
-    // Runs before every request.
-    // Add authentication headers here when auth is configured.
+    const token = localStorage.getItem("ecart_access_token");
+
+    if (token) {
+      config.headers = {
+        ...config.headers,
+        Authorization: `Bearer ${token}`,
+      };
+    }
+
     return config;
   },
   (error) => Promise.reject(error)
