@@ -1,4 +1,6 @@
+import logging
 import secrets
+import smtplib
 from datetime import timedelta
 
 from django.contrib.auth.hashers import check_password, make_password
@@ -26,6 +28,7 @@ from .serializers import (
 OTP_LIFETIME = timedelta(minutes=10)
 OTP_RESEND_DELAY = timedelta(seconds=60)
 OTP_MAX_ATTEMPTS = 5
+logger = logging.getLogger(__name__)
 
 
 def consume_email_verification(email, verification_token):
@@ -61,44 +64,52 @@ class SendOTPView(APIView):
     # if settings.DEBUG:
     #   print(f'Development OTP for {email}: {code}', flush=True)
 
-    with transaction.atomic():
-      verification = (
-        EmailOTP.objects.select_for_update()
-        .filter(email__iexact=email)
-        .first()
-      )
-
-      if verification and now - verification.created_at < OTP_RESEND_DELAY:
-        retry_after = int((OTP_RESEND_DELAY - (now - verification.created_at)).total_seconds())
-        return Response(
-          {'detail': 'Please wait before requesting another code.'},
-          status=status.HTTP_429_TOO_MANY_REQUESTS,
-          headers={'Retry-After': str(max(retry_after, 1))},
+    try:
+      with transaction.atomic():
+        verification = (
+          EmailOTP.objects.select_for_update()
+          .filter(email__iexact=email)
+          .first()
         )
 
-      if verification is None:
-        verification = EmailOTP(email=email)
+        if verification and now - verification.created_at < OTP_RESEND_DELAY:
+          retry_after = int((OTP_RESEND_DELAY - (now - verification.created_at)).total_seconds())
+          return Response(
+            {'detail': 'Please wait before requesting another code.'},
+            status=status.HTTP_429_TOO_MANY_REQUESTS,
+            headers={'Retry-After': str(max(retry_after, 1))},
+          )
 
-      verification.code_hash = make_password(code)
-      verification.created_at = now
-      verification.expires_at = now + OTP_LIFETIME
-      verification.attempts = 0
-      verification.verified_at = None
-      verification.verification_token_hash = ''
-      verification.save()
+        if verification is None:
+          verification = EmailOTP(email=email)
 
-      send_mail(
-        'Your eCart verification code',
-        f'Your eCart verification code is {code}. It expires in 10 minutes.',
-        None,
-        [email],
-        fail_silently=False,
+        verification.code_hash = make_password(code)
+        verification.created_at = now
+        verification.expires_at = now + OTP_LIFETIME
+        verification.attempts = 0
+        verification.verified_at = None
+        verification.verification_token_hash = ''
+        verification.save()
+
+        send_mail(
+          'Your eCart verification code',
+          f'Your eCart verification code is {code}. It expires in 10 minutes.',
+          settings.DEFAULT_FROM_EMAIL,
+          [email],
+          fail_silently=False,
+        )
+    except (smtplib.SMTPException, OSError):
+      logger.exception('Failed to send verification code email.')
+      return Response(
+        {'detail': 'Unable to send a verification code right now. Please try again later.'},
+        status=status.HTTP_503_SERVICE_UNAVAILABLE,
       )
 
     return Response(
       {'detail': 'A verification code has been sent if this address can receive email.'},
       status=status.HTTP_200_OK,
     )
+
 
 
 class VerifyOTPView(APIView):
@@ -108,11 +119,13 @@ class VerifyOTPView(APIView):
   def post(self, request):
     serializer = VerifyOTPSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
+
     email = serializer.validated_data['email'].strip().lower()
     code = serializer.validated_data['code']
     now = timezone.now()
 
     with transaction.atomic():
+
       verification = (
         EmailOTP.objects.select_for_update()
         .filter(email__iexact=email)
@@ -140,6 +153,7 @@ class VerifyOTPView(APIView):
       if not check_password(code, verification.code_hash):
         verification.attempts += 1
         verification.save(update_fields=['attempts'])
+
         return Response(
           {'detail': 'The code is incorrect.'},
           status=status.HTTP_400_BAD_REQUEST,

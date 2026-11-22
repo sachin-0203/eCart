@@ -1,10 +1,12 @@
 import re
+import smtplib
+from unittest.mock import patch
 
 from django.core import mail
 from django.test import TestCase, override_settings
 from rest_framework.test import APIClient
 
-from .models import User
+from .models import EmailOTP, User
 
 
 @override_settings(EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend')
@@ -90,7 +92,7 @@ class EmailOTPFlowTests(TestCase):
     self.assertTrue(refresh_response.data['access'])
 
     profile_response = self.client.get(
-      '/api/auth/profile/',
+      '/api/auth/me/',
       HTTP_AUTHORIZATION=f"Bearer {refresh_response.data['access']}",
     )
     self.assertEqual(profile_response.status_code, 200)
@@ -110,3 +112,18 @@ class EmailOTPFlowTests(TestCase):
 
     self.assertEqual(response.status_code, 400)
     self.assertEqual(User.objects.count(), 0)
+
+  @patch('authentication.views.send_mail', side_effect=smtplib.SMTPDataError(550, b'Recipient not allowed'))
+  def test_send_otp_returns_service_error_when_email_provider_rejects_recipient(self, _send_mail):
+    response = self.client.post(
+      '/api/auth/otp/send/',
+      {'email': 'new-customer@example.com'},
+      format='json',
+    )
+
+    self.assertEqual(response.status_code, 503)
+    self.assertEqual(
+      response.data['detail'],
+      'Unable to send a verification code right now. Please try again later.',
+    )
+    self.assertFalse(EmailOTP.objects.filter(email='new-customer@example.com').exists())
