@@ -74,7 +74,7 @@ export const logout = async (refresh, accessToken) => {
 };
 
 export const getProfile = async (accessToken) => {
-  const { data } = await authClient.get("profile/", {
+  const { data } = await authClient.get("me/", {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
   return data;
@@ -82,14 +82,14 @@ export const getProfile = async (accessToken) => {
 
 export const updateProfile = async (updates, accessToken) => {
   try {
-    const { data } = await authClient.patch("profile/", updates, {
+    const { data } = await authClient.patch("me/", updates, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
     return data;
   } catch (error) {
     if (error.response?.status !== 401) throw error;
     const token = await refreshAccessToken();
-    const { data } = await authClient.patch("profile/", updates, {
+    const { data } = await authClient.patch("me/", updates, {
       headers: { Authorization: `Bearer ${token}` },
     });
     return data;
