@@ -7,7 +7,10 @@ class CategoryListCreateAPI(generics.ListCreateAPIView):
   serializer_class = CategorySerializer
 
   def get_queryset(self):
-    return Category.objects.filter(is_active=True)
+    queryset = Category.objects.all()
+    if self.request.query_params.get("include_inactive") != "true":
+      queryset = queryset.filter(is_active=True)
+    return queryset
 
 
 class CategoryDetailAPI(generics.RetrieveUpdateDestroyAPIView):
