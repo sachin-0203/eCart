@@ -1,11 +1,11 @@
 import logging
 import secrets
-import smtplib
+# import smtplib
 from datetime import timedelta
 
 from django.contrib.auth.hashers import check_password, make_password
 from django.conf import settings
-from django.core.mail import send_mail
+# from django.core.mail import send_mail
 from django.db import transaction
 from django.utils import timezone
 from rest_framework import status
@@ -14,6 +14,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.tokens import RefreshToken
+
+import resend
 
 from .models import EmailOTP, User
 from .serializers import (
@@ -50,6 +52,67 @@ def consume_email_verification(email, verification_token):
   return True
 
 
+# class SendOTPView(APIView):
+
+#   permission_classes = [AllowAny]
+
+#   def post(self, request):
+#     serializer = SendOTPSerializer(data=request.data)
+#     serializer.is_valid(raise_exception=True)
+#     email = serializer.validated_data['email'].strip().lower()
+#     now = timezone.now()
+#     code = f'{secrets.randbelow(1_000_000):06d}'
+
+#     # if settings.DEBUG:
+#     #   print(f'Development OTP for {email}: {code}', flush=True)
+
+#     try:
+#       with transaction.atomic():
+#         verification = (
+#           EmailOTP.objects.select_for_update()
+#           .filter(email__iexact=email)
+#           .first()
+#         )
+
+#         if verification and now - verification.created_at < OTP_RESEND_DELAY:
+#           retry_after = int((OTP_RESEND_DELAY - (now - verification.created_at)).total_seconds())
+#           return Response(
+#             {'detail': 'Please wait before requesting another code.'},
+#             status=status.HTTP_429_TOO_MANY_REQUESTS,
+#             headers={'Retry-After': str(max(retry_after, 1))},
+#           )
+
+#         if verification is None:
+#           verification = EmailOTP(email=email)
+
+#         verification.code_hash = make_password(code)
+#         verification.created_at = now
+#         verification.expires_at = now + OTP_LIFETIME
+#         verification.attempts = 0
+#         verification.verified_at = None
+#         verification.verification_token_hash = ''
+#         verification.save()
+
+#         send_mail(
+#           'Your eCart verification code',
+#           f'Your eCart verification code is {code}. It expires in 10 minutes.',
+#           settings.DEFAULT_FROM_EMAIL,
+#           [email],
+#           fail_silently=False,
+#         )
+#     except (smtplib.SMTPException, OSError):
+#       logger.exception('Failed to send verification code email.')
+#       return Response(
+#         {'detail': 'Unable to send a verification code right now. Please try again later.'},
+#         status=status.HTTP_503_SERVICE_UNAVAILABLE,
+#       )
+
+#     return Response(
+#       {'detail': 'A verification code has been sent if this address can receive email.'},
+#       status=status.HTTP_200_OK,
+#     )
+
+
 class SendOTPView(APIView):
 
   permission_classes = [AllowAny]
@@ -57,12 +120,10 @@ class SendOTPView(APIView):
   def post(self, request):
     serializer = SendOTPSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
+
     email = serializer.validated_data['email'].strip().lower()
     now = timezone.now()
     code = f'{secrets.randbelow(1_000_000):06d}'
-
-    # if settings.DEBUG:
-    #   print(f'Development OTP for {email}: {code}', flush=True)
 
     try:
       with transaction.atomic():
@@ -73,7 +134,10 @@ class SendOTPView(APIView):
         )
 
         if verification and now - verification.created_at < OTP_RESEND_DELAY:
-          retry_after = int((OTP_RESEND_DELAY - (now - verification.created_at)).total_seconds())
+          retry_after = int(
+            (OTP_RESEND_DELAY - (now - verification.created_at)).total_seconds()
+          )
+
           return Response(
             {'detail': 'Please wait before requesting another code.'},
             status=status.HTTP_429_TOO_MANY_REQUESTS,
@@ -91,24 +155,46 @@ class SendOTPView(APIView):
         verification.verification_token_hash = ''
         verification.save()
 
-        send_mail(
-          'Your eCart verification code',
-          f'Your eCart verification code is {code}. It expires in 10 minutes.',
-          settings.DEFAULT_FROM_EMAIL,
-          [email],
-          fail_silently=False,
+        # Send OTP using Resend HTTPS API
+        resend.api_key = settings.RESEND_API_KEY
+
+        email_response = resend.Emails.send({
+          "from": settings.DEFAULT_FROM_EMAIL,
+          "to": [email],
+          "subject": "Your eCart verification code",
+          "text": (
+            f"Your eCart verification code is {code}. "
+            "It expires in 10 minutes."
+          ),
+        })
+
+        logger.info(
+          "OTP email accepted by Resend. Email ID: %s",
+          email_response["id"],
         )
-    except (smtplib.SMTPException, OSError):
+
+    except Exception:
       logger.exception('Failed to send verification code email.')
+
       return Response(
-        {'detail': 'Unable to send a verification code right now. Please try again later.'},
+        {
+          'detail': (
+            'Unable to send a verification code right now. '
+            'Please try again later.'
+          )
+        },
         status=status.HTTP_503_SERVICE_UNAVAILABLE,
       )
 
     return Response(
-      {'detail': 'A verification code has been sent if this address can receive email.'},
+      {
+        'detail': (
+          'A verification code has been sent if this address can receive email.'
+        )
+      },
       status=status.HTTP_200_OK,
     )
+
 
 
 

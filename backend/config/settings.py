@@ -207,14 +207,9 @@ CORS_ALLOWED_ORIGINS = [
 
 # Email OTP implementation
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+RESEND_API_KEY = config("RESEND_API_KEY")
 
-EMAIL_HOST = 'smtp.resend.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_TIMEOUT = 10
-
-EMAIL_HOST_USER = "resend"
-EMAIL_HOST_PASSWORD = config("RESEND_API_KEY")
-
-DEFAULT_FROM_EMAIL = "onboarding@resend.dev"
+DEFAULT_FROM_EMAIL = config(
+    "DEFAULT_FROM_EMAIL",
+    default="onboarding@resend.dev",
+)
