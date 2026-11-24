@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useAuth } from "../../context/AuthContext";
 import LoginStages from "./LoginStages";
@@ -33,6 +34,7 @@ const maskEmail = (value) => {
 
 export default function LoginForm() {
   const { loginWithOTP, signup, sendEmailOTP, verifyEmailOTP } = useAuth();
+  const navigate = useNavigate();
   const [identifier, setIdentifier] = useState("");
   const [otp, setOtp] = useState("");
   const [newUsername, setNewUsername] = useState("");
@@ -148,6 +150,7 @@ export default function LoginForm() {
 
       toast.success(`Welcome back, ${result.user}!`);
       resetFlow();
+      if (result.role === "admin") navigate("/admin");
     } catch (error) {
       toast.error(getApiErrorMessage(error));
     } finally {
@@ -168,6 +171,7 @@ export default function LoginForm() {
       if (result.success) {
         toast.success(`Welcome back, ${result.user}!`);
         resetFlow();
+        if (result.role === "admin") navigate("/admin");
       } else {
         toast.error(result.message || "Unable to sign in. Please request a new code.");
       }

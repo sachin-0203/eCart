@@ -191,7 +191,7 @@ export const AuthProvider = ({ children }) => {
         verification_token: verificationToken,
       });
       persistSession(userData, access, refresh);
-      return { success: true, user: userData.username };
+      return { success: true, user: userData.username, role: userData.role };
     } catch (error) {
       return { success: false, message: getErrorMessage(error) };
     }

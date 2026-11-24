@@ -3,11 +3,24 @@ from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 
 
+
+ROLE_CHOICES = (
+  ('admin', 'Admin'),
+  ('customer', 'Customer'),
+)
+
+
 class User(AbstractUser):
   phone_number = models.CharField(
     max_length=15,
     blank=True,
     null=True
+  )
+
+  role = models.CharField(
+    max_length=10,
+    choices=ROLE_CHOICES,
+    default='customer'
   )
 
   def __str__(self):
