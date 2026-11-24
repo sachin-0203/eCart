@@ -40,6 +40,7 @@ class UserSerializer(serializers.ModelSerializer):
       'phone_number',
       'first_name',
       'last_name',
+      'role'
     ]
     read_only_fields = [
       'id'
