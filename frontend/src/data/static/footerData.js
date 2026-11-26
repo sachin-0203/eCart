@@ -60,19 +60,19 @@ export const footerSections = [
       },
       {
         label: "FAQs",
-        link: "/coming-soon?feature=FAQs",
+        link: "/faqs",
       },
       {
         label: "Shipping Policy",
-        link: "/coming-soon?feature=Shipping%20Policy",
+        link: "/shipping-policy",
       },
       {
         label: "Returns & Refunds",
-        link: "/coming-soon?feature=Returns%20%26%20Refunds",
+        link: "/returns-refunds",
       },
       {
         label: "Order Tracking",
-        link: "/coming-soon?feature=Order%20Tracking",
+        link: "/order-tracking",
       },
     ],
   },
@@ -86,15 +86,15 @@ export const footerSections = [
       },
       {
         label: "Terms & Conditions",
-        link: "/coming-soon?feature=Terms%20%26%20Conditions",
+        link: "/terms",
       },
       {
         label: "Privacy Policy",
-        link: "/coming-soon?feature=Privacy%20Policy",
+        link: "/privacy",
       },
       {
         label: "Careers",
-        link: "/coming-soon?feature=Careers",
+        link: "/careers",
       },
     ],
   },

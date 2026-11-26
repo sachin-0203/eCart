@@ -8,8 +8,10 @@ export const getCategoryImageUrl = (image) => {
   return new URL(image, `${BACKEND_URL}/`).toString();
 };
 
-export const getCategories = async () => {
-  const { data } = await apiClient.get("/category/");
+export const getCategories = async ({ includeInactive = false } = {}) => {
+  const { data } = await apiClient.get("/category/", {
+    params: includeInactive ? { include_inactive: "true" } : undefined,
+  });
   return getListData(data);
 };
 
@@ -41,9 +43,22 @@ export const createCategory = async ({
   return data;
 };
 
-export const deleteCategory = async (categoryId) => {
-  const { data } = await apiClient.patch(`/category/${categoryId}/`, {
-    is_active: false,
+export const updateCategory = async (
+  categoryId,
+  { name, parent, is_active, image = null },
+) => {
+  const payload = new FormData();
+
+  if (name !== undefined) payload.append("name", name);
+  if (parent !== undefined) payload.append("parent", parent ? String(parent) : "");
+  if (is_active !== undefined) payload.append("is_active", String(Boolean(is_active)));
+  if (image instanceof File) payload.append("image", image);
+
+  const { data } = await apiClient.patch(`/category/${categoryId}/`, payload, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
   });
+
   return data;
 };
