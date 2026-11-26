@@ -6,6 +6,10 @@ from rest_framework.parsers import MultiPartParser, FormParser
 
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
+
+from authentication.permissions import IsAdminRole
+
 from django.shortcuts import get_object_or_404
 
 from .models import Product, ProductImage
@@ -20,6 +24,15 @@ class ProductViewSet(ModelViewSet):
   serializer_class = ProductSerializer
   lookup_field = "pk"
   lookup_value_regex = "[^/.]+"
+
+
+  def get_permissions(self):
+    if self.action in ["list", "retrieve"]:
+      permission_classes = [AllowAny]
+    else:
+      permission_classes = [IsAdminRole]
+
+    return [permission() for permission in permission_classes]
 
   def get_object(self):
     queryset = self.filter_queryset(self.get_queryset())
