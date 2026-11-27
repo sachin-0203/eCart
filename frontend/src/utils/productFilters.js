@@ -1,10 +1,5 @@
-export const normalizeText = (value = "") => {
-  const text =
-    value && typeof value === "object"
-      ? value.name ?? value.title ?? value.id ?? ""
-      : value;
-
-  return String(text ?? "")
+export const normalizeText = (value = "") =>
+  String(value ?? "")
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "")
     .trim();
@@ -18,14 +13,9 @@ export const formatLabel = (value = "") =>
 export const matchesDepartmentFilter = (product, department) => {
   if (!department) return true;
 
-  const productDepartment = normalizeText(
-    product.department ?? product.product_type,
-  );
-  const selectedDepartment = normalizeText(department);
-
   return (
-    productDepartment === selectedDepartment ||
-    (selectedDepartment === "kids" && productDepartment === "children")
+    normalizeText(product.department ?? product.product_type) ===
+    normalizeText(department)
   );
 };
 

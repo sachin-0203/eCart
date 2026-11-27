@@ -6,7 +6,9 @@ import {
   Mail,
   AtSign,
   Camera,
+  ArrowRight,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 export default function ProfileMenu({
@@ -18,6 +20,7 @@ export default function ProfileMenu({
 }) {
   const menuRef = useRef(null);
   const fileInputRef = useRef(null);
+  const navigate = useNavigate();
 
   // Load profile picture directly from ecart_user
   const [profilePicture, setProfilePicture] = useState(() => {
@@ -322,8 +325,29 @@ export default function ProfileMenu({
         </div>
       )}
 
-      {/* Logout */}
-      <div className="p-4">
+      <div className="space-y-3 p-4">
+        <button
+          type="button"
+          onClick={() => {
+            onClose();
+            navigate("/profile");
+          }}
+          className="
+            flex w-full items-center justify-center gap-2
+            rounded-xl
+            border border-border-color
+            bg-background
+            px-4 py-3
+            text-sm font-semibold
+            text-primary
+            transition
+            hover:bg-surface
+          "
+        >
+          <ArrowRight size={17} />
+          View profile
+        </button>
+
         <button
           type="button"
           onClick={onLogout}

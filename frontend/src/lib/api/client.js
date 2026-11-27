@@ -1,6 +1,7 @@
 
 import axios from "axios";
 import BACKEND_URL from "../../../config";
+import { refreshAccessToken } from "../../context/api/authApi";
 
 const apiClient = axios.create({
   baseURL: `${BACKEND_URL}/api`,
@@ -36,8 +37,15 @@ const getErrorMessage = (error) => {
 // Request interceptor
 apiClient.interceptors.request.use(
   (config) => {
-    // Runs before every request.
-    // Add authentication headers here when auth is configured.
+    const token = localStorage.getItem("ecart_access_token");
+
+    if (token) {
+      config.headers = {
+        ...config.headers,
+        Authorization: `Bearer ${token}`,
+      };
+    }
+
     return config;
   },
   (error) => Promise.reject(error)
@@ -50,6 +58,35 @@ apiClient.interceptors.response.use(
     return response;
   },
   (error) => {
+    const originalRequest = error.config;
+
+    if (
+      error.response?.status === 401 &&
+      originalRequest &&
+      !originalRequest._retry &&
+      localStorage.getItem("ecart_refresh_token")
+    ) {
+      originalRequest._retry = true;
+
+      return refreshAccessToken()
+        .then((accessToken) => {
+          originalRequest.headers = {
+            ...originalRequest.headers,
+            Authorization: `Bearer ${accessToken}`,
+          };
+          return apiClient(originalRequest);
+        })
+        .catch((refreshError) => {
+          if (refreshError.response?.status === 400 || refreshError.response?.status === 401) {
+            localStorage.removeItem("ecart_access_token");
+            localStorage.removeItem("ecart_refresh_token");
+            localStorage.removeItem("ecart_user");
+            window.dispatchEvent(new Event("auth:session-expired"));
+          }
+          return Promise.reject(refreshError);
+        });
+    }
+
     // Handle errors common to all API requests.
     if (error.response) {
       // The server returned an HTTP error.

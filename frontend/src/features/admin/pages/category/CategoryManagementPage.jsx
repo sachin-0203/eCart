@@ -1,24 +1,23 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   AlertCircle,
+  Eye,
   FolderTree,
   ImagePlus,
   LoaderCircle,
   Pencil,
-  Save,
   ShieldCheck,
   Tag,
-  Trash2,
   X,
 } from "lucide-react";
 import { toast } from "sonner";
+import ImageUploadField from "../../components/ImageUploadField";
 import {
   createCategory,
-  deleteCategory,
   getCategories,
   getCategoryImageUrl,
   updateCategory,
-} from "../../../category/api/categoryApi";
+} from "../../api/categoryApi";
 
 const initialForm = {
   name: "",
@@ -32,8 +31,15 @@ export default function CategoryManagementPage() {
   const [imageFile, setImageFile] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [deletingId, setDeletingId] = useState(null);
-  const [editingCategoryId, setEditingCategoryId] = useState(null);
+  const [dialog, setDialog] = useState(null);
+  const [editingForm, setEditingForm] = useState({
+    name: "",
+    parent: "",
+    is_active: true,
+  });
+  const [editingImage, setEditingImage] = useState(null);
+  const [updatingId, setUpdatingId] = useState(null);
+  const [togglingId, setTogglingId] = useState(null);
   const [loadError, setLoadError] = useState("");
 
   const loadCategories = useCallback(async ({ signal } = {}) => {
@@ -41,7 +47,7 @@ export default function CategoryManagementPage() {
     setLoadError("");
 
     try {
-      const data = await getCategories({ signal });
+      const data = await getCategories({ includeInactive: true });
       setCategories(data);
     } catch (error) {
       if (!signal?.aborted) setLoadError(error.message);
@@ -159,22 +165,64 @@ export default function CategoryManagementPage() {
     }
   };
 
-  const handleDelete = async (category) => {
-    if (!window.confirm(`Delete "${category.name}"? This action cannot be undone.`)) {
+  const openEditDialog = (category) => {
+    setEditingForm({
+      name: category.name,
+      parent: category.parent ? String(category.parent) : "",
+      is_active: category.is_active,
+    });
+    setEditingImage(null);
+    setDialog({ category, mode: "edit" });
+  };
+
+  const handleUpdate = async (event) => {
+    event.preventDefault();
+    const name = editingForm.name.trim();
+
+    if (!name) {
+      toast.error("Category name is required.");
       return;
     }
 
-    setDeletingId(category.id);
-
+    setUpdatingId(dialog.category.id);
     try {
-      await deleteCategory(category.slug);
-      setCategories((current) => current.filter((item) => item.id !== category.id));
-      if (editingCategoryId === category.id) resetForm();
-      toast.success("Category deleted.");
+      const updatedCategory = await updateCategory(dialog.category.id, {
+        ...editingForm,
+        name,
+        image: editingImage,
+      });
+      setCategories((current) =>
+        current.map((item) =>
+          item.id === updatedCategory.id ? updatedCategory : item,
+        ),
+      );
+      setDialog(null);
+      toast.success("Category updated.");
     } catch (error) {
-      toast.error("Could not delete category", { description: error.message });
+      toast.error("Could not update category", { description: error.message });
     } finally {
-      setDeletingId(null);
+      setUpdatingId(null);
+    }
+  };
+
+  const handleToggleActive = async (category) => {
+    setTogglingId(category.id);
+    try {
+      const updatedCategory = await updateCategory(category.id, {
+        is_active: !category.is_active,
+      });
+      setCategories((current) =>
+        current.map((item) =>
+          item.id === updatedCategory.id ? updatedCategory : item,
+        ),
+      );
+      toast.success(
+        `Category ${updatedCategory.is_active ? "activated" : "deactivated"}.`,
+      );
+    } catch (error) {
+      toast.error("Could not update category status", { description: error.message });
+    } finally {
+      setTogglingId(null);
     }
   };
 
@@ -247,80 +295,64 @@ export default function CategoryManagementPage() {
           </div>
 
           <form className="space-y-5" onSubmit={handleSubmit}>
-            <div>
-              <label htmlFor="category-name" className="mb-2 block text-sm font-medium text-slate-700">
-                Category name
-              </label>
-              <input
-                id="category-name"
-                type="text"
-                value={form.name}
-                onChange={(event) =>
-                  setForm((current) => ({ ...current, name: event.target.value }))
-                }
-                placeholder="e.g. Home Living"
-                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 outline-none transition focus:border-cyan-400 focus:bg-white focus:ring-4 focus:ring-cyan-100"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="category-parent" className="mb-2 block text-sm font-medium text-slate-700">
-                Parent category
-              </label>
-              <select
-                id="category-parent"
-                value={form.parent}
-                onChange={(event) =>
-                  setForm((current) => ({ ...current, parent: event.target.value }))
-                }
-                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 outline-none transition focus:border-cyan-400 focus:bg-white focus:ring-4 focus:ring-cyan-100"
-              >
-                <option value="">Root category</option>
-                {parentOptions.map((category) => (
-                    <option key={category.id} value={category.id}>
-                      {category.name}
-                    </option>
-                  ))}
-              </select>
-            </div>
-
-            <div>
-              <label htmlFor="category-image" className="mb-2 block text-sm font-medium text-slate-700">
-                Category image
-              </label>
-              <div className="rounded-xl border border-dashed border-slate-300 bg-slate-50 p-3">
-                <input
-                  id="category-image"
-                  key={editingCategoryId ?? "new"}
-                  type="file"
-                  accept="image/*"
-                  onChange={(event) => setImageFile(event.target.files?.[0] ?? null)}
-                  className="block w-full text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-slate-900 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-slate-800"
-                />
+            <div className="grid grid-cols-[minmax(0,1fr)_8rem] items-start gap-4">
+              <div className="space-y-5">
+                <div>
+                  <label htmlFor="category-name" className="mb-2 block text-sm font-medium text-slate-700">
+                    Category name
+                  </label>
+                  <input
+                    id="category-name"
+                    type="text"
+                    value={form.name}
+                    onChange={(event) =>
+                      setForm((current) => ({ ...current, name: event.target.value }))
+                    }
+                    placeholder="e.g. Home Living"
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 outline-none transition focus:border-cyan-400 focus:bg-white focus:ring-4 focus:ring-cyan-100"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="category-parent" className="mb-2 block text-sm font-medium text-slate-700">
+                    Parent category
+                  </label>
+                  <select
+                    id="category-parent"
+                    value={form.parent}
+                    onChange={(event) =>
+                      setForm((current) => ({ ...current, parent: event.target.value }))
+                    }
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 outline-none transition focus:border-cyan-400 focus:bg-white focus:ring-4 focus:ring-cyan-100"
+                  >
+                    <option value="">Root category</option>
+                    {categories
+                      .filter((category) => category.id !== Number(form.parent))
+                      .map((category) => (
+                        <option key={category.id} value={category.id}>
+                          {category.name}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+                <label className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-700">
+                  <input
+                    type="checkbox"
+                    checked={form.is_active}
+                    onChange={(event) =>
+                      setForm((current) => ({ ...current, is_active: event.target.checked }))
+                    }
+                    className="h-4 w-4 rounded border-slate-300 text-cyan-600 focus:ring-cyan-500"
+                  />
+                  Active category
+                </label>
               </div>
-              {imageFile && (
-                <p className="mt-2 text-xs text-slate-500">Selected file: {imageFile.name}</p>
-              )}
-              {!imageFile &&
-                editingCategoryId !== null &&
-                categories.find((category) => category.id === editingCategoryId)?.image && (
-                  <p className="mt-2 text-xs text-slate-500">
-                    The current image will be kept unless you choose a replacement.
-                  </p>
-                )}
-            </div>
-
-            <label className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-700">
-              <input
-                type="checkbox"
-                checked={form.is_active}
-                onChange={(event) =>
-                  setForm((current) => ({ ...current, is_active: event.target.checked }))
-                }
-                className="h-4 w-4 rounded border-slate-300 text-cyan-600 focus:ring-cyan-500"
+              <ImageUploadField
+                id="category-image"
+                label="Category image"
+                file={imageFile}
+                onChange={setImageFile}
               />
-              Active category
-            </label>
+            </div>
 
             <button
               type="submit"
@@ -427,21 +459,38 @@ export default function CategoryManagementPage() {
                   <div className="flex shrink-0 items-center gap-2">
                     <button
                       type="button"
-                      onClick={() => handleEdit(category)}
-                      disabled={isSubmitting || deletingId === category.id}
-                      className="inline-flex items-center gap-2 rounded-lg border border-cyan-200 bg-cyan-50 px-3 py-2 text-xs font-semibold text-cyan-700 transition hover:bg-cyan-100 disabled:cursor-not-allowed disabled:opacity-60"
+                      onClick={() => setDialog({ category, mode: "view" })}
+                      aria-label={`View ${category.name}`}
+                      title="View category"
+                      className="rounded-lg border border-slate-200 p-2 text-slate-600 hover:border-cyan-300 hover:text-cyan-700"
                     >
-                      <Pencil size={14} />
-                      Edit
+                      <Eye size={16} />
                     </button>
                     <button
                       type="button"
-                      onClick={() => handleDelete(category)}
-                      disabled={deletingId === category.id || isSubmitting}
-                      className="inline-flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-600 transition hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-60"
+                      onClick={() => openEditDialog(category)}
+                      aria-label={`Edit ${category.name}`}
+                      title="Edit category"
+                      className="rounded-lg border border-slate-200 p-2 text-slate-600 hover:border-cyan-300 hover:text-cyan-700"
                     >
-                      <Trash2 size={14} />
-                      {deletingId === category.id ? "Deleting..." : "Delete"}
+                      <Pencil size={16} />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleToggleActive(category)}
+                      disabled={togglingId === category.id}
+                      aria-pressed={category.is_active}
+                      className={`rounded-lg px-3 py-2 text-xs font-semibold transition disabled:cursor-not-allowed disabled:opacity-60 ${
+                        category.is_active
+                          ? "bg-emerald-50 text-emerald-700 hover:bg-emerald-100"
+                          : "bg-amber-50 text-amber-700 hover:bg-amber-100"
+                      }`}
+                    >
+                      {togglingId === category.id
+                        ? "Saving..."
+                        : category.is_active
+                          ? "Deactivate"
+                          : "Activate"}
                     </button>
                   </div>
                 </div>
@@ -450,6 +499,164 @@ export default function CategoryManagementPage() {
           )}
         </section>
       </div>
+
+      {dialog && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/55 p-4 backdrop-blur-sm"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setDialog(null);
+          }}
+        >
+          <section
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="category-dialog-title"
+            className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-3xl bg-white shadow-2xl"
+          >
+            <div className="flex items-start justify-between border-b border-slate-100 p-6">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-cyan-700">
+                  {dialog.mode === "view" ? "Category details" : "Update category"}
+                </p>
+                <h2 id="category-dialog-title" className="mt-2 text-2xl font-bold text-slate-950">
+                  {dialog.category.name}
+                </h2>
+              </div>
+              <button
+                type="button"
+                onClick={() => setDialog(null)}
+                aria-label="Close category details"
+                className="rounded-xl p-2 text-slate-500 hover:bg-slate-100"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {dialog.mode === "view" ? (
+              <div className="space-y-5 p-6">
+                <div className="flex items-center gap-4">
+                  <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
+                    {dialog.category.image ? (
+                      <img
+                        src={getCategoryImageUrl(dialog.category.image)}
+                        alt={dialog.category.name}
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <Tag className="text-slate-400" size={24} />
+                    )}
+                  </div>
+                  <div>
+                    <p className="font-semibold text-slate-900">{dialog.category.name}</p>
+                    <p className="text-sm text-slate-500">Slug: {dialog.category.slug}</p>
+                    <p className="text-sm text-slate-500">
+                      {dialog.category.parent_name
+                        ? `Parent: ${dialog.category.parent_name}`
+                        : "Root category"}
+                    </p>
+                    <p className="text-sm text-slate-500">
+                      Status: {dialog.category.is_active ? "Active" : "Inactive"}
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => openEditDialog(dialog.category)}
+                  className="inline-flex items-center gap-2 rounded-xl bg-slate-950 px-4 py-2.5 text-sm font-semibold text-white hover:bg-slate-800"
+                >
+                  <Pencil size={16} />
+                  Edit category
+                </button>
+              </div>
+            ) : (
+              <form className="space-y-5 p-6" onSubmit={handleUpdate}>
+                <div className="grid grid-cols-[minmax(0,1fr)_8rem] items-start gap-4">
+                  <div className="space-y-5">
+                    <div>
+                      <label htmlFor="edit-category-name" className="mb-2 block text-sm font-medium text-slate-700">
+                        Category name
+                      </label>
+                      <input
+                        id="edit-category-name"
+                        type="text"
+                        value={editingForm.name}
+                        onChange={(event) =>
+                          setEditingForm((current) => ({ ...current, name: event.target.value }))
+                        }
+                        className="w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm outline-none focus:border-cyan-400 focus:ring-4 focus:ring-cyan-100"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="edit-category-parent" className="mb-2 block text-sm font-medium text-slate-700">
+                        Parent category
+                      </label>
+                      <select
+                        id="edit-category-parent"
+                        value={editingForm.parent}
+                        onChange={(event) =>
+                          setEditingForm((current) => ({
+                            ...current,
+                            parent: event.target.value,
+                          }))
+                        }
+                        className="w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm outline-none focus:border-cyan-400 focus:ring-4 focus:ring-cyan-100"
+                      >
+                        <option value="">Root category</option>
+                        {categories
+                          .filter((category) => category.id !== dialog.category.id)
+                          .map((category) => (
+                            <option key={category.id} value={category.id}>
+                              {category.name}
+                            </option>
+                          ))}
+                      </select>
+                    </div>
+                    <label className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-700">
+                      <input
+                        type="checkbox"
+                        checked={editingForm.is_active}
+                        onChange={(event) =>
+                          setEditingForm((current) => ({
+                            ...current,
+                            is_active: event.target.checked,
+                          }))
+                        }
+                        className="h-4 w-4 rounded border-slate-300 text-cyan-600 focus:ring-cyan-500"
+                      />
+                      Active category
+                    </label>
+                  </div>
+                  <ImageUploadField
+                    id="edit-category-image"
+                    label="Category image"
+                    file={editingImage}
+                    existingImageUrl={
+                      dialog.category.image
+                        ? getCategoryImageUrl(dialog.category.image)
+                        : ""
+                    }
+                    onChange={setEditingImage}
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={updatingId === dialog.category.id}
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-slate-950 px-4 py-3 text-sm font-semibold text-white hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {updatingId === dialog.category.id ? (
+                    <>
+                      <LoaderCircle className="animate-spin" size={16} />
+                      Saving...
+                    </>
+                  ) : (
+                    "Save changes"
+                  )}
+                </button>
+              </form>
+            )}
+          </section>
+        </div>
+      )}
     </div>
   );
 }

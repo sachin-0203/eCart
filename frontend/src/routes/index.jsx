@@ -8,6 +8,8 @@ import App from "../App";
 import Home from "../pages/Home";
 import About from "../pages/About";
 import Contact from "../pages/Contact";
+import InformationPage from "../components/sections/InformationPage";
+import { informationPages } from "../data/static/informationPages";
 import HomeLiving from "../features/home/HomeLiving";
 import MenHomepage from "../features/men/MenHomepage";
 import KidsHomepage from "../features/kids/KidsHomepage";
@@ -20,6 +22,7 @@ import Products from "../pages/product/ProductsPage";
 import ProductDetailsPage from "../pages/product/ProductDetailsPage";
 import CartPage from "../pages/cart/CartPage";
 import ComingSoonPage from "../pages/ComingSoonPage";
+import ProfilePage from "../pages/ProfilePage";
 
 // Admin Pages ------------------------------
 import AdminLayout from "../features/admin/AdminLayout";
@@ -40,6 +43,34 @@ const router = createBrowserRouter(
         <Route index element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route
+          path="/faqs"
+          element={<InformationPage page={informationPages.faqs} />}
+        />
+        <Route
+          path="/shipping-policy"
+          element={<InformationPage page={informationPages["shipping-policy"]} />}
+        />
+        <Route
+          path="/returns-refunds"
+          element={<InformationPage page={informationPages["returns-refunds"]} />}
+        />
+        <Route
+          path="/order-tracking"
+          element={<InformationPage page={informationPages["order-tracking"]} />}
+        />
+        <Route
+          path="/terms"
+          element={<InformationPage page={informationPages.terms} />}
+        />
+        <Route
+          path="/privacy"
+          element={<InformationPage page={informationPages.privacy} />}
+        />
+        <Route
+          path="/careers"
+          element={<InformationPage page={informationPages.careers} />}
+        />
         <Route path="/shop">
           <Route path="products" element={<Products />} />
           <Route path="products-details" element={<ProductDetailsPage />} />
@@ -52,6 +83,7 @@ const router = createBrowserRouter(
           <Route path="decoration" element={<DecorationHomepage />} />
         </Route>
         <Route path="cart" element={<CartPage />} />
+        <Route path="profile" element={<ProfilePage />} />
         <Route path="coming-soon" element={<ComingSoonPage />} />
       </Route>
 

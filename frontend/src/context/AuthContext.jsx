@@ -1,375 +1,256 @@
-import React, {
-  useState,
-  createContext,
-  useContext,
-  useEffect,
-} from "react";
-// import axios from "axios";
-// import BACKEND_URL from "../../config";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
+import {
+  getProfile,
+  login as loginRequest,
+  logout as logoutRequest,
+  refreshAccessToken,
+  register as registerRequest,
+  sendEmailOTP,
+  updateProfile as updateProfileRequest,
+  verifyEmailOTP,
+} from "./api/authApi";
 
 const AuthContext = createContext({});
+
+const emptyProfileDetails = {
+  username: "",
+  email: "",
+  first_name: "",
+  last_name: "",
+  phone_number: "",
+};
+
+const getErrorMessage = (error) => {
+  const data = error.response?.data;
+
+  if (typeof data === "string") return data;
+  if (typeof data?.detail === "string") return data.detail;
+
+  if (data && typeof data === "object") {
+    const message = Object.entries(data)
+      .map(([field, value]) => {
+        if (Array.isArray(value)) return `${field}: ${value.join(" ")}`;
+        if (typeof value === "string") return `${field}: ${value}`;
+        return `${field}: ${JSON.stringify(value)}`;
+      })
+      .join(" ");
+
+    if (message) return message;
+  }
+
+  return error.message || "Something went wrong.";
+};
+
+const readStoredUser = () => {
+  try {
+    const savedUser = localStorage.getItem("ecart_user");
+    return savedUser ? JSON.parse(savedUser) : null;
+  } catch (error) {
+    console.error("Failed to restore cached user:", error);
+    localStorage.removeItem("ecart_user");
+    return null;
+  }
+};
+
+const normalizeUser = (userData) => ({
+  id: userData.id ?? null,
+  username: userData.username ?? "",
+  email: userData.email ?? null,
+  first_name: userData.first_name ?? "",
+  last_name: userData.last_name ?? "",
+  phone_number: userData.phone_number ?? "",
+  profile: userData.profile ?? null,
+  isVerified: userData.isVerified ?? true,
+});
 
 export const AuthProvider = ({ children }) => {
   const [userId, setUserId] = useState(null);
   const [user, setUser] = useState("");
   const [userEmail, setUserEmail] = useState(null);
-  const [accessToken, setAccessToken] = useState(null);
+  const [accessToken, setAccessToken] = useState(() => localStorage.getItem("ecart_access_token"));
+  const [authLoading, setAuthLoading] = useState(true);
   const [Isverified, setIsverified] = useState(false);
   const [profileSrc, setProfileSrc] = useState(null);
+  const [profileDetails, setProfileDetails] = useState(emptyProfileDetails);
 
-  const username = user
-    ? "@" + user.replace(/\s+/g, "").toLowerCase()
-    : "";
+  const username = user ? "@" + user.replace(/\s+/g, "").toLowerCase() : "";
 
-  // --------------------------------------------------
-  // LOCAL AUTH - Restore logged-in user on refresh
-  // --------------------------------------------------
-  useEffect(() => {
-    const savedUser = localStorage.getItem("ecart_user");
-
-    if (savedUser) {
-      try {
-        const userData = JSON.parse(savedUser);
-
-        setUserId(userData.id);
-        setUser(userData.username);
-        setUserEmail(userData.email);
-        setIsverified(userData.isVerified ?? true);
-        setProfileSrc(userData.profile ?? null);
-        setAccessToken("local-access-token");
-      } catch (error) {
-        console.error("Failed to restore local user:", error);
-        localStorage.removeItem("ecart_user");
-      }
-    }
+  const applyUserData = useCallback((userData) => {
+    const storedUser = normalizeUser(userData);
+    localStorage.setItem("ecart_user", JSON.stringify(storedUser));
+    setUserId(storedUser.id);
+    setUser(storedUser.username);
+    setUserEmail(storedUser.email);
+    setProfileSrc(storedUser.profile);
+    setProfileDetails({
+      username: storedUser.username,
+      email: storedUser.email ?? "",
+      first_name: storedUser.first_name,
+      last_name: storedUser.last_name,
+      phone_number: storedUser.phone_number,
+    });
+    setIsverified(storedUser.isVerified);
   }, []);
 
-  // --------------------------------------------------
-  // BACKEND REFRESH - ENABLE LATER
-  // --------------------------------------------------
-  /*
-  useEffect(() => {
-    tryRefresh();
-  }, []);
-
-  const tryRefresh = async () => {
-    try {
-      const response = await axios.post(
-        `${BACKEND_URL}/refresh`,
-        {},
-        { withCredentials: true }
-      );
-
-      const token = response.data.access_token;
-
-      setAccessToken(token);
-
-      const userRes = await axios.get(`${BACKEND_URL}/me`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      setUserId(userRes.data.id);
-      setUser(userRes.data.username);
-      setUserEmail(userRes.data.email);
-      setProfileSrc(userRes.data.profile);
-      setIsverified(userRes.data.isVerified);
-    } catch (err) {
-      console.error("Refresh failed:", err);
-      setAccessToken(null);
-    }
-  };
-  */
-
-  // --------------------------------------------------
-  // LOCAL LOGIN
-  // --------------------------------------------------
-  const login = async (email, password) => {
-    try {
-      const savedUsers = JSON.parse(
-        localStorage.getItem("ecart_users") || "[]"
-      );
-
-      const existingUser = savedUsers.find(
-        (item) => item.email.toLowerCase() === email.toLowerCase()
-      );
-
-      if (!existingUser) {
-        return {
-          success: false,
-          message: "No account found with this email.",
-        };
-      }
-
-      if (existingUser.password !== password) {
-        return {
-          success: false,
-          message: "Incorrect password.",
-        };
-      }
-
-      // Save current logged-in user
-      const loggedInUser = {
-        id: existingUser.id,
-        username: existingUser.username,
-        email: existingUser.email,
-        profile: existingUser.profile || null,
-        isVerified: true,
-      };
-
-      localStorage.setItem(
-        "ecart_user",
-        JSON.stringify(loggedInUser)
-      );
-
-      setUserId(loggedInUser.id);
-      setUser(loggedInUser.username);
-      setUserEmail(loggedInUser.email);
-      setProfileSrc(loggedInUser.profile);
-      setIsverified(loggedInUser.isVerified);
-
-      // Fake token for local development
-      setAccessToken("local-access-token");
-
-      return {
-        success: true,
-        user: loggedInUser.username,
-      };
-    } catch (error) {
-      console.error("Local login failed:", error);
-
-      return {
-        success: false,
-        message: "Login failed. Please try again.",
-      };
-    }
-  };
-
-  // --------------------------------------------------
-  // BACKEND LOGIN - ENABLE LATER
-  // --------------------------------------------------
-  /*
-  const login = async (email, password) => {
-    try {
-      const response = await axios.post(
-        `${BACKEND_URL}/login`,
-        { email, password },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
-
-      const result = response.data;
-
-      if (result.status === "success") {
-        const token = result.access_token;
-        const userData = result.username;
-
-        setAccessToken(token);
-        setUser(userData);
-        setUserEmail(result.email);
-
-        return {
-          success: true,
-          user: userData,
-        };
-      }
-
-      return {
-        success: false,
-        message: result.message || "Login failed",
-      };
-    } catch (error) {
-      console.error("Login Failed:", error);
-
-      return {
-        success: false,
-        message:
-          error.response?.data?.message ||
-          "Login failed. Please try again.",
-      };
-    }
-  };
-  */
-
-  // --------------------------------------------------
-  // LOCAL SIGNUP
-  // --------------------------------------------------
-  const signup = async (username, email, password) => {
-    try {
-      const savedUsers = JSON.parse(
-        localStorage.getItem("ecart_users") || "[]"
-      );
-
-      const emailExists = savedUsers.some(
-        (item) => item.email.toLowerCase() === email.toLowerCase()
-      );
-
-      if (emailExists) {
-        toast.error("An account with this email already exists.");
-
-        return {
-          success: false,
-          message: "Email already registered.",
-        };
-      }
-
-      const newUser = {
-        id: Date.now(),
-        username,
-        email,
-        password,
-        profile: null,
-        isVerified: true,
-      };
-
-      savedUsers.push(newUser);
-
-      localStorage.setItem(
-        "ecart_users",
-        JSON.stringify(savedUsers)
-      );
-
-      return {
-        success: true,
-        user: username,
-      };
-    } catch (error) {
-      console.error("Local signup failed:", error);
-
-      return {
-        success: false,
-        message: "An error occurred during signup.",
-      };
-    }
-  };
-
-  // --------------------------------------------------
-  // BACKEND SIGNUP - ENABLE LATER
-  // --------------------------------------------------
-  /*
-  const signup = async (username, email, password) => {
-    try {
-      const response = await axios.post(
-        `${BACKEND_URL}/signup`,
-        { username, email, password },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
-
-      const result = response.data;
-
-      if (result.status === "success") {
-        return {
-          success: true,
-          user: result.username,
-        };
-      }
-
-      return {
-        success: false,
-        message: result.message || "Signup failed",
-      };
-    } catch (error) {
-      if (error.response?.data?.status === "register_error") {
-        toast.error(error.response.data.message);
-
-        return {
-          success: false,
-          message: error.response.data.message,
-        };
-      }
-
-      console.error("Signup Failed:", error);
-
-      return {
-        success: false,
-        message: "An error occurred during signup.",
-      };
-    }
-  };
-  */
-
-  // --------------------------------------------------
-  // LOCAL LOGOUT
-  // --------------------------------------------------
-  const logout = async () => {
+  const clearSession = useCallback(() => {
+    localStorage.removeItem("ecart_access_token");
+    localStorage.removeItem("ecart_refresh_token");
     localStorage.removeItem("ecart_user");
-
     setUserId(null);
     setUser("");
     setUserEmail(null);
     setAccessToken(null);
     setProfileSrc(null);
+    setProfileDetails(emptyProfileDetails);
     setIsverified(false);
+  }, []);
 
-    toast.success("Logged out successfully");
+  useEffect(() => {
+    const savedUser = readStoredUser();
+    const savedToken = localStorage.getItem("ecart_access_token");
+    const savedRefreshToken = localStorage.getItem("ecart_refresh_token");
+
+    if (savedUser) applyUserData(savedUser);
+
+    const handleSessionExpired = () => clearSession();
+    window.addEventListener("auth:session-expired", handleSessionExpired);
+
+    if (!savedToken && !savedRefreshToken) {
+      setAuthLoading(false);
+      return () => window.removeEventListener("auth:session-expired", handleSessionExpired);
+    }
+
+    if (savedToken) setAccessToken(savedToken);
+
+    const restoreSession = async () => {
+      try {
+        let token = savedToken;
+        let userData;
+
+        if (!token) {
+          token = await refreshAccessToken();
+          setAccessToken(token);
+        }
+
+        try {
+          userData = await getProfile(token);
+        } catch (error) {
+          if (error.response?.status !== 401) throw error;
+          token = await refreshAccessToken();
+          setAccessToken(token);
+          userData = await getProfile(token);
+        }
+
+        applyUserData(userData);
+      } catch (error) {
+        console.error("Failed to restore authentication session:", getErrorMessage(error));
+        clearSession();
+      } finally {
+        setAuthLoading(false);
+      }
+    };
+
+    restoreSession();
+    return () => window.removeEventListener("auth:session-expired", handleSessionExpired);
+  }, [applyUserData, clearSession]);
+
+  const persistSession = (userData, access, refresh) => {
+    if (access) {
+      localStorage.setItem("ecart_access_token", access);
+      setAccessToken(access);
+    }
+
+    if (refresh) localStorage.setItem("ecart_refresh_token", refresh);
+    applyUserData(userData);
   };
 
-  // --------------------------------------------------
-  // BACKEND LOGOUT - ENABLE LATER
-  // --------------------------------------------------
-  /*
-  const logout = async () => {
-    setAccessToken(null);
-    setUser(null);
+  const updateProfile = async (updates) => {
+    const userData = await updateProfileRequest(updates, accessToken);
+    setAccessToken(localStorage.getItem("ecart_access_token"));
+    applyUserData(userData);
+    return userData;
+  };
 
+  const login = async (email, password) => {
     try {
-      const res = await axios.post(
-        `${BACKEND_URL}/logout`,
-        {},
-        {
-          withCredentials: true,
-        }
-      );
-
-      if (res.data.status === "success") {
-        toast(res.data.message, {
-          cancel: {
-            label: "Ok",
-          },
-        });
-      }
-    } catch (err) {
-      toast.error(`Logout error: ${err}`);
+      const { access, refresh, user: userData } = await loginRequest({ email, password });
+      persistSession(userData, access, refresh);
+      return { success: true, user: userData.username };
+    } catch (error) {
+      const message = getErrorMessage(error);
+      toast.error(message);
+      return { success: false, message };
     }
   };
-  */
+
+  const loginWithOTP = async (email, verificationToken) => {
+    try {
+      const { access, refresh, user: userData } = await loginRequest({
+        email,
+        verification_token: verificationToken,
+      });
+      persistSession(userData, access, refresh);
+      return { success: true, user: userData.username, role: userData.role };
+    } catch (error) {
+      return { success: false, message: getErrorMessage(error) };
+    }
+  };
+
+  const signup = async (username, email, password, verificationToken) => {
+    try {
+      const { access, refresh, user: userData } = await registerRequest({
+        username,
+        email,
+        password,
+        password2: password,
+        verification_token: verificationToken,
+      });
+      persistSession(userData, access, refresh);
+      return { success: true, user: userData.username };
+    } catch (error) {
+      const message = getErrorMessage(error);
+      return { success: false, message };
+    }
+  };
+
+  const logout = async () => {
+    const refreshToken = localStorage.getItem("ecart_refresh_token");
+
+    try {
+      if (refreshToken) await logoutRequest(refreshToken, accessToken);
+    } catch (error) {
+      console.error("Logout failed:", getErrorMessage(error));
+    } finally {
+      clearSession();
+      setAuthLoading(false);
+      toast.success("Logged out successfully");
+    }
+  };
 
   const value = {
     userId,
     user,
     setUser,
-
     accessToken,
+    authLoading,
     setAccessToken,
-
     login,
+    loginWithOTP,
     signup,
+    sendEmailOTP,
+    verifyEmailOTP,
     logout,
-
     profileSrc,
     setProfileSrc,
-
     userEmail,
+    profileDetails,
+    updateProfile,
     username,
     Isverified,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => useContext(AuthContext);
