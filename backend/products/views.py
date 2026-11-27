@@ -11,6 +11,8 @@ from django.shortcuts import get_object_or_404
 from .models import Product, ProductImage
 from .serializers import ProductSerializer, ProductImageSerializer
 
+from category.models import Category
+
 
 class ProductViewSet(ModelViewSet):
   queryset = Product.objects.select_related(
@@ -44,10 +46,12 @@ class ProductViewSet(ModelViewSet):
     brand = params.get("brand")
 
     if category:
-      queryset = queryset.filter(category__iexact=category)
+      category_ids = self.get_category_ids(category)
+
+      queryset = queryset.filter(category_id__in=category_ids)
 
     if department:
-      queryset = queryset.filter(department__iexact=department)
+      queryset = queryset.filter(product_type__iexact=department)
 
     if brand:
       queryset = queryset.filter(brand__iexact=brand)
@@ -58,11 +62,11 @@ class ProductViewSet(ModelViewSet):
       for term in search.split():
         queryset = queryset.filter(
           Q(title__icontains=term)
-          | Q(name__icontains=term)
           | Q(description__icontains=term)
-          | Q(category__icontains=term)
-          | Q(department__icontains=term)
-          | Q(brand__icontains=term)
+          | Q(short_description__icontains=term)
+          | Q(category__name__icontains=term)
+          | Q(brand__name__icontains=term)
+          | Q(product_type__icontains=term)
         )
 
     slug = params.get("slug")
@@ -70,6 +74,27 @@ class ProductViewSet(ModelViewSet):
       queryset = queryset.filter(slug=slug)
 
     return queryset.distinct()
+
+  def get_category_ids(self, category_slug):
+    try:
+        category = Category.objects.get(slug=category_slug)
+    except Category.DoesNotExist:
+        return []
+
+    category_ids = [category.id]
+    parent_ids = [category.id]
+
+    while parent_ids:
+        child_ids = list(
+            Category.objects.filter(
+                parent_id__in=parent_ids
+            ).values_list("id", flat=True)
+        )
+
+        category_ids.extend(child_ids)
+        parent_ids = child_ids
+
+    return category_ids
 
   @action(
     detail=False,

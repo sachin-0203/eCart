@@ -27,28 +27,7 @@ export const footerSections = [
 
   {
     title: "Categories",
-    links: [
-      {
-        label: "Shirts",
-        link: "/shop/products?category=Shirts",
-      },
-      {
-        label: "T-Shirts",
-        link: "/shop/products?category=T-Shirts",
-      },
-      {
-        label: "Jeans",
-        link: "/shop/products?category=Jeans",
-      },
-      {
-        label: "Footwear",
-        link: "/shop/products?category=Footwear",
-      },
-      {
-        label: "Accessories",
-        link: "/shop/products?category=Accessories",
-      },
-    ],
+    links: [],
   },
 
   {

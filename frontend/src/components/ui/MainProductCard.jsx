@@ -29,7 +29,7 @@ export default function MainProductCard({ product }) {
             ? "Featured"
             : null);
   const productUrl = `/shop/products-details?category=${encodeURIComponent(
-    product.category,
+    product.category_name ?? product.category,
   )}&slug=${encodeURIComponent(product.slug)}`;
 
   const handleAddToCart = () => {
@@ -71,7 +71,7 @@ export default function MainProductCard({ product }) {
       <div className="space-y-2.5 p-3 sm:p-4">
         <div className="flex items-center justify-between gap-2">
           <span className="truncate text-[9px] font-bold uppercase tracking-[0.18em] text-secondary sm:text-[10px]">
-            {product.category}
+            {product.category_name ?? product.category}
           </span>
 
           {product.rating != null && (

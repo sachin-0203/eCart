@@ -127,7 +127,7 @@ useEffect(() => {
           <ProductReviews product={product} />
         </div>
         <RelatedProducts
-          category={product.category}
+          category={product.category_name ?? product.category}
           relatedProducts={relatedProducts}
         />
       </div>

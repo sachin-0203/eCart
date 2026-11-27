@@ -18,7 +18,7 @@ const ProductInfo = ({ product }) => {
     <div className="flex flex-col justify-center">
       {/* Category */}
       <p className="text-sm font-semibold uppercase tracking-wider text-primary">
-        {product.category}
+        {product.category_name ?? product.category}
       </p>
 
       {/* Title */}
