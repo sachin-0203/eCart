@@ -1,5 +1,5 @@
 export const normalizeText = (value = "") =>
-  value
+  String(value ?? "")
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "")
     .trim();
@@ -12,14 +12,22 @@ export const formatLabel = (value = "") =>
 export const matchesDepartmentFilter = (product, department) => {
   if (!department) return true;
 
-  return normalizeText(product.department) === normalizeText(department);
+  return (
+    normalizeText(product.department ?? product.product_type) ===
+    normalizeText(department)
+  );
 };
 
 export const matchesCategoryFilter = (product, category) => {
   if (!category) return true;
 
   const normalizedCategory = normalizeText(category);
-  const candidates = [product.subCategory, product.category].filter(Boolean);
+  const candidates = [
+    product.subCategory,
+    product.category_name,
+    product.parent_category_name,
+    product.category,
+  ].filter(Boolean);
 
   return candidates.some(
     (value) => normalizeText(value) === normalizedCategory,
@@ -29,7 +37,7 @@ export const matchesCategoryFilter = (product, category) => {
 export const matchesBrandFilter = (product, brand) => {
   if (!brand) return true;
 
-  return normalizeText(product.brand) === normalizeText(brand);
+  return normalizeText(product.brand_name ?? product.brand) === normalizeText(brand);
 };
 
 export const filterProducts = (
@@ -51,7 +59,13 @@ export const getDepartmentCategories = (products, department) => {
   const categories = new Set();
 
   scopedProducts.forEach((product) => {
-    if (product.subCategory) categories.add(product.subCategory);
+    const category = [
+      product.subCategory,
+      product.category_name,
+      product.category,
+    ].find((value) => typeof value === "string" && value);
+
+    if (category) categories.add(category);
   });
 
   return Array.from(categories).sort((a, b) => a.localeCompare(b));
