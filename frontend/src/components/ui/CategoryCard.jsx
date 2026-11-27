@@ -11,12 +11,18 @@ export default function CategoryCard({ image, title, link, size = 140 }) {
           className="rounded-full overflow-hidden border-4"
           style={{ width: size, height: size, borderColor: "#f7e6e6" }}
         >
-          <img
-            src={image}
-            alt={title}
-            loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
-          />
+          {image ? (
+            <img
+              src={image}
+              alt={title}
+              loading="lazy"
+              className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center bg-slate-100 text-3xl font-semibold text-primary">
+              {title.charAt(0)}
+            </div>
+          )}
         </div>
       </div>
 

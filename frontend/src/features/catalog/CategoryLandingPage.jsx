@@ -1,21 +1,55 @@
+import { useMemo } from "react";
 import ImageSlider from "../../components/ui/ImageSlider";
 import CategoryCard from "../../components/ui/CategoryCard";
 import CollectionCard from "../../components/ui/CollectionCard";
 import SmallProductCard from "../../components/ui/SmallProductCard";
 import BrandCard from "../../components/ui/BrandCard";
+import useCategoryBySlug from "../category/hooks/useCategoryBySlug";
+import { getCategoryImageUrl } from "../category/api/categoryApi";
 
 export default function CategoryLandingPage({
   title,
+  categorySlug,
   description,
   heroSlides,
-  categories,
-  collections,
-  products,
-  brandCollections = []
+  categories: curatedCategories = [],
+  collections = [],
+  products = [],
+  brandCollections = [],
 }) {
+  const resolvedCategorySlug =
+    categorySlug ??
+    title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const {
+    category: rootCategory,
+    isLoading,
+    error: rootCategoryError,
+    reload: reloadRootCategory,
+  } = useCategoryBySlug(resolvedCategorySlug);
 
-  console.log("categoryLendingPage product================", products);
-  
+  const visibleCategories = useMemo(() => {
+    const metadataByName = new Map(
+      curatedCategories.map((category) => [
+        category.title.toLowerCase(),
+        category,
+      ]),
+    );
+    const department = title.toLowerCase().replace(/[^a-z0-9]+/g, "");
+
+    return (rootCategory?.subcategories ?? [])
+      .map((category) => {
+        const metadata = metadataByName.get(category.name.toLowerCase());
+        const image = getCategoryImageUrl(category.image) || metadata?.image;
+
+        return {
+          ...category,
+          title: category.name,
+          image,
+          link: `/shop/products?department=${department}&category=${encodeURIComponent(category.name)}`,
+        };
+      });
+  }, [curatedCategories, rootCategory, title]);
+
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900">
       <ImageSlider slides={heroSlides} label={`${title} featured collection`} />
@@ -33,17 +67,43 @@ export default function CategoryLandingPage({
           <p className="text-sm text-slate-600">{description}</p>
         </div>
 
-        <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide">
-          {categories.map((category) => (
-            <div key={category.title} className="w-48 flex-shrink-0">
-              <CategoryCard
-                image={category.image}
-                title={category.title}
-                link={category.link}
-              />
-            </div>
-          ))}
-        </div>
+        {isLoading ? (
+          <p className="py-6 text-sm text-slate-600" role="status">
+            Loading categories...
+          </p>
+        ) : (
+          <div>
+            {rootCategoryError && (
+              <p className="mb-4 text-sm text-amber-800" role="alert">
+                Could not load the {title.toLowerCase()} category: {rootCategoryError}{" "}
+                <button
+                  type="button"
+                  onClick={reloadRootCategory}
+                  className="font-semibold underline"
+                >
+                  Try again
+                </button>
+              </p>
+            )}
+            {visibleCategories.length === 0 ? (
+              <p className="py-6 text-sm text-slate-600">
+                No categories are available right now.
+              </p>
+            ) : (
+              <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide">
+                {visibleCategories.map((category) => (
+                  <div key={category.id} className="w-48 flex-shrink-0">
+                    <CategoryCard
+                      image={category.image}
+                      title={category.title}
+                      link={category.link}
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
       </section>
 
       <section className="mx-auto my-10 max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">

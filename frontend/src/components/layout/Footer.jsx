@@ -1,9 +1,24 @@
-import React from "react";
 import { ArrowRight, ArrowUpRight, ShoppingBag } from "lucide-react";
 import { Link } from "react-router-dom";
 import { footerSections } from "../../data/static/footerData";
+import useCategories from "../../features/category/hooks/useCategories";
 
 export default function Footer() {
+  const {
+    categories,
+    isLoading: isCategoriesLoading,
+    error: categoryError,
+    reload: reloadCategories,
+  } = useCategories();
+  const categoryLinks = categories
+    .filter(
+      (category) => category.parent === null || category.parent === undefined,
+    )
+    .map((category) => ({
+      label: category.name,
+      link: `/shop/products?category=${encodeURIComponent(category.name)}`,
+    }));
+
   return (
     <footer className="overflow-hidden bg-primary text-white">
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
@@ -54,23 +69,49 @@ export default function Footer() {
               <h3 className="mb-4 text-xs font-bold uppercase tracking-[0.16em] text-white">
                 {section.title}
               </h3>
-              <ul className="space-y-3">
-                {section.links.map((link) => (
-                  <li key={link.label}>
-                    <Link
-                      to={link.link}
-                      className="group inline-flex items-center gap-1 text-sm text-white/60 transition-colors hover:text-white"
-                    >
-                      {link.label}
-                      <ArrowUpRight
-                        size={12}
-                        className="opacity-0 transition-opacity group-hover:opacity-100"
-                        aria-hidden="true"
-                      />
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+              {section.title === "Categories" && categoryError ? (
+                <div className="text-sm text-white/60" role="alert">
+                  <p>Categories could not be loaded.</p>
+                  <button
+                    type="button"
+                    onClick={reloadCategories}
+                    className="mt-2 underline"
+                  >
+                    Try again
+                  </button>
+                </div>
+              ) : section.title === "Categories" && isCategoriesLoading ? (
+                <p className="text-sm text-white/60" role="status">
+                  Loading categories...
+                </p>
+              ) : (
+                <ul className="space-y-3">
+                  {(section.title === "Categories" ? categoryLinks : section.links).map(
+                    (link) => (
+                      <li key={link.label}>
+                        <Link
+                          to={link.link}
+                          className="group inline-flex items-center gap-1 text-sm text-white/60 transition-colors hover:text-white"
+                        >
+                          {link.label}
+                          <ArrowUpRight
+                            size={12}
+                            className="opacity-0 transition-opacity group-hover:opacity-100"
+                            aria-hidden="true"
+                          />
+                        </Link>
+                      </li>
+                    ),
+                  )}
+                  {section.title === "Categories" &&
+                    !categoryLinks.length &&
+                    !categoryError && (
+                      <li className="text-sm text-white/60">
+                        No categories available.
+                      </li>
+                    )}
+                </ul>
+              )}
             </nav>
           ))}
         </div>

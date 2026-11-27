@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 
 import SmallProductCard from "../../components/ui/SmallProductCard";
 import { getProducts } from "../../features/admin/api/productApi";
+import useCategories from "../../features/category/hooks/useCategories";
 
 import {
   filterProducts,
@@ -10,6 +11,7 @@ import {
   getDepartmentCategories,
   normalizeText,
 } from "../../utils/productFilters";
+import { getProductCategories } from "../../utils/categoryFilters";
 
 const Products = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -17,6 +19,11 @@ const Products = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const {
+    categories,
+    error: categoryError,
+    reload: reloadCategories,
+  } = useCategories();
 
   const selectedDepartment = searchParams.get("department");
   const selectedCategory = searchParams.get("category");
@@ -67,13 +74,17 @@ const Products = () => {
 
   // Get categories available for the selected department
   const categoryOptions = useMemo(() => {
-    const categories = getDepartmentCategories(
+    const apiCategories = getProductCategories(
+      categories,
       products,
       selectedDepartment,
     );
+    const availableCategories = apiCategories.length
+      ? apiCategories.map((category) => category.name)
+      : getDepartmentCategories(products, selectedDepartment);
 
-    return ["All Products", ...categories];
-  }, [products, selectedDepartment]);
+    return ["All Products", ...availableCategories];
+  }, [categories, products, selectedDepartment]);
 
   // Generate the page title
   const pageTitle = useMemo(() => {
@@ -143,6 +154,19 @@ const Products = () => {
               )}
             </div>
           </div>
+
+          {categoryError && (
+            <p className="mb-4 text-sm text-red-600" role="alert">
+              Category filters could not be loaded: {categoryError}{" "}
+              <button
+                type="button"
+                onClick={reloadCategories}
+                className="font-semibold underline"
+              >
+                Try again
+              </button>
+            </p>
+          )}
 
           {!loading && !error && categoryOptions.length > 1 && (
             <div className="flex flex-wrap gap-2">

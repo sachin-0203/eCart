@@ -50,6 +50,7 @@ const HomeLiving = () => {
   return (
     <CategoryLandingPage
       title="Home"
+      categorySlug="home-living"
       description="Everything you need for every part of your home."
       heroSlides={heroSlides}
       categories={categories}

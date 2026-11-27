@@ -1,6 +1,6 @@
 from rest_framework import generics
 from .models import Category
-from .serializers import CategorySerializer
+from .serializers import CategoryDetailSerializer, CategorySerializer
 
 
 class CategoryListCreateAPI(generics.ListCreateAPIView):
@@ -14,5 +14,6 @@ class CategoryListCreateAPI(generics.ListCreateAPIView):
 
 
 class CategoryDetailAPI(generics.RetrieveUpdateDestroyAPIView):
-  serializer_class = CategorySerializer
+  serializer_class = CategoryDetailSerializer
   queryset = Category.objects.all()
+  lookup_field = "slug"

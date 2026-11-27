@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, LoaderCircle, Save } from "lucide-react";
 import { Link } from "react-router-dom";
 import { getBrands } from "../api/brandApi";
-import { getCategories } from "../api/categoryApi";
+import { getCategories } from "../../category/api/categoryApi";
 import { getProductImageUrl } from "../api/productImagesApi";
 
 const inputClass =

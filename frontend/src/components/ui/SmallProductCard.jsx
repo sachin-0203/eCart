@@ -20,7 +20,7 @@ export default function SmallProductCard({ product }) {
   const handleProductClick = () => {
     navigate(
       `/shop/products-details?category=${encodeURIComponent(
-        product.category,
+        product.category_name ?? product.category,
       )}&slug=${encodeURIComponent(product.slug)}`,
     );
   };
@@ -65,7 +65,7 @@ export default function SmallProductCard({ product }) {
 
         <div className="px-4 pb-2 pt-2">
           <p className="text-[11px] uppercase tracking-[0.2em] text-text-secondary">
-            {product.category}
+            {product.category_name ?? product.category}
           </p>
           <h3 className="text-base font-semibold text-text-primary line-clamp-1">
             {product.title}

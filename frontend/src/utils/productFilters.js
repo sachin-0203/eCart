@@ -3,6 +3,7 @@ export const normalizeText = (value = "") =>
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "")
     .trim();
+};
 
 export const formatLabel = (value = "") =>
   value

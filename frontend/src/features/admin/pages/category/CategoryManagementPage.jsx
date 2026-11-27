@@ -42,7 +42,7 @@ export default function CategoryManagementPage() {
   const [togglingId, setTogglingId] = useState(null);
   const [loadError, setLoadError] = useState("");
 
-  const loadCategories = useCallback(async () => {
+  const loadCategories = useCallback(async ({ signal } = {}) => {
     setIsLoading(true);
     setLoadError("");
 
@@ -50,20 +50,63 @@ export default function CategoryManagementPage() {
       const data = await getCategories({ includeInactive: true });
       setCategories(data);
     } catch (error) {
-      setLoadError(error.message);
+      if (!signal?.aborted) setLoadError(error.message);
     } finally {
-      setIsLoading(false);
+      if (!signal?.aborted) setIsLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    loadCategories();
+    const controller = new AbortController();
+    loadCategories({ signal: controller.signal });
+
+    return () => controller.abort();
   }, [loadCategories]);
 
   const activeCategoryCount = useMemo(
     () => categories.filter((category) => category.is_active).length,
     [categories],
   );
+
+  const parentOptions = useMemo(() => {
+    if (editingCategoryId === null) return categories;
+
+    const excludedIds = new Set([Number(editingCategoryId)]);
+    let foundDescendant = true;
+
+    while (foundDescendant) {
+      foundDescendant = false;
+      categories.forEach((category) => {
+        if (
+          excludedIds.has(Number(category.parent)) &&
+          !excludedIds.has(Number(category.id))
+        ) {
+          excludedIds.add(Number(category.id));
+          foundDescendant = true;
+        }
+      });
+    }
+
+    return categories.filter(
+      (category) => !excludedIds.has(Number(category.id)),
+    );
+  }, [categories, editingCategoryId]);
+
+  const resetForm = () => {
+    setEditingCategoryId(null);
+    setForm(initialForm);
+    setImageFile(null);
+  };
+
+  const handleEdit = (category) => {
+    setEditingCategoryId(category.id);
+    setForm({
+      name: category.name,
+      parent: category.parent ? String(category.parent) : "",
+      is_active: category.is_active,
+    });
+    setImageFile(null);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -77,20 +120,46 @@ export default function CategoryManagementPage() {
     setIsSubmitting(true);
 
     try {
-      const createdCategory = await createCategory({
+      const categoryData = {
         name,
         parent: form.parent || null,
         is_active: form.is_active,
         image: imageFile,
-      });
+      };
 
-      setCategories((current) => [createdCategory, ...current]);
-      setForm(initialForm);
-      setImageFile(null);
+      if (editingCategoryId !== null) {
+        const categoryToUpdate = categories.find(
+          (category) => category.id === editingCategoryId,
+        );
+        if (!categoryToUpdate) {
+          throw new Error("This category is no longer available.");
+        }
+
+        const updatedCategory = await updateCategory(
+          categoryToUpdate.slug,
+          categoryData,
+        );
+        setCategories((current) =>
+          current.map((category) =>
+            category.id === updatedCategory.id ? updatedCategory : category,
+          ),
+        );
+        toast.success("Category updated successfully.");
+      } else {
+        const createdCategory = await createCategory(categoryData);
+        setCategories((current) => [createdCategory, ...current]);
+        toast.success("Category added successfully.");
+      }
+
+      resetForm();
       event.target.reset();
-      toast.success("Category added successfully.");
     } catch (error) {
-      toast.error("Could not add category", { description: error.message });
+      toast.error(
+        editingCategoryId !== null
+          ? "Could not update category"
+          : "Could not add category",
+        { description: error.message },
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -214,8 +283,14 @@ export default function CategoryManagementPage() {
               <FolderTree size={18} />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-slate-900">Add category</h2>
-              <p className="text-sm text-slate-500">Create a new storefront category.</p>
+              <h2 className="text-xl font-bold text-slate-900">
+                {editingCategoryId !== null ? "Edit category" : "Add category"}
+              </h2>
+              <p className="text-sm text-slate-500">
+                {editingCategoryId !== null
+                  ? "Update this storefront category."
+                  : "Create a new storefront category."}
+              </p>
             </div>
           </div>
 
@@ -287,15 +362,35 @@ export default function CategoryManagementPage() {
               {isSubmitting ? (
                 <>
                   <LoaderCircle className="animate-spin" size={16} />
-                  Adding category...
+                  {editingCategoryId !== null ? "Saving changes..." : "Adding category..."}
                 </>
               ) : (
                 <>
-                  <ImagePlus size={16} />
-                  Add category
+                  {editingCategoryId !== null ? (
+                    <>
+                      <Save size={16} />
+                      Save changes
+                    </>
+                  ) : (
+                    <>
+                      <ImagePlus size={16} />
+                      Add category
+                    </>
+                  )}
                 </>
               )}
             </button>
+            {editingCategoryId !== null && (
+              <button
+                type="button"
+                onClick={resetForm}
+                disabled={isSubmitting}
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                <X size={16} />
+                Cancel editing
+              </button>
+            )}
           </form>
         </section>
 
@@ -322,7 +417,7 @@ export default function CategoryManagementPage() {
               <p className="mt-1 text-sm text-slate-500">{loadError}</p>
               <button
                 type="button"
-                onClick={loadCategories}
+                onClick={() => loadCategories()}
                 className="mt-4 rounded-lg bg-slate-950 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800"
               >
                 Try again

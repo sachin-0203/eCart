@@ -29,3 +29,18 @@ class CategorySerializer(serializers.ModelSerializer):
       "created_at",
       "updated_at",
     ]
+
+
+class CategoryDetailSerializer(CategorySerializer):
+  subcategories = serializers.SerializerMethodField()
+
+  class Meta(CategorySerializer.Meta):
+    fields = [*CategorySerializer.Meta.fields, "subcategories"]
+
+  def get_subcategories(self, obj):
+    active_subcategories = obj.subcategories.filter(is_active=True)
+    return CategorySerializer(
+      active_subcategories,
+      many=True,
+      context=self.context
+    ).data
